@@ -7,7 +7,6 @@ from hit_omniverse.algo.ppo.ppo import PPO
 from hit_omniverse.algo.ppo.actor_critic import ActorCritic
 from torch.utils.tensorboard import SummaryWriter
 
-import hit_omniverse.extension.mdp as mdp
 
 class OnPolicyRunner:
 
@@ -117,18 +116,12 @@ class OnPolicyRunner:
 
             # Rollout
             with torch.inference_mode():
-                asset_reference = self.env.scene["robot_reference"]
                 for i in range(self.num_steps_per_env):
                     #TODO be pythonic to ghost robot
                     # ssb 8.9
-                    asset_reference.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
                     actions = self.alg.act(obs_input, critic_input)
-                    actions_reference = mdp.generated_commands(self.env, "dataset")["dof_pos"]
-                    actions_computed = torch.cat((actions, actions_reference), dim=1)
                     # obs, privileged_obs, rewards, dones, infos = self.env.step(actions)
-
-                    # observations, rewards, dones, truncated, infos = self.env.step(actions)
-                    observations, rewards, dones, truncated, infos = self.env.step(actions_computed)
+                    observations, rewards, dones, truncated, infos = self.env.step(actions)
 
                     obs = observations["policy"]
                     critic_obs = privileged_obs if privileged_obs is not None else obs

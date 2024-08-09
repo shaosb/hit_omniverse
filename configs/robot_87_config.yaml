@@ -2,10 +2,16 @@ USD_PATH:
   "HIT_force/elec_robot_forxml_color.usd"
 
 ROBOT_POS:
-  [0.0, 0.0, 0.88]
+  [0.0, 0.0, 0.94]
 
 ROBOT_ROT:
   [1, 0., 0., 0.]
+
+REFERENCE_OFFSET:
+  [1, 0, -0.06]
+
+VELOCITY:
+  [2.2, 0, 0]
 
 FIXED_BASE:
   False

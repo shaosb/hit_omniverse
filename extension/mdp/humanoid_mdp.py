@@ -1,16 +1,22 @@
+from collections import deque
+import torch
+import numpy as np
+import math
+import os
+
 from omni.isaac.lab.envs import ManagerBasedRLEnv
 import omni.isaac.lab.envs.mdp as mdp
 from omni.isaac.lab.assets import Articulation
 from omni.isaac.lab.managers import ManagerTermBase, RewardTermCfg, SceneEntityCfg
 import omni.isaac.lab.utils.math as math_utils
-from collections import deque
-import torch
-import numpy as np
-import math
+
+from hit_omniverse.utils.helper import setup_config
+
+config = setup_config(os.environ.get("CONFIG"))
 
 def constant_commands(env: ManagerBasedRLEnv) -> torch.Tensor:
     # v_x, v_y, ang_x
-    return torch.tensor([[2.2, 0, 0]], device=env.device).repeat(env.num_envs, 1)
+    return torch.tensor([config["VELOCITY"]], device=env.device).repeat(env.num_envs, 1)
 
 def copysign(a, b):
     # type: (float, torch.Tensor) -> torch.Tensor
@@ -369,7 +375,7 @@ def reward_feet_contact_force(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg 
 def reward_action_smooth(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     asset: Articulation = env.scene[asset_cfg.name]
 
-    return torch.sum(torch.square(asset.data.joint_pos_target - mdp.last_action(env)), dim=1)
+    return torch.sum(torch.square(asset.data.joint_pos_target - mdp.last_action(env)[:, :22]), dim=1)
 
 
 def reward_feet_clearance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
@@ -424,3 +430,60 @@ def dataset_dof_pos(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEnt
 
 def dataset_dof_vel(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     return mdp.generated_commands(env, "dataset")["dof_vel"]
+
+
+def reset_reference_and_robot_to_default(env: ManagerBasedRLEnv, env_ids: torch.Tensor, offset: list):
+    asset: Articulation = env.scene["robot"]
+    asset_reference: Articulation = env.scene["robot_reference"]
+
+    pos_default = asset.data.root_pos_w[env_ids, ]
+    offset = torch.tensor([offset], device=env.device).repeat(env_ids.shape[0], 1)
+    orientations = asset.data.root_quat_w[env_ids, ]
+    positions = pos_default + offset
+
+    asset_reference.write_root_pose_to_sim(torch.cat([positions, orientations], dim=-1), env_ids=env_ids)
+
+
+def reference_joint_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+    """
+    This is computed as a sum of the absolute value of the difference between the joint position and the reference motion.
+    """
+    # extract the used quantities (to enable type-hinting)
+    asset: Articulation = env.scene[asset_cfg.name]
+    asset_reference: Articulation = env.scene[asset_cfg.name + "_reference"]
+
+    joint_pos = math_utils.wrap_to_pi(asset.data.joint_pos)
+    reference_joint_pos = math_utils.wrap_to_pi(asset_reference.data.joint_pos)
+
+    return torch.exp(-2 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1))
+
+
+
+def reference_joint_vel_distance(env: ManagerBasedRLEnv,
+                                 asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+    """
+    This is computed as a sum of the absolute value of the difference between the joint position and the reference motion.
+    """
+    # extract the used quantities (to enable type-hinting)
+    asset: Articulation = env.scene[asset_cfg.name]
+    asset_reference: Articulation = env.scene[asset_cfg.name + "_reference"]
+
+    joint_pos = math_utils.wrap_to_pi(asset.data.joint_vel)
+    reference_joint_pos = math_utils.wrap_to_pi(asset_reference.data.joint_vel)
+
+    return torch.exp(-2 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1))
+
+
+def reference_body_pos_distance(env: ManagerBasedRLEnv,
+                                 asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+    """
+    This is computed as a sum of the absolute value of the difference between the joint position and the reference motion.
+    """
+    # extract the used quantities (to enable type-hinting)
+    asset: Articulation = env.scene[asset_cfg.name]
+    asset_reference: Articulation = env.scene[asset_cfg.name + "_reference"]
+
+    body_pos = asset.data.body_pos_w
+    reference_pos = asset_reference.data.body_pos_w
+    target = reference_pos - torch.tensor(config["REFERENCE_OFFSET"], device=env.device)
+    return torch.exp(-40 * torch.sum(torch.square(target - body_pos)))

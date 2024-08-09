@@ -1,14 +1,16 @@
 import argparse
+from hit_omniverse.utils.helper import setup_config
+import os
 
 parser = argparse.ArgumentParser(description="HIT humanoid robot exhibit in isaac sim")
-parser.add_argument("--num_envs", type=int, default=2048, help="Number of robot to spawn")
+parser.add_argument("--num_envs", type=int, default=1024, help="Number of robot to spawn")
 parser.add_argument("--env_spacing", type=int, default=2, help="Spacing between different envs")
 parser.add_argument("--device", type=str, default="cuda:0", help="Device for running")
 parser.add_argument("--training_config", type=str, default="ppo_87_mlp.yaml", help="Training config file to be import")
 parser.add_argument("--log_dir", type=str, default="default", help="Config file to be import")
 
 config = setup_config(parser.parse_args().training_config)
-parser.add_argument("--config_file", type=str, default=config["_BASE_"], help="Robot config file to be import")
+parser.add_argument("--config_file", type=str, default=config["robot"], help="Robot config file to be import")
 os.environ["CONFIG"] = parser.parse_args().config_file
 
 from omni.isaac.lab.app import AppLauncher
@@ -23,14 +25,12 @@ simulation_app = app_launcher.app
 
 from hit_omniverse.extension.hit_env_cfg import HITRLEnvCfg
 from hit_omniverse import HIT_SIM_ROOT_DIR
-from hit_omniverse.utils.helper import setup_config
 
 from hit_omniverse.algo.ppo.on_policy_runner import OnPolicyRunner
 from hit_omniverse.algo.vec_env import add_env_method, add_env_variable
 
 import torch
 import gymnasium as gym
-import os
 from datetime import datetime
 from pprint import pprint
 

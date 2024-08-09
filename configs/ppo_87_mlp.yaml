@@ -1,5 +1,8 @@
 _BASE_: "robot_87_config.yaml"
 
+robot:
+  "robot_87_config.yaml"
+
 policy:
   init_noise_std: 1.0
 #  init_noise_std: 0.2
@@ -27,4 +30,4 @@ runner:
   # logging
   save_interval: 50
   experiment_name: 'HIT_all_dof_mlp'
-  run_name: '8.8-2-position'
+  run_name: '8.9-2-reference-position'

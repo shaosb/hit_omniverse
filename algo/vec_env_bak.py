@@ -6,7 +6,7 @@ import copy
 
 def add_env_variable(env):
     env.num_envs = env.num_envs
-    env.num_actions = int(env.action_space.shape[1] / 2)
+    env.num_actions = env.action_space.shape[1]
     env.observation_buf = copy.deepcopy(env.obs_buf)
     env.obs_buf = env.observation_buf["policy"]
     env.num_obs = env.observation_space["policy"].shape[1]

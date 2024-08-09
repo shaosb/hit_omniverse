@@ -17,7 +17,7 @@ class DatasetCommandCfg(CommandTermCfg):
 	class_type: type = DatasetCommand
 
 	# dataset_file: str = "walk.csv"
-	dataset_file = "08-run_HIT.npz"
+	dataset_file = "09-run_HIT.npz"
 	command_name: list = ["dof_pos", "dof_vel"]
 	command_dimension: int = [22, 22]
 

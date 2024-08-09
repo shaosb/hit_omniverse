@@ -11,13 +11,10 @@ from omni.isaac.lab.actuators import ImplicitActuatorCfg
 from hit_omniverse import HIT_SIM_ROBOT_DIR
 from hit_omniverse.utils.helper import setup_config
 
-import argparse
 import os
 
 config = setup_config(os.environ.get("CONFIG"))
-
 HIT_DOF_NAME = list(config["INIT_JOINT_POS"].keys())
-
 USD_PATH = config["USD_PATH"]
 
 HIT_HUMANOID_CFG = ArticulationCfg(

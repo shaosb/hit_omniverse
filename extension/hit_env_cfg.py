@@ -2,7 +2,6 @@ import os
 import yaml
 import os
 from dataclasses import MISSING
-import argparse
 
 from omni.isaac.lab.envs import ManagerBasedRLEnvCfg
 import omni.isaac.lab.sim as sim_utils
@@ -90,12 +89,12 @@ class HITSceneCfg(InteractiveSceneCfg):
 
 @configclass
 class ActionCFg:
-    # joint_position = mdp.JointPositionActionCfg(
-    #     asset_name="robot",
-    #     joint_names=HIT_DOF_NAME,
-    #     use_default_offset=False,
-    # )
-
+    joint_position = mdp.JointPositionActionCfg(
+        asset_name="robot",
+        joint_names=HIT_DOF_NAME,
+        use_default_offset=False,
+    )
+    #
     joint_position_reference = mdp.JointPositionActionCfg(
         asset_name="robot_reference",
         joint_names=HIT_DOF_NAME,
@@ -114,7 +113,6 @@ class ObservationsCfg:
         base_quat = ObsTerm(func=mdp.get_euler_xyz_tensor, scale=config["normalization"]["obs_scales"]["quat"])  # 三维朝向
         base_ang_vel = ObsTerm(func=mdp.base_ang_vel, scale=config["normalization"]["obs_scales"]["ang_vel"]) #角速度
         base_lin_vel = ObsTerm(func=mdp.base_lin_vel) #线速度
-        # base_yaw_roll = ObsTerm(func=mdp.base_yaw_roll)
         action = ObsTerm(func=mdp.last_action)
 
     class PrivilegedCfg(ObsCfg):
@@ -141,6 +139,14 @@ class EventCfg:
         params={
             "position_range": (-0.05, 0.05),
             "velocity_range": (-0.05, 0.05),
+        },
+    )
+
+    reset_reference_robot = EventTerm(
+        func=mdp.reset_reference_and_robot_to_default,
+        mode="reset",
+        params={
+            "offset": config["REFERENCE_OFFSET"],
         },
     )
 
@@ -173,20 +179,19 @@ class RewardsCfg:
 
     # imitate
     # Pencity
-    alive = RewTerm(func=mdp.is_alive, weight=5)
+    alive = RewTerm(func=mdp.is_alive, weight=2)
     terminating = RewTerm(func=mdp.is_terminated, weight=-5.0)
-    # Regularization
+    # # Regularization
     torques = RewTerm(func=mdp.torques, weight=-1e-5)
     smooth = RewTerm(func=mdp.reward_action_smooth, weight=-0.002)
-    # joint_acc = RewTerm(func=mdp.joint_acc_l2, weight=-1e-7)
-    # R_t
-    r_p = RewTerm(func=mdp.joint_pos_distance, weight=0.65)
-    r_v = RewTerm(func=mdp.joint_vel_distance, weight=0.1)
-    #TODO by ssb 8.7
-    # r_e, r_c
-
-    # Task
-    # track = RewTerm(func=mdp.track_velocity, weight=0.5)
+    # # joint_acc = RewTerm(func=mdp.joint_acc_l2, weight=-1e-7)
+    # # R_t
+    r_p = RewTerm(func=mdp.reference_joint_pos_distance, weight=0.65)
+    r_v = RewTerm(func=mdp.reference_joint_vel_distance, weight=0.1)
+    r_e = RewTerm(func=mdp.reference_body_pos_distance, weight=0.15)
+    #TODO ssb 8.9
+    # compute r_c
+    # # Task
     track_lin = RewTerm(func=mdp.track_lin, weight=1.1)
     track_ang = RewTerm(func=mdp.track_ang, weight=1.2)
 

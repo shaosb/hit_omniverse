@@ -2,10 +2,10 @@ import argparse
 import os
 
 parser = argparse.ArgumentParser(description="HIT humanoid robot exhibit in isaac sim")
-parser.add_argument("--num_envs", type=int, default=1, help="Number of robot to spawn")
-parser.add_argument("--env_spacing", type=int, default=1, help="Spacing between different envs")
+parser.add_argument("--num_envs", type=int, default=4, help="Number of robot to spawn")
+parser.add_argument("--env_spacing", type=int, default=10, help="Spacing between different envs")
 parser.add_argument("--device", type=str, default="cuda:0", help="Device for running")
-parser.add_argument("--config_file", type=str, default="robot_hu_config.yaml", help="Config file to be import")
+parser.add_argument("--config_file", type=str, default="robot_87_config.yaml", help="Config file to be import")
 
 os.environ["CONFIG"] = parser.parse_args().config_file
 
@@ -14,14 +14,13 @@ from omni.isaac.lab.app import AppLauncher
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 
-args_cli.headless = True
+args_cli.headless = False
 
 app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
 
 from hit_omniverse.extension.hit_env_cfg import HITRLEnvCfg
 from hit_omniverse import HIT_SIM_DATASET_DIR
-
 from hit_omniverse.utils.helper import TransCMU2HIT
 from hit_omniverse.standalone.get_action_dataset import get_action
 
@@ -53,16 +52,20 @@ def main():
 	obs, _ = env.reset()
 	# print(env.observation_manager.observation)
 	count = 0
-	asset: Articulation = env.scene["robot"]
+
+	asset_reference: Articulation = env.scene["robot_reference"]
+
 	while simulation_app.is_running():
 		count += 1
 		# env.render()
 		# if count % 500 == 0:
 		# 	obs, _ = env.reset()
-		asset.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
-		# asset.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 1]]]))
+		# asset.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
+		asset_reference.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
+
 		action = torch.ones_like(env.action_manager.action)*0.01
-		temp = mdp.generated_commands(env, "dataset")["dof_pos"]
+		temp1 = mdp.generated_commands(env, "dataset")["dof_pos"]
+		temp = torch.cat((temp1, temp1), dim=1)
 		action = temp
 		# if count >= 100:
 		# 	action = torch.ones_like(env.action_manager.action)
