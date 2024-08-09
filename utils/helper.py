@@ -13,7 +13,6 @@ from tkinter import ttk
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
-import argparse
 
 from hit_omniverse import HIT_SIM_ROOT_DIR, HIT_SIM_CONFIGS_DIR
 
@@ -24,14 +23,6 @@ ALL_DOF_NAME = ["left_leg_hip_roll", "right_leg_hip_roll", "waist_yaw", "left_le
                 "left_arm_yaw", "right_arm_yaw", "left_leg_ankle_roll", "right_leg_ankle_roll",
                 "left_arm_forearm_pitch", "right_arm_forearm_pitch"]
 
-def get_args():
-    parser = argparse.ArgumentParser(description="HIT humanoid robot in isaac sim")
-    parser.add_argument("--num_envs", type=int, default=1, help="Number of robot to spawn")
-    parser.add_argument("--env_spacing", type=int, default=1, help="Spacing between different envs")
-    parser.add_argument("--device", type=str, default="cuda:0", help="Device for running")
-    parser.add_argument("--config_file", type=str, help="Config file to be import")
-
-    return parser
 
 def TransCMU2HIT():
     config = setup_config("robot_config.yaml")
