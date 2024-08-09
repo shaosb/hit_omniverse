@@ -1,4 +1,9 @@
 import os
+import yaml
+import os
+from dataclasses import MISSING
+import argparse
+
 from omni.isaac.lab.envs import ManagerBasedRLEnvCfg
 import omni.isaac.lab.sim as sim_utils
 from omni.isaac.lab.assets import ArticulationCfg, AssetBaseCfg
@@ -16,15 +21,9 @@ from omni.isaac.lab.utils import configclass
 import hit_omniverse.extension.mdp as mdp
 from hit_omniverse.extension.hit_humanoid import HIT_HUMANOID_CFG, HIT_DOF_NAME
 from hit_omniverse import HIT_SIM_ROOT_DIR, HIT_SIM_ASSET_DIR
-from hit_omniverse.utils.helper import setup_config, get_args
+from hit_omniverse.utils.helper import setup_config
 
-import yaml
-import os
-from dataclasses import MISSING
-import argparse
-
-parser = get_args()
-config = setup_config(parser.config_file)
+config = setup_config(os.environ.get("CONFIG"))
 
 @configclass
 class HITSceneCfg(InteractiveSceneCfg):
@@ -91,11 +90,11 @@ class HITSceneCfg(InteractiveSceneCfg):
 
 @configclass
 class ActionCFg:
-    joint_position = mdp.JointPositionActionCfg(
-        asset_name="robot",
-        joint_names=HIT_DOF_NAME,
-        use_default_offset=False,
-    )
+    # joint_position = mdp.JointPositionActionCfg(
+    #     asset_name="robot",
+    #     joint_names=HIT_DOF_NAME,
+    #     use_default_offset=False,
+    # )
 
     joint_position_reference = mdp.JointPositionActionCfg(
         asset_name="robot_reference",

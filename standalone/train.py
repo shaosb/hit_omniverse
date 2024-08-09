@@ -1,5 +1,4 @@
 import argparse
-from omni.isaac.lab.app import AppLauncher
 
 parser = argparse.ArgumentParser(description="HIT humanoid robot exhibit in isaac sim")
 parser.add_argument("--num_envs", type=int, default=2048, help="Number of robot to spawn")
@@ -8,8 +7,11 @@ parser.add_argument("--device", type=str, default="cuda:0", help="Device for run
 parser.add_argument("--training_config", type=str, default="ppo_87_mlp.yaml", help="Training config file to be import")
 parser.add_argument("--log_dir", type=str, default="default", help="Config file to be import")
 
-config = setup_config(parser.training_config)
+config = setup_config(parser.parse_args().training_config)
 parser.add_argument("--config_file", type=str, default=config["_BASE_"], help="Robot config file to be import")
+os.environ["CONFIG"] = parser.parse_args().config_file
+
+from omni.isaac.lab.app import AppLauncher
 
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()

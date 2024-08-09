@@ -1,8 +1,6 @@
 import argparse
+import os
 
-from omni.isaac.lab.app import AppLauncher
-
-parser = argparse.ArgumentParser(description="Load trained weights for HIT humanoid robot")
 parser.add_argument("--num_envs", type=int, default=1, help="Number of robot to spawn")
 parser.add_argument("--env_spacing", type=int, default=5, help="Spacing between different envs")
 parser.add_argument("--policy_path", type=str, default="D:\humanoid\hit_omniverse\hit_omniverse\logs\HIT_all_dof_mlp\Aug08_09-46-52_8.8-1-position\model_200.pt", help="Model to be import")
@@ -10,6 +8,10 @@ parser.add_argument("--device", type=str, default="cuda:0", help="Device for run
 parser.add_argument("--config_file", type=str, default="ppo_87_mlp.yaml", help="Config file to be import")
 parser.add_argument("--export_JIT", type=bool, default="False", help="Export weights in JIT")
 parser.add_argument("--max_epochs", type=int, default=5000, help="Max epochs to play")
+
+os.environ["CONGIF"] = parser.parse_args().config_file
+
+from omni.isaac.lab.app import AppLauncher
 
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()

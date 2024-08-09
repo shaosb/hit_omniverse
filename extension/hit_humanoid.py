@@ -9,12 +9,12 @@ from omni.isaac.lab.assets import ArticulationCfg
 from omni.isaac.lab.actuators import ImplicitActuatorCfg
 
 from hit_omniverse import HIT_SIM_ROBOT_DIR
-from hit_omniverse.utils.helper import setup_config, get_args
+from hit_omniverse.utils.helper import setup_config
 
 import argparse
+import os
 
-parser = get_args()
-config = setup_config(parser.config_file)
+config = setup_config(os.environ.get("CONFIG"))
 
 HIT_DOF_NAME = list(config["INIT_JOINT_POS"].keys())
 

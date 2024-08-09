@@ -1,6 +1,5 @@
 import argparse
-
-from omni.isaac.lab.app import AppLauncher
+import os
 
 parser = argparse.ArgumentParser(description="HIT humanoid robot exhibit in isaac sim")
 parser.add_argument("--num_envs", type=int, default=1, help="Number of robot to spawn")
@@ -8,10 +7,14 @@ parser.add_argument("--env_spacing", type=int, default=1, help="Spacing between 
 parser.add_argument("--device", type=str, default="cuda:0", help="Device for running")
 parser.add_argument("--config_file", type=str, default="robot_hu_config.yaml", help="Config file to be import")
 
+os.environ["CONFIG"] = parser.parse_args().config_file
+
+from omni.isaac.lab.app import AppLauncher
+
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 
-args_cli.headless = False
+args_cli.headless = True
 
 app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
@@ -24,7 +27,6 @@ from hit_omniverse.standalone.get_action_dataset import get_action
 
 import torch
 import gymnasium as gym
-import os
 from hit_omniverse.algo.vec_env import add_env_variable, add_env_method
 import hit_omniverse.extension.mdp as mdp
 from omni.isaac.lab.assets import Articulation
