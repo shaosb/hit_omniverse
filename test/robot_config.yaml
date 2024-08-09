@@ -1,0 +1,146 @@
+USD_PATH:
+  "HIT_force/ele_robot_no_stiffness.usd"
+
+ROBOT_POS:
+  [0.0, 0.0, 0.89]
+
+ROBOT_ROT:
+  [1, 0., 0., 0.]
+
+FIXED_BASE:
+  False
+
+SIM:
+  num_envs: 1
+  env_spacing: 1
+  device: "cuda:0"
+
+INIT_JOINT_POS:
+  left_leg_hip_roll: 0
+  left_leg_hip_yaw: 0
+  left_leg_hip_pitch: -0.35
+  left_leg_knee_pitch: -0.76
+  left_leg_ankle_pitch: -0.40
+  left_leg_ankle_roll: 0.0
+  right_leg_hip_roll: 0.0
+  right_leg_hip_yaw: 0
+  right_leg_hip_pitch: 0.35
+  right_leg_knee_pitch: 0.76
+  right_leg_ankle_pitch: 0.40
+  right_leg_ankle_roll: 0.0
+#  waist_yaw: 0.0
+#  waist_pitch: 0.0
+
+
+DOF_ASSET:
+  left_leg_hip_roll:
+    effort_limit: 216
+    velocity_limit: 15.132
+    stiffness: 10
+    damping: 5
+  left_leg_hip_yaw:
+    effort_limit: 192
+    velocity_limit: 17.02
+    stiffness: 10
+    damping: 5
+  left_leg_hip_pitch:
+    effort_limit: 352
+    velocity_limit: 14.4
+    stiffness: 20
+    damping: 5
+  left_leg_knee_pitch:
+    effort_limit: 770
+    velocity_limit: 6.54
+    stiffness: 2
+    damping: 1
+  left_leg_ankle_pitch:
+    effort_limit: 48
+    velocity_limit: 32.46
+    stiffness: 2
+    damping: 1
+  left_leg_ankle_roll:
+    effort_limit: 7.1
+    velocity_limit: 210
+    stiffness: 2
+    damping: 1
+  right_leg_hip_roll:
+    effort_limit: 216
+    velocity_limit: 15.132
+    stiffness: 10
+    damping: 5
+  right_leg_hip_yaw:
+    effort_limit: 192
+    velocity_limit: 17.02
+    stiffness: 10
+    damping: 5
+  right_leg_hip_pitch:
+    effort_limit: 352
+    velocity_limit: 14.39
+    stiffness: 20
+    damping: 5
+  right_leg_knee_pitch:
+    effort_limit: 770
+    velocity_limit: 6.54
+    stiffness: 2
+    damping: 1
+  right_leg_ankle_pitch:
+    effort_limit: 48
+    velocity_limit: 32.46
+    stiffness: 2
+    damping: 1
+  right_leg_ankle_roll:
+    effort_limit: 7.1
+    velocity_limit: 210
+    stiffness: 2
+    damping: 1
+#  waist_yaw:
+#    effort_limit: 192
+#    velocity_limit: 17.01
+#    stiffness: 15.0
+#    damping: 10.0
+#  waist_pitch:
+#    effort_limit: 400
+#    velocity_limit: 4.82
+#    stiffness: 15.0
+#    damping: 10.0
+
+CUM_DOF:
+  [
+  'lfemurrz', 'lfemurry', 'lfemurrx', 'ltibiarx', 'lfootrz', 'lfootrx',
+  'ltoesrx', 'rfemurrz', 'rfemurry', 'rfemurrx', 'rtibiarx', 'rfootrz',
+  'rfootrx', 'rtoesrx', 'lowerbackrz', 'lowerbackry', 'lowerbackrx',
+  'upperbackrz', 'upperbackry', 'upperbackrx', 'thoraxrz', 'thoraxry',
+  'thoraxrx', 'lowerneckrz', 'lowerneckry', 'lowerneckrx', 'upperneckrz',
+  'upperneckry', 'upperneckrx', 'headrz', 'headry', 'headrx', 'lclaviclerz',
+  'lclaviclery', 'lhumerusrz', 'lhumerusry', 'lhumerusrx', 'lradiusrx',
+  'lwristry', 'lhandrz', 'lhandrx', 'lfingersrx', 'lthumbrz', 'lthumbrx',
+  'rclaviclerz', 'rclaviclery', 'rhumerusrz', 'rhumerusry', 'rhumerusrx',
+  'rradiusrx', 'rwristry', 'rhandrz', 'rhandrx', 'rfingersrx', 'rthumbrz',
+  'rthumbrx'
+  ]
+
+DOF_MAPPING:
+  lfootrx: l_ankle_pitch
+  lfootrz: l_ankle_roll
+  rfootrx: r_ankle_pitch
+  rfootrz: r_ankle_roll
+  ltibiarx: l_knee
+  rtibiarx: r_knee
+  lfemurrx: l_hip_pitch
+  lfemurry: l_hip_yaw
+  lfemurrz: l_hip_roll
+  rfemurrx: r_hip_pitch
+  rfemurry: r_hip_yaw
+  rfemurrz: r_hip_roll
+
+terrain:
+  static_friction: 0.6
+  dynamic_friction: 0.6
+  restitution: 0.
+
+normalization:
+  obs_scales:
+    dof_pos: 1
+    dof_vel: 0.05
+    quat: 1
+    ang_vel: 1
