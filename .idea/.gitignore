@@ -1,5 +1,6 @@
 # Default ignored files
 /shelf/
 /workspace.xml
-hit_omniverse/logs
-hit_omniverse/resource
+logs/
+resource/
+*.xml
