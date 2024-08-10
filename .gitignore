@@ -1,0 +1,7 @@
+
+/resource
+/logs
+*.pyc
+/hit_omniverse.egg-info
+/.idea
+/.idea
