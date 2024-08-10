@@ -2,7 +2,7 @@ import argparse
 import os
 
 parser = argparse.ArgumentParser(description="HIT humanoid robot exhibit in isaac sim")
-parser.add_argument("--num_envs", type=int, default=4, help="Number of robot to spawn")
+parser.add_argument("--num_envs", type=int, default=2, help="Number of robot to spawn")
 parser.add_argument("--env_spacing", type=int, default=10, help="Spacing between different envs")
 parser.add_argument("--device", type=str, default="cuda:0", help="Device for running")
 parser.add_argument("--config_file", type=str, default="robot_87_config.yaml", help="Config file to be import")

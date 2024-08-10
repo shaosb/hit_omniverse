@@ -455,8 +455,8 @@ def reference_joint_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityC
     joint_pos = math_utils.wrap_to_pi(asset.data.joint_pos)
     reference_joint_pos = math_utils.wrap_to_pi(asset_reference.data.joint_pos)
 
-    return torch.exp(-2 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1))
-
+    # return torch.exp(-2 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1))
+    return torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1)
 
 
 def reference_joint_vel_distance(env: ManagerBasedRLEnv,
@@ -471,7 +471,8 @@ def reference_joint_vel_distance(env: ManagerBasedRLEnv,
     joint_pos = math_utils.wrap_to_pi(asset.data.joint_vel)
     reference_joint_pos = math_utils.wrap_to_pi(asset_reference.data.joint_vel)
 
-    return torch.exp(-2 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1))
+    # return torch.exp(-2 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1))
+    return torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1)
 
 
 def reference_body_pos_distance(env: ManagerBasedRLEnv,
@@ -486,4 +487,5 @@ def reference_body_pos_distance(env: ManagerBasedRLEnv,
     body_pos = asset.data.body_pos_w
     reference_pos = asset_reference.data.body_pos_w
     target = reference_pos - torch.tensor(config["REFERENCE_OFFSET"], device=env.device)
-    return torch.exp(-40 * torch.sum(torch.square(target - body_pos)))
+    # return torch.exp(-40 * torch.sum(torch.square(target - body_pos)))
+    return 0.01 * torch.sum(torch.square(target - body_pos))

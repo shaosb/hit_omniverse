@@ -29,10 +29,10 @@ HIT_HUMANOID_CFG = ArticulationCfg(
         ),
         articulation_props=sim_utils.ArticulationRootPropertiesCfg(
             enabled_self_collisions=False,
-            solver_position_iteration_count=4,
-            solver_velocity_iteration_count=0,
-            sleep_threshold=0.005,
-            stabilization_threshold=0.001,
+            # solver_position_iteration_count=4,
+            # solver_velocity_iteration_count=0,
+            # sleep_threshold=0.005,
+            # stabilization_threshold=0.001,
             fix_root_link=config["FIXED_BASE"]
         ),
         # copy_from_source=False,

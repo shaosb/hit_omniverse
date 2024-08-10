@@ -30,7 +30,6 @@ from hit_omniverse.algo.ppo.on_policy_runner import OnPolicyRunner
 from hit_omniverse.algo.vec_env import add_env_variable, add_env_method
 from hit_omniverse.utils.helper import setup_config, export_policy_as_jit
 from hit_omniverse import HIT_SIM_LOGS_DIR
-import hit_omniverse.extension.mdp as mdp
 
 import torch
 import gymnasium as gym
@@ -74,7 +73,6 @@ def main():
         export_policy_as_jit(ppo_runner.alg.actor_critic, path)
         print('Exported policy as jit script to: ', path)
 
-    asset_reference = env.scene["robot_reference"]
     for _ in tqdm(range(args_cli.max_epochs)):
         obs_queue.append(observation)
 
@@ -86,11 +84,6 @@ def main():
             obs_input = obs_buf_all
 
         actions = policy(obs_input)
-
-        asset_reference.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
-        actions_reference = mdp.generated_commands(env, "dataset")["dof_pos"]
-        actions = torch.cat((actions, actions_reference), dim=1)
-
         obs, rew, terminated, truncated, info = env.step(actions)
         observation = obs["policy"]
 

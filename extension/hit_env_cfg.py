@@ -61,6 +61,14 @@ class HITSceneCfg(InteractiveSceneCfg):
     #     )
     # )
 
+    fire = AssetBaseCfg(
+        prim_path="/World/fire",
+        spawn=sim_utils.UsdFileCfg(
+            usd_path=os.path.join(HIT_SIM_ASSET_DIR, "Collected_fire", "fire.usd"),
+            visual_material_path="FlowRender",
+        ),
+    )
+
     # HIT humanoid robot
     robot: ArticulationCfg = HIT_HUMANOID_CFG.replace(prim_path="{ENV_REGEX_NS}/robot")
     robot_reference: ArticulationCfg = HIT_HUMANOID_CFG.replace(prim_path="{ENV_REGEX_NS}/robot_reference")
@@ -186,9 +194,9 @@ class RewardsCfg:
     smooth = RewTerm(func=mdp.reward_action_smooth, weight=-0.002)
     # # joint_acc = RewTerm(func=mdp.joint_acc_l2, weight=-1e-7)
     # # R_t
-    r_p = RewTerm(func=mdp.reference_joint_pos_distance, weight=0.65)
-    r_v = RewTerm(func=mdp.reference_joint_vel_distance, weight=0.1)
-    r_e = RewTerm(func=mdp.reference_body_pos_distance, weight=0.15)
+    r_p = RewTerm(func=mdp.reference_joint_pos_distance, weight=-0.65)
+    r_v = RewTerm(func=mdp.reference_joint_vel_distance, weight=-0.1)
+    r_e = RewTerm(func=mdp.reference_body_pos_distance, weight=-0.15)
     #TODO ssb 8.9
     # compute r_c
     # # Task

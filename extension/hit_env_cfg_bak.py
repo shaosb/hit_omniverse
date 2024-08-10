@@ -63,6 +63,13 @@ class HITSceneCfg(InteractiveSceneCfg):
     #     )
     # )
 
+    fire = AssetBaseCfg(
+        prim_path="/World/fire",
+        spawn=sim_utils.UsdFileCfg(
+            usd_path=os.path.join(HIT_SIM_ASSET_DIR, "Collected_fire", "fire.usd")
+        )
+    )
+
     # HIT humanoid robot
     robot: ArticulationCfg = HIT_HUMANOID_CFG.replace(prim_path="{ENV_REGEX_NS}/robot")
 
