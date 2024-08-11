@@ -1,8 +1,14 @@
 import torch
 from typing import Tuple, Union, Dict
+from collections import deque
 from abc import abstractmethod
 import copy
+import os
+import types
 
+from hit_omniverse.utils.helper import setup_config
+
+training_config = setup_config(os.environ.get("TRAINING_CONFIG"))["runner"]
 
 def add_env_variable(env):
     env.num_envs = env.num_envs
@@ -25,6 +31,25 @@ def add_env_variable(env):
     env.extras = env.extras
     env.device = env.device
 
+    # make obs buffer
+    env.env.env.obs_queue = deque(maxlen=training_config["max_actor_history"])
+    env.env.env.critic_queue = deque(maxlen=training_config["max_critic_history"])
+
+    for _ in range(training_config["max_actor_history"]):
+        env.env.env.obs_queue.append(torch.zeros(env.num_envs, env.num_obs,
+                                     dtype=torch.float, device=env.device))
+    for _ in range(training_config["max_critic_history"]):
+        env.env.env.critic_queue.append(torch.zeros(env.num_envs, env.num_privileged_obs,
+                                        dtype=torch.float, device=env.device))
+
+    env.env.env.obs_buf_all = torch.stack([env.env.obs_queue[i]
+                               for i in range(training_config["max_actor_history"])], dim=1)
+    env.env.env.critic_buf_all = torch.stack([env.env.critic_queue[i]
+                                  for i in range(training_config["max_critic_history"])], dim=1)
+
+    env.env.env.obs_input = env.env.env.obs_buf_all.reshape(env.env.env.num_envs, -1)
+    env.env.env.critic_input = env.env.env.critic_buf_all.reshape(env.env.env.num_envs, -1)
+
 
 def add_env_method(env):
     def get_observations():
@@ -33,36 +58,29 @@ def add_env_method(env):
     def get_privileged_observations():
         return env.privileged_obs_buf
 
+    def wrapper_env_step():
+        original_step = getattr(env, "step")
+
+        def wrapper_step(self, action):
+            obs, rew, terminated, truncated, info = original_step(action)
+            critic_obs = env.get_privileged_observations()
+
+            self.env.env.obs_queue.append(obs["policy"])
+            self.env.env.critic_queue.append(critic_obs)
+
+            self.env.env.obs_buf_all = torch.stack([self.env.env.obs_queue[i]
+                                           for i in range(training_config["max_actor_history"])], dim=1)
+            self.env.env.critic_buf_all = torch.stack([self.env.env.critic_queue[i]
+                                              for i in range(training_config["max_critic_history"])], dim=1)
+
+            self.env.env.obs_input = self.env.env.obs_buf_all.reshape(self.env.num_envs, -1)
+            self.env.env.critic_input = self.env.env.critic_buf_all.reshape(self.env.num_envs, -1)
+
+            return obs, rew, terminated, truncated, info
+
+        bound_method = types.MethodType(wrapper_step, env)
+        setattr(env, "step", bound_method)
+
     env.get_observations = get_observations
     env.get_privileged_observations = get_privileged_observations
-
-# minimal interface of the environment
-# class VecEnv(env):
-#     num_envs: env.num_envs
-#     # num_obs: int
-#     # num_privileged_obs: int
-#     # num_actions: int
-#     # max_episode_length: int
-#     # privileged_obs_buf: torch.Tensor
-#     # obs_buf: torch.Tensor
-#     # rew_buf: torch.Tensor
-#     # reset_buf: torch.Tensor
-#     # episode_length_buf: torch.Tensor # current episode duration
-#     # extras: dict
-#     # device: torch.device
-#     @abstractmethod
-#     def step(self, actions: torch.Tensor) -> Tuple[Union[torch.Tensor, Dict], Union[torch.Tensor, None], torch.Tensor, torch.Tensor, dict]:
-#         pass
-#     @abstractmethod
-#     def reset(self, env_ids: Union[Dict, torch.Tensor]):
-#         pass
-#     @abstractmethod
-#     def get_observations(self) -> torch.Tensor:
-#         return env.obs_buf["policy"]
-#
-#     @abstractmethod
-#     def get_privileged_observations(self) -> Union[torch.Tensor, None]:
-#         try:
-#             return env.obs_buf["privileged"]
-#         except:
-#             return None
+    wrapper_env_step()

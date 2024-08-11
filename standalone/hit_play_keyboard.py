@@ -3,7 +3,7 @@ import os
 from hit_omniverse.utils.helper import setup_config
 
 parser = argparse.ArgumentParser(description="HIT humanoid robot exhibit in isaac sim")
-parser.add_argument("--num_envs", type=int, default=3, help="Number of robot to spawn")
+parser.add_argument("--num_envs", type=int, default=1, help="Number of robot to spawn")
 parser.add_argument("--env_spacing", type=int, default=5, help="Spacing between different envs")
 parser.add_argument("--policy_path", type=str, default="D:\humanoid\GITHUB\hit_omniverse\hit_omniverse\logs\HIT_all_dof_mlp\Aug10_12-56-30_8.10-1-reference-position\model_1300.pt", help="Model to be import")
 parser.add_argument("--device", type=str, default="cuda:0", help="Device for running")
@@ -32,6 +32,7 @@ from hit_omniverse.algo.vec_env import add_env_variable, add_env_method
 from hit_omniverse.utils.helper import setup_config, export_policy_as_jit
 from hit_omniverse import HIT_SIM_LOGS_DIR
 import hit_omniverse.extension.mdp as mdp
+from hit_omniverse.utils.hit_keyboard import Se2Keyboard
 
 import torch
 import gymnasium as gym
@@ -53,6 +54,10 @@ def main():
     add_env_method(env)
     obs, _ = env.reset()
 
+    keyboard = Se2Keyboard(v_x_sensitivity=2.2, v_y_sensitivity=2.2, omega_z_sensitivity=3)
+    keyboard.reset()
+    print(keyboard)
+
     train_cfg = {key: config[key] for key in ["runner", "policy", "algorithm"] if key in config}
 
     ppo_runner = OnPolicyRunner(env=env,
@@ -71,8 +76,9 @@ def main():
     asset_reference = env.scene["robot_reference"]
     for _ in tqdm(range(args_cli.max_epochs)):
         actions = policy(env.env.env.obs_input)
+        print(keyboard.advance())
 
-        asset_reference.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
+        asset_reference.write_root_velocity_to_sim(torch.tensor([[[keyboard.advance()[0], keyboard.advance()[1], 0, 0, 0, keyboard.advance()[-1]]]]))
         actions_reference = mdp.generated_commands(env, "dataset")["dof_pos"]
         actions = torch.cat((actions, actions_reference), dim=1)
 

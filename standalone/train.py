@@ -10,6 +10,7 @@ parser.add_argument("--training_config", type=str, default="ppo_87_mlp.yaml", he
 parser.add_argument("--log_dir", type=str, default="default", help="Config file to be import")
 
 config = setup_config(parser.parse_args().training_config)
+os.environ["TRAINING_CONFIG"] = parser.parse_args().training_config
 parser.add_argument("--config_file", type=str, default=config["robot"], help="Robot config file to be import")
 os.environ["CONFIG"] = parser.parse_args().config_file
 

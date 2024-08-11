@@ -90,30 +90,30 @@ class OnPolicyRunner:
         for it in range(self.current_learning_iteration, tot_iter):
             start = time.time()
             # TODO create and fix bug of state_queue created by ssb 24.7.11
-            obs_queue = deque(maxlen=self.cfg["max_actor_history"])
-            critic_queue = deque(maxlen=self.cfg["max_critic_history"])
-
-            for _ in range(self.cfg["max_actor_history"]):
-                obs_queue.append(torch.zeros(self.env.num_envs, self.env.num_obs,
-                                             dtype=torch.float, device=self.device))
-            for _ in range(self.cfg["max_critic_history"]):
-                critic_queue.append(torch.zeros(self.env.num_envs,self.env.num_privileged_obs,
-                                                dtype=torch.float, device=self.device))
-
-            obs_queue.append(obs)
-            critic_queue.append(critic_obs)
-
-            obs_buf_all = torch.stack([obs_queue[i]
-                                       for i in range(self.cfg["max_actor_history"])], dim=1)
-            critic_buf_all = torch.stack([critic_queue[i]
-                                          for i in range(self.cfg["max_critic_history"])], dim=1)
-
-            if self.policy_cfg["actor_class"] in ["SimpleMLP", "NormalizedSimpleMLP"]:
-                obs_input = obs_buf_all.reshape(self.env.num_envs, -1)
-                critic_input = critic_buf_all.reshape(self.env.num_envs, -1)
-            elif self.policy_cfg["actor_class"] in ["SimpleLSTM"]:
-                obs_input = obs_buf_all
-                critic_input = critic_buf_all
+            # obs_queue = deque(maxlen=self.cfg["max_actor_history"])
+            # critic_queue = deque(maxlen=self.cfg["max_critic_history"])
+            #
+            # for _ in range(self.cfg["max_actor_history"]):
+            #     obs_queue.append(torch.zeros(self.env.num_envs, self.env.num_obs,
+            #                                  dtype=torch.float, device=self.device))
+            # for _ in range(self.cfg["max_critic_history"]):
+            #     critic_queue.append(torch.zeros(self.env.num_envs,self.env.num_privileged_obs,
+            #                                     dtype=torch.float, device=self.device))
+            #
+            # obs_queue.append(obs)
+            # critic_queue.append(critic_obs)
+            #
+            # obs_buf_all = torch.stack([obs_queue[i]
+            #                            for i in range(self.cfg["max_actor_history"])], dim=1)
+            # critic_buf_all = torch.stack([critic_queue[i]
+            #                               for i in range(self.cfg["max_critic_history"])], dim=1)
+            #
+            # if self.policy_cfg["actor_class"] in ["SimpleMLP", "NormalizedSimpleMLP"]:
+            #     obs_input = obs_buf_all.reshape(self.env.num_envs, -1)
+            #     critic_input = critic_buf_all.reshape(self.env.num_envs, -1)
+            # elif self.policy_cfg["actor_class"] in ["SimpleLSTM"]:
+            #     obs_input = obs_buf_all
+            #     critic_input = critic_buf_all
 
             # Rollout
             with torch.inference_mode():
@@ -121,6 +121,8 @@ class OnPolicyRunner:
                 for i in range(self.num_steps_per_env):
                     #TODO be pythonic to ghost robot
                     # ssb 8.9
+                    obs_input = self.env.obs_input
+                    critic_input = self.env.critic_input
                     asset_reference.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
                     actions = self.alg.act(obs_input, critic_input)
                     actions_reference = mdp.generated_commands(self.env, "dataset")["dof_pos"]
@@ -140,20 +142,20 @@ class OnPolicyRunner:
                     )
                     self.alg.process_env_step(rewards, dones, infos)
 
-                    obs_queue.append(obs)
-                    critic_queue.append(critic_obs)
-
-                    obs_buf_all = torch.stack([obs_queue[i]
-                                               for i in range(self.cfg["max_actor_history"])], dim=1)
-                    critic_buf_all = torch.stack([critic_queue[i]
-                                                  for i in range(self.cfg["max_critic_history"])], dim=1)
-
-                    if self.policy_cfg["actor_class"] in ["SimpleMLP", "NormalizedSimpleMLP"]:
-                        obs_input = obs_buf_all.reshape(self.env.num_envs, -1)
-                        critic_input = critic_buf_all.reshape(self.env.num_envs, -1)
-                    elif self.policy_cfg["actor_class"] in ["SimpleLSTM"]:
-                        obs_input = obs_buf_all
-                        critic_input = critic_buf_all
+                    # obs_queue.append(obs)
+                    # critic_queue.append(critic_obs)
+                    #
+                    # obs_buf_all = torch.stack([obs_queue[i]
+                    #                            for i in range(self.cfg["max_actor_history"])], dim=1)
+                    # critic_buf_all = torch.stack([critic_queue[i]
+                    #                               for i in range(self.cfg["max_critic_history"])], dim=1)
+                    #
+                    # if self.policy_cfg["actor_class"] in ["SimpleMLP", "NormalizedSimpleMLP"]:
+                    #     obs_input = obs_buf_all.reshape(self.env.num_envs, -1)
+                    #     critic_input = critic_buf_all.reshape(self.env.num_envs, -1)
+                    # elif self.policy_cfg["actor_class"] in ["SimpleLSTM"]:
+                    #     obs_input = obs_buf_all
+                    #     critic_input = critic_buf_all
 
                     if self.log_dir is not None:
                         # Book keeping

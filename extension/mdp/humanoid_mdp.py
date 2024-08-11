@@ -13,6 +13,7 @@ import omni.isaac.lab.utils.math as math_utils
 from hit_omniverse.utils.helper import setup_config
 
 config = setup_config(os.environ.get("CONFIG"))
+training_config = setup_config(os.environ.get("TRAINING_CONFIG"))["runner"]
 
 def constant_commands(env: ManagerBasedRLEnv) -> torch.Tensor:
     # v_x, v_y, ang_x
@@ -456,7 +457,7 @@ def reference_joint_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityC
     reference_joint_pos = math_utils.wrap_to_pi(asset_reference.data.joint_pos)
 
     # return torch.exp(-2 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1))
-    return torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1)
+    return 10 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1)
 
 
 def reference_joint_vel_distance(env: ManagerBasedRLEnv,
@@ -472,7 +473,7 @@ def reference_joint_vel_distance(env: ManagerBasedRLEnv,
     reference_joint_pos = math_utils.wrap_to_pi(asset_reference.data.joint_vel)
 
     # return torch.exp(-2 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1))
-    return torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1)
+    return 10 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1)
 
 
 def reference_body_pos_distance(env: ManagerBasedRLEnv,
@@ -489,3 +490,24 @@ def reference_body_pos_distance(env: ManagerBasedRLEnv,
     target = reference_pos - torch.tensor(config["REFERENCE_OFFSET"], device=env.device)
     # return torch.exp(-40 * torch.sum(torch.square(target - body_pos)))
     return 0.01 * torch.sum(torch.square(target - body_pos))
+
+
+def reset_obs_buff(env: ManagerBasedRLEnv, env_ids: torch.Tensor):
+    if hasattr(env, "obs_queue"):
+        obs_queue_new = deque(maxlen=training_config["max_actor_history"])
+        critic_queue_new = deque(maxlen=training_config["max_critic_history"])
+
+        for i in range(training_config["max_actor_history"]):
+            temp = env.obs_queue[i]
+            temp[env_ids, ] = torch.zeros(env_ids.shape[0], env.observation_space["policy"].shape[1],
+                                         dtype=torch.float, device=env.device)
+            obs_queue_new.append(temp)
+
+        for i in range(training_config["max_critic_history"]):
+            temp = env.critic_queue[i]
+            temp[env_ids, ] = torch.zeros(env_ids.shape[0], env.observation_space["privileged"].shape[1],
+                                         dtype=torch.float, device=env.device)
+            critic_queue_new.append(temp)
+
+        env.obs_queue = obs_queue_new
+        env.critic_queue = critic_queue_new

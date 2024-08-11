@@ -30,4 +30,4 @@ runner:
   # logging
   save_interval: 50
   experiment_name: 'HIT_all_dof_mlp'
-  run_name: '8.10-1-reference-position'
+  run_name: '8.11-1-reference-position'

@@ -6,7 +6,7 @@ from dataclasses import MISSING
 from omni.isaac.lab.envs import ManagerBasedRLEnvCfg
 import omni.isaac.lab.sim as sim_utils
 from omni.isaac.lab.assets import ArticulationCfg, AssetBaseCfg
-from omni.isaac.lab.sim import SimulationCfg
+from omni.isaac.lab.sim import SimulationCfg, PinholeCameraCfg
 from omni.isaac.lab.managers import EventTermCfg as EventTerm
 from omni.isaac.lab.managers import RewardTermCfg as RewTerm
 from omni.isaac.lab.managers import ObservationGroupCfg as ObsGroup
@@ -14,7 +14,7 @@ from omni.isaac.lab.managers import ObservationTermCfg as ObsTerm
 from omni.isaac.lab.managers import TerminationTermCfg as DoneTerm
 from omni.isaac.lab.terrains import TerrainImporterCfg
 from omni.isaac.lab.scene import InteractiveSceneCfg
-from omni.isaac.lab.sensors import ContactSensorCfg
+from omni.isaac.lab.sensors import ContactSensorCfg, CameraCfg
 from omni.isaac.lab.utils import configclass
 
 import hit_omniverse.extension.mdp as mdp
@@ -61,13 +61,13 @@ class HITSceneCfg(InteractiveSceneCfg):
     #     )
     # )
 
-    fire = AssetBaseCfg(
-        prim_path="/World/fire",
-        spawn=sim_utils.UsdFileCfg(
-            usd_path=os.path.join(HIT_SIM_ASSET_DIR, "Collected_fire", "fire.usd"),
-            visual_material_path="FlowRender",
-        ),
-    )
+    # fire = AssetBaseCfg(
+    #     prim_path="/World/fire",
+    #     spawn=sim_utils.UsdFileCfg(
+    #         usd_path=os.path.join(HIT_SIM_ASSET_DIR, "Collected_fire", "fire.usd"),
+    #         visual_material_path="FlowRender",
+    #     ),
+    # )
 
     # HIT humanoid robot
     robot: ArticulationCfg = HIT_HUMANOID_CFG.replace(prim_path="{ENV_REGEX_NS}/robot")
@@ -93,6 +93,18 @@ class HITSceneCfg(InteractiveSceneCfg):
         debug_vis=False,
         force_threshold=1,
         )
+
+    # RGB_camera = CameraCfg(
+    #     prim_path="{ENV_REGEX_NS}/robot_reference/body/camera",
+    #     update_period=0,
+    #     data_types=["rgb"],
+    #     width=640,
+    #     height=480,
+    #     offset=CameraCfg.OffsetCfg(pos=(0.510, 0.0, 0.015), rot=(0, 0, 0, 0), convention="ros"),
+    #     spawn=sim_utils.PinholeCameraCfg(
+    #         focal_length=24.0, focus_distance=400.0, horizontal_aperture=20.955, clipping_range=(0.1, 1.0e5)
+    #     ),
+    # )
 
 
 @configclass
@@ -158,6 +170,11 @@ class EventCfg:
         },
     )
 
+    reset_obs_buff = EventTerm(
+        func=mdp.reset_obs_buff,
+        mode="reset",
+    )
+
 
 @configclass
 class CurriculumCfg:
@@ -187,8 +204,8 @@ class RewardsCfg:
 
     # imitate
     # Pencity
-    alive = RewTerm(func=mdp.is_alive, weight=2)
-    terminating = RewTerm(func=mdp.is_terminated, weight=-5.0)
+    # alive = RewTerm(func=mdp.is_alive, weight=2)
+    # terminating = RewTerm(func=mdp.is_terminated, weight=-5.0)
     # # Regularization
     torques = RewTerm(func=mdp.torques, weight=-1e-5)
     smooth = RewTerm(func=mdp.reward_action_smooth, weight=-0.002)
@@ -202,7 +219,6 @@ class RewardsCfg:
     # # Task
     track_lin = RewTerm(func=mdp.track_lin, weight=1.1)
     track_ang = RewTerm(func=mdp.track_ang, weight=1.2)
-
 
 
 @configclass

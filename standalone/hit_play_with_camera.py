@@ -38,6 +38,10 @@ import gymnasium as gym
 from tqdm import tqdm
 import os
 
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+
 
 def main():
     env_cfg = HITRLEnvCfg()
@@ -69,6 +73,7 @@ def main():
         print('Exported policy as jit script to: ', path)
 
     asset_reference = env.scene["robot_reference"]
+    frame_count = 0
     for _ in tqdm(range(args_cli.max_epochs)):
         actions = policy(env.env.env.obs_input)
 
@@ -79,6 +84,27 @@ def main():
         obs, rew, terminated, truncated, info = env.step(actions)
         observation = obs["policy"]
 
+        print(env.scene["RGB_camera"].data.output["rgb"].shape)
+
+        output_dir = "output_images"
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+
+        tensor = env.scene["RGB_camera"].data.output["rgb"].cpu()  # 更新 Tensor
+
+        # 创建一个图形并保存
+        fig, ax = plt.subplots()
+        ax.imshow(tensor.numpy()[0])
+        ax.axis('off')  # 关闭坐标轴
+
+        # 保存图像
+        frame_count += 1
+        save_path = os.path.join(output_dir, f"{frame_count}.png")
+        plt.savefig(save_path, bbox_inches='tight', pad_inches=0)
+
+        # 关闭当前图形，释放内存
+        plt.close(fig)
+        print("succeed save")
         # print(env.env.env.obs_input)
         # print(actions)
 
