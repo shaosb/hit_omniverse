@@ -5,7 +5,7 @@ from hit_omniverse.utils.helper import setup_config
 parser = argparse.ArgumentParser(description="HIT humanoid robot exhibit in isaac sim")
 parser.add_argument("--num_envs", type=int, default=3, help="Number of robot to spawn")
 parser.add_argument("--env_spacing", type=int, default=5, help="Spacing between different envs")
-parser.add_argument("--policy_path", type=str, default="D:\humanoid\GITHUB\hit_omniverse\hit_omniverse\logs\HIT_all_dof_mlp\Aug10_12-56-30_8.10-1-reference-position\model_1300.pt", help="Model to be import")
+parser.add_argument("--policy_path", type=str, default="D:\humanoid\GITHUB\hit_omniverse\hit_omniverse\logs\HIT_all_dof_mlp\Aug12_15-50-02_8.12-2-reference-position\model_100.pt", help="Model to be import")
 parser.add_argument("--device", type=str, default="cuda:0", help="Device for running")
 parser.add_argument("--training_config", type=str, default="ppo_87_mlp.yaml", help="Config file to be import")
 parser.add_argument("--export_JIT", type=bool, default="False", help="Export weights in JIT")

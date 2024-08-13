@@ -8,8 +8,8 @@ parser.add_argument("--device", type=str, default="cuda:0", help="Device for run
 parser.add_argument("--config_file", type=str, default="robot_87_config.yaml", help="Config file to be import")
 parser.add_argument("--training_config", type=str, default="ppo_87_mlp.yaml", help="Config file to be import")
 
-os.environ["TRAINING_CONFIG"] = parser.parse_args().training_config
 os.environ["CONFIG"] = parser.parse_args().config_file
+os.environ["TRAINING_CONFIG"] = parser.parse_args().training_config
 
 from omni.isaac.lab.app import AppLauncher
 
@@ -31,6 +31,7 @@ import gymnasium as gym
 from hit_omniverse.algo.vec_env import add_env_variable, add_env_method
 import hit_omniverse.extension.mdp as mdp
 from omni.isaac.lab.assets import Articulation
+from hit_omniverse.utils.hit_keyboard import Se2Keyboard
 
 dataset_paths = [os.path.join(HIT_SIM_DATASET_DIR, "CMU_007_03.hdf5")]
 
@@ -52,6 +53,9 @@ def main():
 	# # policy = torch.jit.load(file_bytes).to(env.device).eval()
 	#
 	obs, _ = env.reset()
+	keyboard = Se2Keyboard(v_x_sensitivity=1.8, v_y_sensitivity=2.2, omega_z_sensitivity=3)
+	keyboard.reset()
+	print(keyboard)
 	# print(env.observation_manager.observation)
 	count = 0
 
@@ -63,12 +67,12 @@ def main():
 		# if count % 500 == 0:
 		# 	obs, _ = env.reset()
 		# asset.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
-		asset.write_root_velocity_to_sim(torch.tensor([[[1.9, 0, 0, 0, 0, 0]]]))
+		print(keyboard.advance())
+		asset.write_root_velocity_to_sim(
+			torch.tensor([[[keyboard.advance()[0], keyboard.advance()[1], 0, 0, 0, keyboard.advance()[-1]]]]))
 
-		action = torch.ones_like(env.action_manager.action)*0.01
-		temp1 = mdp.generated_commands(env, "dataset")["dof_pos"]
-		temp = torch.cat((temp1, temp1), dim=1)
-		action = temp1
+		action = mdp.generated_commands(env, "dataset")["dof_pos"]
+
 		# if count >= 100:
 		# 	action = torch.ones_like(env.action_manager.action)
 		# for batch in data_loader:
