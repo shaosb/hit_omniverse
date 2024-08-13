@@ -147,21 +147,21 @@ class Se2Keyboard(DeviceBase):
         """Creates default key binding."""
         self._INPUT_KEY_MAPPING = {
             # forward command 1.5
-            "NUMPAD_8": np.asarray([3, 0.0, 0.0]) * self.v_x_sensitivity,
-            "UP": np.asarray([3, 0.0, 0.0]) * self.v_x_sensitivity,
+            "NUMPAD_8": np.asarray([1., 0.0, 0.0]) * self.v_x_sensitivity,
+            "UP": np.asarray([1., 0.0, 0.0]) * self.v_x_sensitivity,
             # back command -1.5
-            "NUMPAD_2": np.asarray([-3, 0.0, 0.0]) * self.v_x_sensitivity,
-            "DOWN": np.asarray([-3, 0.0, 0.0]) * self.v_x_sensitivity,
+            "NUMPAD_2": np.asarray([-1., 0.0, 0.0]) * self.v_x_sensitivity,
+            "DOWN": np.asarray([-1., 0.0, 0.0]) * self.v_x_sensitivity,
             # right command 1.5
-            "NUMPAD_4": np.asarray([0.0, 3, 0.0]) * self.v_y_sensitivity,
-            "LEFT": np.asarray([0.0, 3, 0.0]) * self.v_y_sensitivity,
+            "NUMPAD_4": np.asarray([0.0, 1., 0.0]) * self.v_y_sensitivity,
+            "LEFT": np.asarray([0.0, 1., 0.0]) * self.v_y_sensitivity,
             # left command -1.5
-            "NUMPAD_6": np.asarray([0.0, -3, 0.0]) * self.v_y_sensitivity,
-            "RIGHT": np.asarray([0.0, -3, 0.0]) * self.v_y_sensitivity,
+            "NUMPAD_6": np.asarray([0.0, -1., 0.0]) * self.v_y_sensitivity,
+            "RIGHT": np.asarray([0.0, -1., 0.0]) * self.v_y_sensitivity,
             # yaw command (positive) 1.0
             "NUMPAD_7": np.asarray([0.0, 0.0, 1.]) * self.omega_z_sensitivity,
             "X": np.asarray([0.0, 0.0, 1.]) * self.omega_z_sensitivity,
             # yaw command (negative) -1.0
-            "NUMPAD_9": np.asarray([1, 1, 1])
+            "NUMPAD_9": np.asarray([1, 1, 1]),
             "Z": np.asarray([0.0, 0.0, -1.0]) * self.omega_z_sensitivity,
         }

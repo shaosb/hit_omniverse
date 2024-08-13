@@ -10,7 +10,7 @@ from omni.isaac.lab.managers import ObservationTermCfg as ObsTerm
 from omni.isaac.lab.managers import TerminationTermCfg as DoneTerm
 from omni.isaac.lab.terrains import TerrainImporterCfg
 from omni.isaac.lab.scene import InteractiveSceneCfg
-from omni.isaac.lab.sensors import ContactSensorCfg
+from omni.isaac.lab.sensors import ContactSensorCfg, CameraCfg
 from omni.isaac.lab.utils import configclass
 
 import hit_omniverse.extension.mdp as mdp
@@ -32,22 +32,22 @@ class HITSceneCfg(InteractiveSceneCfg):
     Configuration for a HIT humanoid robot scene.
     """
 
-    # ground plane
-    terrain = TerrainImporterCfg(
-        prim_path="/World/ground",
-        terrain_type="plane",
-        collision_group=-1,
-        physics_material=sim_utils.RigidBodyMaterialCfg(static_friction=config["terrain"]["static_friction"],
-                                                        dynamic_friction=config["terrain"]["dynamic_friction"],
-                                                        restitution=config["terrain"]["restitution"]),
-        debug_vis=False,
-    )
-    #
-    # lights
-    dome_light = AssetBaseCfg(
-        prim_path="/World/Light",
-        spawn=sim_utils.DomeLightCfg(intensity=3000.0, color=(0.75, 0.75, 0.75)),
-    )
+    # # ground plane
+    # terrain = TerrainImporterCfg(
+    #     prim_path="/World/ground",
+    #     terrain_type="plane",
+    #     collision_group=-1,
+    #     physics_material=sim_utils.RigidBodyMaterialCfg(static_friction=config["terrain"]["static_friction"],
+    #                                                     dynamic_friction=config["terrain"]["dynamic_friction"],
+    #                                                     restitution=config["terrain"]["restitution"]),
+    #     debug_vis=False,
+    # )
+    # #
+    # # lights
+    # dome_light = AssetBaseCfg(
+    #     prim_path="/World/Light",
+    #     spawn=sim_utils.DomeLightCfg(intensity=3000.0, color=(0.75, 0.75, 0.75)),
+    # )
 
     # simple_room = AssetBaseCfg(
     #     prim_path="/World/simple_room",
@@ -71,13 +71,21 @@ class HITSceneCfg(InteractiveSceneCfg):
     # )
 
     # fire
-    fire = AssetBaseCfg(
-        prim_path="/World/fire",
+    # fire = AssetBaseCfg(
+    #     prim_path="/World/fire",
+    #     spawn=sim_utils.UsdFileCfg(
+    #         usd_path=os.path.join(HIT_SIM_ASSET_DIR, "Collected_fire", "fire.usd"),
+    #         visual_material_path="colormap",
+    #     ),
+    # )
+
+    cangku = AssetBaseCfg(
+        prim_path="/World/cangku",
         spawn=sim_utils.UsdFileCfg(
-            usd_path=os.path.join(HIT_SIM_ASSET_DIR, "Collected_fire", "fire.usd"),
-            visual_material_path="colormap",
-        ),
+            usd_path="C:\\Users\\Administrator\\Desktop\\Collected_cangku3_reset_final\\yuan_cangku3_reset.usd"
+        )
     )
+
 
     # cangku = AssetBaseCfg(
     #     prim_path="/World/cangku",
@@ -107,7 +115,7 @@ class HITSceneCfg(InteractiveSceneCfg):
         data_types=["rgb"],
         width=640,
         height=480,
-        offset=CameraCfg.OffsetCfg(pos=(0.510, 0.0, 0.015), rot=(0, 0, 0, 0), convention="ros"),
+        offset=CameraCfg.OffsetCfg(pos=(0.510, 0.0, 0.215), rot=(0, 0, 0, 0), convention="ros"),
         spawn=sim_utils.PinholeCameraCfg(
             focal_length=24.0, focus_distance=400.0, horizontal_aperture=20.955, clipping_range=(0.1, 1.0e5)
         ),
@@ -258,7 +266,7 @@ class HITCameraRLEnvCfg(ManagerBasedRLEnvCfg):
     terminations: TerminationsCfg = TerminationsCfg()
     commands: CommandsCfg = CommandsCfg()
 
-    episode_length_s = 10
+    episode_length_s = 10000
 
     def __post_init__(self):
         self.decimation = 1

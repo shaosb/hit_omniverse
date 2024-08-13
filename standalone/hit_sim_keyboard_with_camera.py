@@ -64,8 +64,9 @@ def main():
 	# print(env.observation_manager.observation)
 	count = 0
 
-	fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-	out = cv2.VideoWriter('output_video.mp4', fourcc, 30.0, (640, 480))
+	# fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+	# out = cv2.VideoWriter('output_video.mp4', fourcc, 20.0, (480, 640))
+	frame_count = 1
 
 	asset: Articulation = env.scene["robot"]
 
@@ -76,8 +77,9 @@ def main():
 		# 	obs, _ = env.reset()
 		# asset.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
 		print(keyboard.advance())
-		if keyboard.advance()[0] == keyboard.advance()[0] == keyboard.advance()[0]:
-			break
+		if int(keyboard.advance()[0]) == int(keyboard.advance()[1]) == int(keyboard.advance()[2]):
+			if int(keyboard.advance()[0]) == 1:
+				break
 			
 		asset.write_root_velocity_to_sim(
 			torch.tensor([[[keyboard.advance()[0], keyboard.advance()[1], 0, 0, 0, keyboard.advance()[-1]]]]))
@@ -92,14 +94,32 @@ def main():
 		# temp = mdp.joint_pos(env)[0].cpu().numpy()
 		# pass
 
-		tensor = env.scene["RGB_camera"].data.output["rgb"].cpu()
-		frame = tensor.numpy()[0]
+		# tensor = env.scene["RGB_camera"].data.output["rgb"].cpu()
+		# frame = tensor.numpy()[0]
+		# frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGBA2BGR)
+		#
+		# out.write(frame_bgr)
 
-		out.write(frame)
+		output_dir = "output_images"
+		if not os.path.exists(output_dir):
+			os.makedirs(output_dir)
 
-	out.release()
+		tensor = env.scene["RGB_camera"].data.output["rgb"].cpu()  # 更新 Tensor
+
+		# 创建一个图形并保存
+		fig, ax = plt.subplots()
+		ax.imshow(tensor.numpy()[0])
+		ax.axis('off')  # 关闭坐标轴
+
+		# 保存图像
+		frame_count += 1
+		save_path = os.path.join(output_dir, f"{frame_count}.png")
+		plt.savefig(save_path, bbox_inches='tight', pad_inches=0)
+
+	# out.release()
 	print("Write video success")
 	print("End simulation ")
+	simulation_app.close()
 
 
 if __name__ == '__main__':

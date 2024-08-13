@@ -53,7 +53,7 @@ def main():
 	# # policy = torch.jit.load(file_bytes).to(env.device).eval()
 	#
 	obs, _ = env.reset()
-	keyboard = Se2Keyboard(v_x_sensitivity=10, v_y_sensitivity=10, omega_z_sensitivity=5) # 1.8,2.2,3
+	keyboard = Se2Keyboard(v_x_sensitivity=1.8, v_y_sensitivity=2.2, omega_z_sensitivity=3) # 1.8,2.2,3
 	keyboard.reset()
 	print(keyboard)
 	# print(env.observation_manager.observation)
@@ -72,7 +72,7 @@ def main():
 			torch.tensor([[[keyboard.advance()[0], keyboard.advance()[1], 0, 0, 0, keyboard.advance()[-1]]]]))
 
 		action = mdp.generated_commands(env, "dataset")["dof_pos"]
-		print("action:",action)
+		# print("action:",action)
 		# if count >= 100:
 		# 	action = torch.ones_like(env.action_manager.action)
 		# for batch in data_loader:

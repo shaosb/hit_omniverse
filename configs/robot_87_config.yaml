@@ -2,7 +2,7 @@ USD_PATH:
   "HIT_force/elec_robot_forxml_color.usd"
 
 ROBOT_POS:
-  [-500., 300., 0.88]
+  [-25., 20., 0.88]
 
 ROBOT_ROT:
   [1, 0., 0., 0.]

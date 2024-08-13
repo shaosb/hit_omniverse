@@ -75,7 +75,7 @@ class HITSceneCfg(InteractiveSceneCfg):
     cangku = AssetBaseCfg(
         prim_path="/World/cangku",
         spawn=sim_utils.UsdFileCfg(
-            usd_path="C:\\Users\\Administrator\\Desktop\\Collected_cangku3_reset_final\\cangku3_reset.usd"
+            usd_path="C:\\Users\\Administrator\\Desktop\\Collected_cangku3_reset_final\\yuan_cangku3_reset.usd"
         )
     )
 
