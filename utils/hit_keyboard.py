@@ -162,6 +162,6 @@ class Se2Keyboard(DeviceBase):
             "NUMPAD_7": np.asarray([0.0, 0.0, 1.]) * self.omega_z_sensitivity,
             "X": np.asarray([0.0, 0.0, 1.]) * self.omega_z_sensitivity,
             # yaw command (negative) -1.0
-            "NUMPAD_9": np.asarray([0.0, 0.0, -1.0]) * self.omega_z_sensitivity,
+            "NUMPAD_9": np.asarray([1, 1, 1])
             "Z": np.asarray([0.0, 0.0, -1.0]) * self.omega_z_sensitivity,
         }
