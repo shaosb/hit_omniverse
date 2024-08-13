@@ -146,22 +146,22 @@ class Se2Keyboard(DeviceBase):
     def _create_key_bindings(self):
         """Creates default key binding."""
         self._INPUT_KEY_MAPPING = {
-            # forward command
-            "NUMPAD_8": np.asarray([1.5, 0.0, 0.0]) * self.v_x_sensitivity,
-            "UP": np.asarray([1.5, 0.0, 0.0]) * self.v_x_sensitivity,
-            # back command
-            "NUMPAD_2": np.asarray([-1.5, 0.0, 0.0]) * self.v_x_sensitivity,
-            "DOWN": np.asarray([-1.5, 0.0, 0.0]) * self.v_x_sensitivity,
-            # right command
-            "NUMPAD_4": np.asarray([0.0, 1.5, 0.0]) * self.v_y_sensitivity,
-            "LEFT": np.asarray([0.0, 1.5, 0.0]) * self.v_y_sensitivity,
-            # left command
-            "NUMPAD_6": np.asarray([0.0, -1.5, 0.0]) * self.v_y_sensitivity,
-            "RIGHT": np.asarray([0.0, -1.5, 0.0]) * self.v_y_sensitivity,
-            # yaw command (positive)
-            "NUMPAD_7": np.asarray([0.0, 0.0, 1.0]) * self.omega_z_sensitivity,
-            "X": np.asarray([0.0, 0.0, 1.0]) * self.omega_z_sensitivity,
-            # yaw command (negative)
+            # forward command 1.5
+            "NUMPAD_8": np.asarray([3, 0.0, 0.0]) * self.v_x_sensitivity,
+            "UP": np.asarray([3, 0.0, 0.0]) * self.v_x_sensitivity,
+            # back command -1.5
+            "NUMPAD_2": np.asarray([-3, 0.0, 0.0]) * self.v_x_sensitivity,
+            "DOWN": np.asarray([-3, 0.0, 0.0]) * self.v_x_sensitivity,
+            # right command 1.5
+            "NUMPAD_4": np.asarray([0.0, 3, 0.0]) * self.v_y_sensitivity,
+            "LEFT": np.asarray([0.0, 3, 0.0]) * self.v_y_sensitivity,
+            # left command -1.5
+            "NUMPAD_6": np.asarray([0.0, -3, 0.0]) * self.v_y_sensitivity,
+            "RIGHT": np.asarray([0.0, -3, 0.0]) * self.v_y_sensitivity,
+            # yaw command (positive) 1.0
+            "NUMPAD_7": np.asarray([0.0, 0.0, 1.]) * self.omega_z_sensitivity,
+            "X": np.asarray([0.0, 0.0, 1.]) * self.omega_z_sensitivity,
+            # yaw command (negative) -1.0
             "NUMPAD_9": np.asarray([0.0, 0.0, -1.0]) * self.omega_z_sensitivity,
             "Z": np.asarray([0.0, 0.0, -1.0]) * self.omega_z_sensitivity,
         }
