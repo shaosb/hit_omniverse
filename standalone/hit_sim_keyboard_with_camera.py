@@ -23,7 +23,7 @@ simulation_app = app_launcher.app
 
 from hit_omniverse.extension.hit_env_cfg_camera import HITCameraRLEnvCfg
 from hit_omniverse import HIT_SIM_DATASET_DIR
-from hit_omniverse.utils.helper import TransCMU2HIT
+from hit_omniverse.utils.helper import TransCMU2HIT, calculate_eye_and_target
 from hit_omniverse.standalone.get_action_dataset import get_action
 
 import torch
@@ -76,6 +76,13 @@ def main():
 		# if count % 500 == 0:
 		# 	obs, _ = env.reset()
 		# asset.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
+
+		pos = asset.data.root_pos_w.cpu().numpy()[0]
+		pos = [pos[0] - 2.1, pos[1] + 0.5, pos[2] + 0.5]
+		rot = asset.data.root_quat_w.cpu().numpy()[0]
+		eye, target = calculate_eye_and_target(pos, rot)
+		env.unwrapped.sim.set_camera_view(eye, target)
+
 		print(keyboard.advance())
 		if int(keyboard.advance()[0]) == int(keyboard.advance()[1]) == int(keyboard.advance()[2]):
 			if int(keyboard.advance()[0]) == 1:
@@ -100,21 +107,21 @@ def main():
 		#
 		# out.write(frame_bgr)
 
-		output_dir = "output_images"
-		if not os.path.exists(output_dir):
-			os.makedirs(output_dir)
-
-		tensor = env.scene["RGB_camera"].data.output["rgb"].cpu()  # 更新 Tensor
-
-		# 创建一个图形并保存
-		fig, ax = plt.subplots()
-		ax.imshow(tensor.numpy()[0])
-		ax.axis('off')  # 关闭坐标轴
-
-		# 保存图像
-		frame_count += 1
-		save_path = os.path.join(output_dir, f"{frame_count}.png")
-		plt.savefig(save_path, bbox_inches='tight', pad_inches=0)
+		# output_dir = "output_images"
+		# if not os.path.exists(output_dir):
+		# 	os.makedirs(output_dir)
+		#
+		# tensor = env.scene["RGB_camera"].data.output["rgb"].cpu()  # 更新 Tensor
+		#
+		# # 创建一个图形并保存
+		# fig, ax = plt.subplots()
+		# ax.imshow(tensor.numpy()[0])
+		# ax.axis('off')  # 关闭坐标轴
+		#
+		# # 保存图像
+		# frame_count += 1
+		# save_path = os.path.join(output_dir, f"{frame_count}.png")
+		# plt.savefig(save_path, bbox_inches='tight', pad_inches=0)
 
 	# out.release()
 	print("Write video success")

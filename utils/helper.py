@@ -175,4 +175,34 @@ class DynamicPlotApp:
         self.root.after(200, self.update_plots)
 
 
+def quaternion_to_rotation_matrix(quat):
+	w, x, y, z = quat
+	# 归一化四元数
+	norm = np.sqrt(w * w + x * x + y * y + z * z)
+	w, x, y, z = w / norm, x / norm, y / norm, z / norm
+
+	# 计算旋转矩阵
+	R = np.array([
+		[1 - 2 * y * y - 2 * z * z, 2 * x * y - 2 * z * w, 2 * x * z + 2 * y * w],
+		[2 * x * y + 2 * z * w, 1 - 2 * x * x - 2 * z * z, 2 * y * z - 2 * x * w],
+		[2 * x * z - 2 * y * w, 2 * y * z + 2 * x * w, 1 - 2 * x * x - 2 * y * y]
+	])
+	return R
+
+
+def calculate_eye_and_target(pos, quat, follow_distance=2.0, height_offset=1.0):
+	# 将四元数转换为旋转矩阵
+	rot_matrix = quaternion_to_rotation_matrix(quat)
+
+	# 定义摄像头位置 (eye)
+	# eye的位置在机器人的后方并稍微抬高
+	eye_offset = np.array([-follow_distance, 0, height_offset])
+	eye = pos + np.dot(rot_matrix, eye_offset)
+
+	# 定义摄像头朝向的目标 (target)
+	# target在机器人前方
+	target_offset = np.array([follow_distance, 0, 0])
+	target = pos + np.dot(rot_matrix, target_offset)
+
+	return eye, target
 

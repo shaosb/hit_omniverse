@@ -32,22 +32,22 @@ class HITSceneCfg(InteractiveSceneCfg):
     Configuration for a HIT humanoid robot scene.
     """
 
-    # # ground plane
-    # terrain = TerrainImporterCfg(
-    #     prim_path="/World/ground",
-    #     terrain_type="plane",
-    #     collision_group=-1,
-    #     physics_material=sim_utils.RigidBodyMaterialCfg(static_friction=config["terrain"]["static_friction"],
-    #                                                     dynamic_friction=config["terrain"]["dynamic_friction"],
-    #                                                     restitution=config["terrain"]["restitution"]),
-    #     debug_vis=False,
-    # )
-    # #
-    # # lights
-    # dome_light = AssetBaseCfg(
-    #     prim_path="/World/Light",
-    #     spawn=sim_utils.DomeLightCfg(intensity=3000.0, color=(0.75, 0.75, 0.75)),
-    # )
+    # ground plane
+    terrain = TerrainImporterCfg(
+        prim_path="/World/ground",
+        terrain_type="plane",
+        collision_group=-1,
+        physics_material=sim_utils.RigidBodyMaterialCfg(static_friction=config["terrain"]["static_friction"],
+                                                        dynamic_friction=config["terrain"]["dynamic_friction"],
+                                                        restitution=config["terrain"]["restitution"]),
+        debug_vis=False,
+    )
+    #
+    # lights
+    dome_light = AssetBaseCfg(
+        prim_path="/World/Light",
+        spawn=sim_utils.DomeLightCfg(intensity=3000.0, color=(0.75, 0.75, 0.75)),
+    )
 
     # simple_room = AssetBaseCfg(
     #     prim_path="/World/simple_room",
@@ -87,13 +87,6 @@ class HITSceneCfg(InteractiveSceneCfg):
     )
 
 
-    # cangku = AssetBaseCfg(
-    #     prim_path="/World/cangku",
-    #     spawn=sim_utils.UsdFileCfg(
-    #         usd_path="C:\\Users\\Administrator\\Desktop\\Collected_cangku3\\cangku3_reset.usd"
-    #     )
-    # )
-
     # HIT humanoid robot
     robot: ArticulationCfg = HIT_HUMANOID_CFG.replace(prim_path="{ENV_REGEX_NS}/robot")
 
@@ -102,7 +95,7 @@ class HITSceneCfg(InteractiveSceneCfg):
         # prim_path="{ENV_REGEX_NS}/robot/.*_leg_link6",
         # prim_path="{ENV_REGEX_NS}/robot/link_.*_foot",
         prim_path="{ENV_REGEX_NS}/robot/.*_foot",
-        update_period=0.0,
+        update_period=0.01,
         history_length=15,
         debug_vis=False,
         force_threshold=1,
@@ -115,7 +108,7 @@ class HITSceneCfg(InteractiveSceneCfg):
         data_types=["rgb"],
         width=640,
         height=480,
-        offset=CameraCfg.OffsetCfg(pos=(0.510, 0.0, 0.215), rot=(0, 0, 0, 0), convention="ros"),
+        offset=CameraCfg.OffsetCfg(pos=(0.0, 0.5, 0.30), rot=(1, 0, 0, 0), convention="ros"),
         spawn=sim_utils.PinholeCameraCfg(
             focal_length=24.0, focus_distance=400.0, horizontal_aperture=20.955, clipping_range=(0.1, 1.0e5)
         ),
