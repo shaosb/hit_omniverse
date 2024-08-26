@@ -23,15 +23,18 @@ simulation_app = app_launcher.app
 
 from hit_omniverse.extension.hit_env_cfg import HITRLEnvCfg
 from hit_omniverse import HIT_SIM_DATASET_DIR
-from hit_omniverse.utils.helper import TransCMU2HIT
+from hit_omniverse.utils.helper import TransCMU2HIT, calculate_eye_and_target
+from hit_omniverse.utils.hit_keyboard import Se2Keyboard
 from hit_omniverse.standalone.get_action_dataset import get_action
+from hit_omniverse.algo.vec_env import add_env_variable, add_env_method
+import hit_omniverse.extension.mdp as mdp
 
 import torch
 import gymnasium as gym
-from hit_omniverse.algo.vec_env import add_env_variable, add_env_method
-import hit_omniverse.extension.mdp as mdp
+import numpy as np
+
 from omni.isaac.lab.assets import Articulation
-from hit_omniverse.utils.hit_keyboard import Se2Keyboard
+from omni.isaac.lab.utils.math import euler_xyz_from_quat
 
 dataset_paths = [os.path.join(HIT_SIM_DATASET_DIR, "CMU_007_03.hdf5")]
 
@@ -72,6 +75,18 @@ def main():
 			torch.tensor([[[keyboard.advance()[0], keyboard.advance()[1], 0, 0, 0, keyboard.advance()[-1]]]]))
 
 		action = mdp.generated_commands(env, "dataset")["dof_pos"]
+
+		# eye = asset.data.root_pos_w.cpu().numpy()[0]
+		# eye = [eye[0] - 2, eye[1], eye[2] + 2]
+		# target = asset.data.root_quat_w
+		# target = euler_xyz_from_quat(target)
+		# target = [target[0].item() + eye[0], target[1].item() + eye[1], target[2].item() + eye[2]]
+		pos = asset.data.root_pos_w.cpu().numpy()[0]
+		pos = [pos[0] - 2.1, pos[1] + 0.5, pos[2] + 0.5]
+		rot = asset.data.root_quat_w.cpu().numpy()[0]
+		eye, target = calculate_eye_and_target(pos, rot)
+		env.unwrapped.sim.set_camera_view(eye, target)
+
 		# print("action:",action)
 		# if count >= 100:
 		# 	action = torch.ones_like(env.action_manager.action)
