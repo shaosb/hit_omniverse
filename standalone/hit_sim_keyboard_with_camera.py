@@ -39,7 +39,7 @@ import cv2
 
 
 dataset_paths = [os.path.join(HIT_SIM_DATASET_DIR, "CMU_007_03.hdf5")]
-
+import time
 def main():
 	env_cfg = HITCameraRLEnvCfg()
 	env_cfg.scene.num_envs = args_cli.num_envs
@@ -58,7 +58,7 @@ def main():
 	# # policy = torch.jit.load(file_bytes).to(env.device).eval()
 	#
 	obs, _ = env.reset()
-	keyboard = Se2Keyboard(v_x_sensitivity=1.8, v_y_sensitivity=2.2, omega_z_sensitivity=3)
+	keyboard = Se2Keyboard(v_x_sensitivity=1.8, v_y_sensitivity=2.2, omega_z_sensitivity=4)
 	keyboard.reset()
 	print(keyboard)
 	# print(env.observation_manager.observation)
@@ -71,6 +71,7 @@ def main():
 	asset: Articulation = env.scene["robot"]
 
 	while simulation_app.is_running():
+		t = time.time()
 		count += 1
 		# env.render()
 		# if count % 500 == 0:
@@ -78,10 +79,12 @@ def main():
 		# asset.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
 
 		pos = asset.data.root_pos_w.cpu().numpy()[0]
-		pos = [pos[0] - 2.1, pos[1] + 0.5, pos[2] + 0.5]
-		rot = asset.data.root_quat_w.cpu().numpy()[0]
-		eye, target = calculate_eye_and_target(pos, rot)
-		env.unwrapped.sim.set_camera_view(eye, target)
+		pos1 = [pos[0] , pos[1]-2 , pos[2] + 1.5]
+		# print("Pos:",pos)
+		target = [pos[0], pos[1], pos[2]] #[pos[0] + 0.001, pos[1] - 0.001, pos[2] - 0.001]
+		# rot = asset.data.root_quat_w.cpu().numpy()[0]
+		# eye, target = calculate_eye_and_target(pos, rot)
+		env.unwrapped.sim.set_camera_view(pos1, target)
 
 		print(keyboard.advance())
 		if int(keyboard.advance()[0]) == int(keyboard.advance()[1]) == int(keyboard.advance()[2]):
@@ -122,6 +125,7 @@ def main():
 		# frame_count += 1
 		# save_path = os.path.join(output_dir, f"{frame_count}.png")
 		# plt.savefig(save_path, bbox_inches='tight', pad_inches=0)
+		print(time.time() - t)
 
 	# out.release()
 	print("Write video success")

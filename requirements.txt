@@ -1,0 +1,17 @@
+gym==0.23.1
+gymnasium==0.28.1
+h5py==3.11.0
+matplotlib==3.8.4
+numpy==1.23.5
+omni_isaac_lab==0.17.13
+omni_isaac_lab_assets==0.1.3
+omni_isaac_lab_tasks==0.7.6
+opencv_python==4.10.0.84
+opencv_python_headless==4.9.0.80
+PyYAML==6.0.1
+PyYAML==6.0.2
+scipy==1.14.1
+setuptools==69.5.1
+stable_baselines3==2.3.2
+torch==2.2.2+cu118
+tqdm==4.66.4
