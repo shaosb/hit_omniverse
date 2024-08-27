@@ -86,7 +86,7 @@ def main():
 		# eye, target = calculate_eye_and_target(pos, rot)
 		env.unwrapped.sim.set_camera_view(pos1, target)
 
-		print(keyboard.advance())
+		# print(keyboard.advance())
 		if int(keyboard.advance()[0]) == int(keyboard.advance()[1]) == int(keyboard.advance()[2]):
 			if int(keyboard.advance()[0]) == 1:
 				break

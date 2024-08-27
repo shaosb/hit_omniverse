@@ -30,7 +30,7 @@ class HITSceneCfg(InteractiveSceneCfg):
     Configuration for a HIT humanoid robot scene.
     """
 
-    # # ground plane
+    # ground plane
     terrain = TerrainImporterCfg(
         prim_path="/World/ground",
         terrain_type="plane",
@@ -41,71 +41,34 @@ class HITSceneCfg(InteractiveSceneCfg):
         debug_vis=False,
     )
     #
-    # lights
+    # # lights
     dome_light = AssetBaseCfg(
         prim_path="/World/Light",
         spawn=sim_utils.DomeLightCfg(intensity=3000.0, color=(0.75, 0.75, 0.75)),
     )
 
-    # cangku = AssetBaseCfg(
-    #     prim_path="/World/cangku",
-    #     spawn=sim_utils.UsdFileCfg(
-    #         usd_path="C:\\Users\\Administrator\\Desktop\\Collected_cangku3\\yuan_cangku3_reset.usd"
-    #     )
-    # )
-
-    # fire
-    # fire = AssetBaseCfg(
-    #     prim_path="/World/fire",
-    #     spawn=sim_utils.UsdFileCfg(
-    #         usd_path=os.path.join(HIT_SIM_ASSET_DIR, "Collected_fire", "fire.usd"),
-    #         visual_material_path="colormap",
-    #     ),
-    # )
-
-    # cangku = AssetBaseCfg(
-    #     prim_path="/World/cangku",
-    #     spawn=sim_utils.UsdFileCfg(
-    #         usd_path="C:\\Users\\Administrator\\Desktop\\Collected_cangku3_reset_final\\yuan_cangku3_reset.usd"
-    #     )
-    # )
-
-
     # HIT humanoid robot
     robot: ArticulationCfg = HIT_HUMANOID_CFG.replace(prim_path="{ENV_REGEX_NS}/robot")
 
-    # # Contact_sensor
-    # contact_sensor = ContactSensorCfg(
-    #     # prim_path="{ENV_REGEX_NS}/robot/.*_leg_link6",
-    #     # prim_path="{ENV_REGEX_NS}/robot/link_.*_foot",
-    #     prim_path="{ENV_REGEX_NS}/robot/.*_foot",
-    #     update_period=0.01,
-    #     history_length=15,
-    #     debug_vis=False,
-    #     force_threshold=1,
-    #     )
+    # Contact_sensor
+    contact_sensor = ContactSensorCfg(
+        # prim_path="{ENV_REGEX_NS}/robot/.*_leg_link6",
+        # prim_path="{ENV_REGEX_NS}/robot/link_.*_foot",
+        prim_path="{ENV_REGEX_NS}/robot/.*_foot",
+        update_period=0.0,
+        history_length=15,
+        debug_vis=False,
+        force_threshold=1,
+        )
 
-    # RGB_camera1，第一视角
-    RGB_camera1 = CameraCfg(
-        prim_path="{ENV_REGEX_NS}/robot/body/camera1",
+    # RGB Camera
+    RGB_camera = CameraCfg(
+        prim_path="{ENV_REGEX_NS}/robot/body/camera",
         update_period=0,
         data_types=["rgb"],
         width=640,
         height=480,
-        offset=CameraCfg.OffsetCfg(pos=(0.0, 0.5, 0.30), rot=(0, -0, -0.0349, 0.99939), convention="ros"),
-        spawn=sim_utils.PinholeCameraCfg(
-            focal_length=24.0, focus_distance=400.0, horizontal_aperture=20.955, clipping_range=(0.1, 1.0e5)
-        ),
-    )
-
-    # # RGB_camera2，第三视角
-    RGB_camera2 = CameraCfg(
-        prim_path="{ENV_REGEX_NS}/robot/body/camera2",
-        update_period=0,
-        data_types=["rgb"],
-        width=640,
-        height=480,
-        offset=CameraCfg.OffsetCfg(pos=(0.0, 0.2, -3.4), rot=(0, 0, -0.05234, 0.99863), convention="ros"),
+        offset=CameraCfg.OffsetCfg(pos=(0.0, 0.5, 0.30), rot=(0, 0, 0, 0), convention="ros"),
         spawn=sim_utils.PinholeCameraCfg(
             focal_length=24.0, focus_distance=400.0, horizontal_aperture=20.955, clipping_range=(0.1, 1.0e5)
         ),
@@ -119,13 +82,6 @@ class ActionCFg:
         joint_names=HIT_DOF_NAME,
         use_default_offset=False,
     )
-
-    # joint_force = mdp.JointEffortActionCfg(
-    #     asset_name="robot",
-    #     joint_names=HIT_DOF_NAME,
-    #     scale=100,
-    # )
-
 
 @configclass
 class ObservationsCfg:
@@ -198,35 +154,17 @@ class RewardsCfg:
     # imitate
     # Pencity
     alive = RewTerm(func=mdp.is_alive, weight=5)
-    terminating = RewTerm(func=mdp.is_terminated, weight=-5.0)
-    # Regularization
-    torques = RewTerm(func=mdp.torques, weight=-1e-5)
-    smooth = RewTerm(func=mdp.reward_action_smooth, weight=-0.002)
-    # joint_acc = RewTerm(func=mdp.joint_acc_l2, weight=-1e-7)
-    # R_t
-    r_p = RewTerm(func=mdp.joint_pos_distance, weight=0.65)
-    r_v = RewTerm(func=mdp.joint_vel_distance, weight=0.1)
-    #TODO by ssb 8.7
-    # r_e, r_c
 
-    # Task
-    # track = RewTerm(func=mdp.track_velocity, weight=0.5)
-    track_lin = RewTerm(func=mdp.track_lin, weight=1.1)
-    track_ang = RewTerm(func=mdp.track_ang, weight=1.2)
 
 
 
 @configclass
 class TerminationsCfg:
     # (1) Bogy height
-    body_height_below = DoneTerm(
-        func=mdp.root_height_below_minimum,
-        params={"minimum_height": 0.5}
-    )
-    body_height_over = DoneTerm(
-        func=mdp.root_height_over_maximum,
-        params={"maximum_height": 1.1}
-    )
+    # body_height_below = DoneTerm(
+    #     func=mdp.root_height_below_minimum,
+    #     params={"minimum_height": 0.5}
+    # )
 
     # (2) Timeout
     time_out = DoneTerm(func=mdp.time_out, time_out=True)
@@ -243,7 +181,7 @@ class CommandsCfg:
 
 
 @configclass
-class HITCameraRLEnvCfg(ManagerBasedRLEnvCfg):
+class HITRLSceneEnvCfg(ManagerBasedRLEnvCfg):
     sim: SimulationCfg = SimulationCfg(device=config["SIM"]["device"])
     scene: HITSceneCfg = HITSceneCfg(num_envs=config["SIM"]["num_envs"],
                                      env_spacing=config["SIM"]["env_spacing"]

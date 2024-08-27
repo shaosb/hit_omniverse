@@ -206,3 +206,40 @@ def calculate_eye_and_target(pos, quat, follow_distance=2.0, height_offset=1.0):
 
 	return eye, target
 
+def make_scene(env_cfg, scene_cfg:list):
+    from omni.isaac.lab.assets import AssetBaseCfg
+    import omni.isaac.lab.sim as sim_utils
+    from omni.isaac.lab.utils.math import quat_from_euler_xyz
+
+    from hit_omniverse import HIT_SIM_ASSET_DIR
+
+    import torch
+
+    for obj in scene_cfg:
+        assert type(obj) == dict
+        assert obj.get("usd_path") is not None and type(obj.get("usd_path")) == str
+        assert obj.get("pos") is not None and type(obj.get("pos")) == list and len(obj.get("pos")) == 3
+        assert obj.get("rot") is not None and type(obj.get("rot")) == float
+
+        usd_path = obj.get("usd_path")
+        usd_name = usd_path.split("\\")[-1].split(".")[0]
+        pos = obj.get("pos")
+        rot = obj.get("rot")
+
+        usd_cfg = AssetBaseCfg(
+            prim_path=f"/World/{usd_name}",
+            spawn=sim_utils.UsdFileCfg(
+                usd_path=os.path.join(HIT_SIM_ASSET_DIR, "scene", usd_path),
+            ),
+            init_state = AssetBaseCfg.InitialStateCfg(
+                pos=tuple(pos),
+                rot=quat_from_euler_xyz(roll=torch.tensor(0),
+                                        pitch=torch.tensor(0),
+                                        yaw=torch.tensor(rot),
+                                        ),
+            )
+        )
+
+        setattr(env_cfg.scene, usd_name, usd_cfg)
+
+    return env_cfg

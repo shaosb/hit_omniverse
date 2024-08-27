@@ -22,9 +22,7 @@ import yaml
 import os
 from dataclasses import MISSING
 
-# config = setup_config("robot_alldof_config.yaml")
-# config = setup_config("robot_hu_config.yaml")
-config = setup_config("robot_87_config.yaml")
+config = setup_config(os.environ.get("CONFIG"))
 
 @configclass
 class HITSceneCfg(InteractiveSceneCfg):
@@ -49,41 +47,10 @@ class HITSceneCfg(InteractiveSceneCfg):
         spawn=sim_utils.DomeLightCfg(intensity=3000.0, color=(0.75, 0.75, 0.75)),
     )
 
-    # simple_room = AssetBaseCfg(
-    #     prim_path="/World/simple_room",
-    #     spawn=sim_utils.UsdFileCfg(
-    #         usd_path=os.path.join(HIT_SIM_ASSET_DIR, "Office", "office.usd")
-    #     )
-    # )
-
-    # people = AssetBaseCfg(
-    #     prim_path="/World/peopls",
-    #     spawn=sim_utils.UsdFileCfg(
-    #         usd_path=os.path.join(HIT_SIM_ASSET_DIR, "original_male_adult_police_04", "male_adult_police_04.usd")
-    #     )
-    # )
-
     # cangku = AssetBaseCfg(
     #     prim_path="/World/cangku",
     #     spawn=sim_utils.UsdFileCfg(
     #         usd_path="C:\\Users\\Administrator\\Desktop\\Collected_cangku3_reset_final\\yuan_cangku3_reset.usd"
-    #     )
-    # )
-
-
-    # fire
-    # fire = AssetBaseCfg(
-    #     prim_path="/World/fire",
-    #     spawn=sim_utils.UsdFileCfg(
-    #         usd_path=os.path.join(HIT_SIM_ASSET_DIR, "Collected_fire", "fire.usd"),
-    #         visual_material_path="colormap",
-    #     ),
-    # )
-
-    # cangku = AssetBaseCfg(
-    #     prim_path="/World/cangku",
-    #     spawn=sim_utils.UsdFileCfg(
-    #         usd_path="C:\\Users\\Administrator\\Desktop\\Collected_cangku3\\cangku3_reset.usd"
     #     )
     # )
 
@@ -122,13 +89,6 @@ class ActionCFg:
         joint_names=HIT_DOF_NAME,
         use_default_offset=False,
     )
-
-    # joint_force = mdp.JointEffortActionCfg(
-    #     asset_name="robot",
-    #     joint_names=HIT_DOF_NAME,
-    #     scale=100,
-    # )
-
 
 @configclass
 class ObservationsCfg:
@@ -222,14 +182,10 @@ class RewardsCfg:
 @configclass
 class TerminationsCfg:
     # (1) Bogy height
-    # body_height_below = DoneTerm(
-    #     func=mdp.root_height_below_minimum,
-    #     params={"minimum_height": 0.5}
-    # )
-    # body_height_over = DoneTerm(
-    #     func=mdp.root_height_over_maximum,
-    #     params={"maximum_height": 1.1}
-    # )
+    body_height_below = DoneTerm(
+        func=mdp.root_height_below_minimum,
+        params={"minimum_height": 0.5}
+    )
 
     # (2) Timeout
     time_out = DoneTerm(func=mdp.time_out, time_out=True)
@@ -259,7 +215,7 @@ class HITRLEnvCfg(ManagerBasedRLEnvCfg):
     terminations: TerminationsCfg = TerminationsCfg()
     commands: CommandsCfg = CommandsCfg()
 
-    episode_length_s = 10000
+    episode_length_s = 10
 
     def __post_init__(self):
         self.decimation = 1
