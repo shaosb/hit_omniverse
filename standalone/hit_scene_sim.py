@@ -44,6 +44,7 @@ def main():
 	env_cfg.scene.env_spacing = args_cli.env_spacing
 	env_cfg.sim.device = args_cli.device
 
+	# TODO Add your scene_cfg here
 	scene_cfg = [
 				 {"usd_path": "original_male_adult_police_04\\male_adult_police_04.usd",
 				  "pos": [3, 4, 3],
