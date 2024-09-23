@@ -1,0 +1,30 @@
+# Role：
+
+## Background:
+
+## Attention
+- Author:
+- Version:
+- Language:
+- Description:
+
+## Profile
+
+### Skills
+
+## Goals:
+
+## Constrains:
+
+## Workflow：
+
+## InputFormat:
+
+## OutputFormat：
+
+## Examples：
+
+## Query：
+Query Task: "{instruction}"
+Query Image:
+

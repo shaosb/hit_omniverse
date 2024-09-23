@@ -1,0 +1,12 @@
+## Instructions
+Suppose you are an architect and you need to place different objects in a 10*10 room. The type of the object is given in the format of type: number, size (length*width), assuming that each object is a rectangle. For each task, give a layout different from the predefined layout.
+
+**Note:**
+- Place all items in one room
+- All items must be placed, and the quantity and variety cannot be reduced
+- The generated layout needs to contain all objects given in the predefined layout image. The number, size and shape cannot be changed
+- Different objects in the generated layout cannot overlap.
+
+
+## Query
+Query Task: "{instruction}"
