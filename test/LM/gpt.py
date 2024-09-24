@@ -86,5 +86,5 @@ class LargeModel():
         return gpt_answer
 
 if __name__ == '__main__':
-    gpt = LargeModel("prompt.txt")
-    print(gpt.talk_to_gpt("Tell me what is in this image", "./input_image.jpg"))
+    gpt = LargeModel("prompt_bak.txt")
+    print(gpt.talk_to_gpt("Bed:1,1,5,Chair:2,2,2,Table:10,1,1"))
