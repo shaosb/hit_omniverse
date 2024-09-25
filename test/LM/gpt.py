@@ -4,6 +4,7 @@ import requests
 from PIL import Image
 from io import BytesIO
 import config
+import cv2
 
 config = config.Config()
 API_key = config.api_key
@@ -15,13 +16,15 @@ class LargeModel():
         with open(prompt_path, 'r') as f:
             self.prompt = f.read()
 
-    def _encode_image(self, image_path):
-        with open(image_path, "rb") as image_file:
-            return base64.b64encode(image_file.read()).decode('utf-8')
+    def _encode_image(self, image):
+        _, buffer = cv2.imencode('.jpg', image)
+        return base64.b64encode(buffer).decode('utf-8')
 
-    def _build_messages_to_gpt(self, instruction, image):
+    def _build_messages_to_gpt(self, instruction, image_path):
         prompt = self.prompt.format(instruction=instruction)
-        if image is not None:
+        if image_path is not None:
+            image = cv2.imread(image_path)
+            image = cv2.resize(image, (640, 480))
             img_base64 = self._encode_image(image)
 
         if image is not None:
@@ -86,5 +89,5 @@ class LargeModel():
         return gpt_answer
 
 if __name__ == '__main__':
-    gpt = LargeModel("prompt_bak.txt")
-    print(gpt.talk_to_gpt("Bed:1,1,5,Chair:2,2,2,Table:10,1,1"))
+    gpt = LargeModel("prompt_segment.txt")
+    print(gpt.talk_to_gpt("Moving forward", "./house.jpg"))
