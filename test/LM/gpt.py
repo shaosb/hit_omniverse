@@ -25,6 +25,7 @@ class LargeModel():
         if image_path is not None:
             image = cv2.imread(image_path)
             image = cv2.resize(image, (640, 480))
+            cv2.imwrite("gpt_imput_image.jpg", image)
             img_base64 = self._encode_image(image)
 
         if image is not None:
@@ -90,4 +91,4 @@ class LargeModel():
 
 if __name__ == '__main__':
     gpt = LargeModel("prompt_segment.txt")
-    print(gpt.talk_to_gpt("Moving forward", "./house.jpg"))
+    print(gpt.talk_to_gpt("Moving forward", "./val/1.jpg"))
