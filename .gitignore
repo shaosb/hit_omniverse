@@ -5,3 +5,6 @@
 /hit_omniverse.egg-info
 /.idea
 /.idea
+/test/LM/val
+/test/LM/config.yaml
+*.pt
