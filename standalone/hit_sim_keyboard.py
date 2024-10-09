@@ -57,13 +57,17 @@ def main():
 	# # policy = torch.jit.load(file_bytes).to(env.device).eval()
 	#
 	obs, _ = env.reset()
-	keyboard = Se2Keyboard(v_x_sensitivity=1.8, v_y_sensitivity=2.2, omega_z_sensitivity=3) # 1.8,2.2,3
+	keyboard = Se2Keyboard(v_x_sensitivity=0.001, v_y_sensitivity=0.001, omega_z_sensitivity=0.01) # 1.8,2.2,3
 	keyboard.reset()
 	print(keyboard)
 	# print(env.observation_manager.observation)
 	count = 0
 
 	asset: Articulation = env.scene["robot"]
+
+	total_yaw = 0
+	total_x = 0
+	total_y = 0
 
 	while simulation_app.is_running():
 		count += 1
@@ -72,13 +76,18 @@ def main():
 		# 	obs, _ = env.reset()
 		# asset.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
 		# print(keyboard.advance())
-		# asset.write_root_velocity_to_sim(
-		# 	torch.tensor([[[keyboard.advance()[0], keyboard.advance()[1], 0, 0, 0, keyboard.advance()[-1]]]]))
+
 		pos = mdp.generated_commands(env, "dataset")["robot_world_xyz"]
 		bias = torch.tensor([[0, 0, 0.05]]).cuda()
-		pos = pos + bias
+		total_x += keyboard.advance()[0]
+		total_y += keyboard.advance()[1]
+		keyboard_pos = torch.tensor([[total_x, total_y, 0]]).cuda()
+		pos = pos + bias + keyboard_pos
 
 		rpy = mdp.generated_commands(env, "dataset")["robot_world_rpy"].cpu().numpy()
+		total_yaw += keyboard.advance()[-1]
+		keyboard_rpy = np.asarray([[0, 0, total_yaw]])
+		rpy = rpy + keyboard_rpy
 		rotation = R.from_euler('xyz', rpy, degrees=False)
 		rot = np.roll(rotation.as_quat(), 1)
 		rot = torch.tensor(rot).to(env_cfg.sim.device)
