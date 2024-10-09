@@ -68,7 +68,7 @@ def read_npz(file_path):
 	waist_pitch = np.zeros(length)
 	l_ankle_pitch = np.zeros(length)
 	r_ankle_pitch = np.zeros(length)
-	dof_pos_numpy = [npz["q_hip_adduction_r"], npz["q_hip_adduction_r"], npz["q_back_bkz"], npz["q_hip_rotation_l"],
+	dof_pos_numpy = [npz["q_hip_adduction_l"], npz["q_hip_adduction_r"], npz["q_back_bkz"], npz["q_hip_rotation_l"],
 					 npz["q_hip_rotation_r"],
 					 waist_pitch, npz["q_hip_flexion_l"], npz["q_hip_flexion_r"], npz["q_l_arm_shy"],
 					 npz["q_r_arm_shy"], npz["q_knee_angle_l"],
@@ -76,7 +76,7 @@ def read_npz(file_path):
 					 npz["q_ankle_angle_r"],
 					 npz["q_l_arm_shz"], npz["q_r_arm_shz"], l_ankle_pitch, r_ankle_pitch,  npz["q_left_elbow"],
 					 npz["q_right_elbow"]]
-	dof_vel_numpy = [npz["dq_hip_adduction_r"], npz["dq_hip_adduction_r"], npz["dq_back_bkz"], npz["dq_hip_rotation_l"],
+	dof_vel_numpy = [npz["dq_hip_adduction_l"], npz["dq_hip_adduction_r"], npz["dq_back_bkz"], npz["dq_hip_rotation_l"],
 					 npz["dq_hip_rotation_r"],
 					 waist_pitch, npz["dq_hip_flexion_l"], npz["dq_hip_flexion_r"], npz["dq_l_arm_shy"],
 					 npz["dq_r_arm_shy"], npz["dq_knee_angle_l"],
@@ -95,6 +95,66 @@ def read_npz(file_path):
 			}
 	return data
 
+def read_hit_npz(file_path):
+	npz = np.load(file_path)
+
+	length = len(npz["q_hip_rotation_l"])
+	mapping = {
+		'l_hip_roll': 'q_hip_rotation_l',
+		'r_hip_roll': 'q_hip_rotation_r',
+		'waist_yaw': 'q_back_bkz',
+		'l_hip_yaw': "q_hip_adduction_l",
+		'r_hip_yaw': "q_hip_adduction_r",
+		'waist_pitch': 'q_back_bky',
+		'l_hip_pitch': 'q_hip_flexion_l',
+		'r_hip_pitch': 'q_hip_flexion_r',
+		'left_arm_pitch': 'q_l_arm_shx',
+		'right_arm_pitch': 'q_r_arm_shx',
+		'l_knee': 'q_knee_angle_l',
+		'r_knee': 'q_knee_angle_r',
+		'left_arm_roll': 'q_l_arm_shy',
+		'right_arm_roll': 'q_r_arm_shy',
+		'l_ankle_pitch': 'q_ankle_angle_l',
+		'r_ankle_pitch': 'q_ankle_angle_r',
+		'left_arm_yaw': 'q_l_arm_shz',
+		'right_arm_yaw': 'q_r_arm_shz',
+		'l_ankle_roll': 'q_l_ankle_roll',
+		'r_ankle_roll': 'q_r_ankle_roll',
+		'left_arm_forearm_pitch': 'q_left_elbow',
+		'right_arm_forearm_pitch': 'q_right_elbow',
+		'x': 'q_pelvis_tx',
+		'y': 'q_pelvis_tz',
+		'z': 'q_pelvis_ty',
+		'roll': 'q_pelvis_list',
+		'pitch': 'q_pelvis_tilt',
+		'yaw': 'q_pelvis_rotation',
+	}
+
+	dof_pos_numpy = [
+		npz[mapping["l_hip_roll"]], npz[mapping["r_hip_roll"]], npz[mapping["waist_yaw"]], npz[mapping["l_hip_yaw"]],
+		npz[mapping["r_hip_yaw"]], npz[mapping["waist_pitch"]], npz[mapping["l_hip_pitch"]], npz[mapping["r_hip_pitch"]],
+		npz[mapping["left_arm_pitch"]], npz[mapping["right_arm_pitch"]], npz[mapping["l_knee"]],
+		npz[mapping["r_knee"]], npz[mapping["left_arm_roll"]], npz[mapping["right_arm_roll"]],
+		npz[mapping["l_ankle_pitch"]], npz[mapping["r_ankle_pitch"]], npz[mapping["left_arm_yaw"]],
+		npz[mapping["right_arm_yaw"]], npz[mapping["l_ankle_roll"]], npz[mapping["r_ankle_roll"]],
+		npz[mapping["left_arm_forearm_pitch"]], npz[mapping["right_arm_forearm_pitch"]]
+	]
+
+	robot_world_xyz = [npz[mapping["x"]], npz[mapping["y"]], npz[mapping["z"]]]
+	robot_world_rpy = [npz[mapping["roll"]], npz[mapping["pitch"]], npz[mapping["yaw"]]]
+
+	dof_pos = np.column_stack(dof_pos_numpy)
+	robot_world_xyz = np.column_stack(robot_world_xyz)
+	robot_world_rpy = np.column_stack(robot_world_rpy)
+	time = [i for i in range(length)]
+
+	data = {"time": time,
+			"dof_pos": dof_pos,
+			"robot_world_xyz": robot_world_xyz,
+			"robot_world_rpy": robot_world_rpy,
+			}
+	return data
+
 
 def read_txt(file_path):
 	pass
@@ -109,6 +169,8 @@ class BaseDataset(Dataset):
 			self.data = read_txt(self.file)
 		elif self.file.endswith("npz"):
 			self.data = read_npz(self.file)
+		elif self.file.endswith("hit"):
+			self.data = read_hit_npz(self.file)
 
 	def __getitem__(self, index):
 		item = {}

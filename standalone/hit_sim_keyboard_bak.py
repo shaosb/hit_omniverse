@@ -32,7 +32,6 @@ import hit_omniverse.extension.mdp as mdp
 import torch
 import gymnasium as gym
 import numpy as np
-from scipy.spatial.transform import Rotation as R
 
 from omni.isaac.lab.assets import Articulation
 from omni.isaac.lab.utils.math import euler_xyz_from_quat
@@ -71,28 +70,22 @@ def main():
 		# if count % 500 == 0:
 		# 	obs, _ = env.reset()
 		# asset.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
-		# print(keyboard.advance())
-		# asset.write_root_velocity_to_sim(
-		# 	torch.tensor([[[keyboard.advance()[0], keyboard.advance()[1], 0, 0, 0, keyboard.advance()[-1]]]]))
-		pos = mdp.generated_commands(env, "dataset")["robot_world_xyz"]
-		bias = torch.tensor([[0, 0, 0.05]]).cuda()
-		pos = pos + bias
+		print(keyboard.advance())
+		asset.write_root_velocity_to_sim(
+			torch.tensor([[[keyboard.advance()[0], keyboard.advance()[1], 0, 0, 0, keyboard.advance()[-1]]]]))
 
-		rpy = mdp.generated_commands(env, "dataset")["robot_world_rpy"].cpu().numpy()
-		rotation = R.from_euler('xyz', rpy, degrees=False)
-		rot = np.roll(rotation.as_quat(), 1)
-		rot = torch.tensor(rot).to(env_cfg.sim.device)
-
-		pose = torch.cat((pos, rot), dim=1)
-		print(pose)
-		asset.write_root_pose_to_sim(pose)
 		action = mdp.generated_commands(env, "dataset")["dof_pos"]
 
-		# pos = asset.data.root_pos_w.cpu().numpy()[0]
-		# pos = [pos[0] - 2.1, pos[1] + 0.5, pos[2] + 0.5]
-		# rot = asset.data.root_quat_w.cpu().numpy()[0]
-		# eye, target = calculate_eye_and_target(pos, rot)
-		# env.unwrapped.sim.set_camera_view(eye, target)
+		# eye = asset.data.root_pos_w.cpu().numpy()[0]
+		# eye = [eye[0] - 2, eye[1], eye[2] + 2]
+		# target = asset.data.root_quat_w
+		# target = euler_xyz_from_quat(target)
+		# target = [target[0].item() + eye[0], target[1].item() + eye[1], target[2].item() + eye[2]]
+		pos = asset.data.root_pos_w.cpu().numpy()[0]
+		pos = [pos[0] - 2.1, pos[1] + 0.5, pos[2] + 0.5]
+		rot = asset.data.root_quat_w.cpu().numpy()[0]
+		eye, target = calculate_eye_and_target(pos, rot)
+		env.unwrapped.sim.set_camera_view(eye, target)
 
 		# print("action:",action)
 		# if count >= 100:

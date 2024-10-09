@@ -109,7 +109,7 @@ class ObservationsCfg:
         # left_contact = ObsTerm(func=mdp.get_contact_sensor_data, params={"bodies": config["END_EFFECTOR_NAME"]["right_foot"]})
         # contact_mask = ObsTerm(func=mdp.get_gait_phase)
         dataset_pos = ObsTerm(func=mdp.dataset_dof_pos)
-        dataset_vel = ObsTerm(func=mdp.dataset_dof_vel)
+        # dataset_vel = ObsTerm(func=mdp.dataset_dof_vel)
 
 
     policy: ObsCfg = ObsCfg()
@@ -160,35 +160,37 @@ class RewardsCfg:
 
     # imitate
     # Pencity
+    # alive = RewTerm(func=mdp.is_alive, weight=5)
+    # terminating = RewTerm(func=mdp.is_terminated, weight=-5.0)
+    # # Regularization
+    # torques = RewTerm(func=mdp.torques, weight=-1e-5)
+    # smooth = RewTerm(func=mdp.reward_action_smooth, weight=-0.002)
+    # # joint_acc = RewTerm(func=mdp.joint_acc_l2, weight=-1e-7)
+    # # R_t
+    # r_p = RewTerm(func=mdp.joint_pos_distance, weight=0.65)
+    # r_v = RewTerm(func=mdp.joint_vel_distance, weight=0.1)
+    # #TODO by ssb 8.7
+    # # r_e, r_c
+    #
+    # # Task
+    # # track = RewTerm(func=mdp.track_velocity, weight=0.5)
+    # track_lin = RewTerm(func=mdp.track_lin, weight=1.1)
+    # track_ang = RewTerm(func=mdp.track_ang, weight=1.2)
     alive = RewTerm(func=mdp.is_alive, weight=5)
-    terminating = RewTerm(func=mdp.is_terminated, weight=-5.0)
-    # Regularization
-    torques = RewTerm(func=mdp.torques, weight=-1e-5)
-    smooth = RewTerm(func=mdp.reward_action_smooth, weight=-0.002)
-    # joint_acc = RewTerm(func=mdp.joint_acc_l2, weight=-1e-7)
-    # R_t
-    r_p = RewTerm(func=mdp.joint_pos_distance, weight=0.65)
-    r_v = RewTerm(func=mdp.joint_vel_distance, weight=0.1)
-    #TODO by ssb 8.7
-    # r_e, r_c
-
-    # Task
-    # track = RewTerm(func=mdp.track_velocity, weight=0.5)
-    track_lin = RewTerm(func=mdp.track_lin, weight=1.1)
-    track_ang = RewTerm(func=mdp.track_ang, weight=1.2)
 
 
 
 @configclass
 class TerminationsCfg:
-    # (1) Bogy height
-    body_height_below = DoneTerm(
-        func=mdp.root_height_below_minimum,
-        params={"minimum_height": 0.5}
-    )
-
-    # (2) Timeout
-    time_out = DoneTerm(func=mdp.time_out, time_out=True)
+    # # (1) Bogy height
+    # body_height_below = DoneTerm(
+    #     func=mdp.root_height_below_minimum,
+    #     params={"minimum_height": 0.5}
+    # )
+    #
+    # # (2) Timeout
+    # time_out = DoneTerm(func=mdp.time_out, time_out=True)
+    pass
 
 
 @configclass

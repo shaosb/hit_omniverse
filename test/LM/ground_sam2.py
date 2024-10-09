@@ -38,8 +38,9 @@ class GroundingDINO_SAM:
         self.grounding_model = AutoModelForZeroShotObjectDetection.from_pretrained(self.GROUNDING_MODEL).to(self.DEVICE)
 
     
-    def get_grounding_dino_boxes(self, image_path, text):
-        image = Image.open(image_path)
+    def get_grounding_dino_boxes(self, image, text):
+        image: Image
+
         inputs = self.processor(images=image, text=text, return_tensors="pt").to(self.DEVICE)
         
         with torch.no_grad():
@@ -55,8 +56,9 @@ class GroundingDINO_SAM:
 
         return results
     
-    def get_sam2_masks(self, image_path, boxes):
-        image = Image.open(image_path)
+    def get_sam2_masks(self, image, boxes):
+        image: Image
+
         self.SAM2_predictor.set_image(np.array(image.convert("RGB")))
 
         masks, scores, logits = self.SAM2_predictor.predict(
@@ -70,15 +72,25 @@ class GroundingDINO_SAM:
 
         return masks, scores, logits
 
-    def get_finesegment_feature_field(self, image_path, text, visualize=True, save_path="default"):
-        prediction = self.get_grounding_dino_boxes(image_path, text)
-        boxes = prediction[0]["boxes"].cpu().numpy()
-        masks, _, _ = self.get_sam2_masks(image_path, boxes)
+    def get_finesegment_feature_field(self, image, text, visualize=True, save_path="default"):
+        image: Image
 
-        self.save_visualization(image_path, masks, prediction, visualize, save_path)
+        try:
+            prediction = self.get_grounding_dino_boxes(image, text)
+            boxes = prediction[0]["boxes"].cpu().numpy()
+            masks, _, _ = self.get_sam2_masks(image, boxes)
 
-    def save_visualization(self, image_path, masks, prediction, visualize, save_path):
-        img = cv2.imread(image_path)
+            if visualize is True or save_path is not None:
+                self.save_visualization(image, masks, prediction, visualize, save_path)
+
+        except Exception as e:
+            print(f"Error: {e}")
+            return None
+
+    def save_visualization(self, image, masks, prediction, visualize, save_path):
+        image: Image
+
+        image = np.array(image)
         input_boxes = prediction[0]["boxes"].cpu().numpy()
         confidences = prediction[0]["scores"].cpu().numpy().tolist()
         class_names = prediction[0]["labels"]
@@ -97,7 +109,7 @@ class GroundingDINO_SAM:
         )
 
         box_annotator = sv.BoxAnnotator(color=ColorPalette.from_hex(CUSTOM_COLOR_MAP))
-        annotated_frame = box_annotator.annotate(scene=img.copy(), detections=detections)
+        annotated_frame = box_annotator.annotate(scene=image.copy(), detections=detections)
 
         label_annotator = sv.LabelAnnotator(color=ColorPalette.from_hex(CUSTOM_COLOR_MAP))
         annotated_frame = label_annotator.annotate(scene=annotated_frame, detections=detections, labels=labels)
@@ -114,9 +126,11 @@ class GroundingDINO_SAM:
             cv2.imshow("GroundingDINO", annotated_frame)
             cv2.waitKey(0)
             cv2.destroyAllWindows()
+        
 
 if __name__ == "__main__":
     image_path = "gpt_input_image.jpg"
     text = "floor. people. obstacle."
+    image = Image.fromarray(cv2.imread(image_path))
     Splitter = GroundingDINO_SAM()
-    Splitter.get_finesegment_feature_field(image_path, text, visualize=True)
+    Splitter.get_finesegment_feature_field(image, text, visualize=True)
