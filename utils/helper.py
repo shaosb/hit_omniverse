@@ -243,3 +243,28 @@ def make_scene(env_cfg, scene_cfg:list):
         setattr(env_cfg.scene, usd_name, usd_cfg)
 
     return env_cfg
+
+def rotation_matrin(roll, pitch, yaw):
+    Rx = np.array([[1, 0, 0],
+                   [0, np.cos(roll), -np.sin(roll)],
+                   [0, np.sin(roll), np.cos(roll)]])
+    
+    Ry = np.array([[np.cos(pitch), 0, np.sin(pitch)],
+                   [0, 1, 0],
+                   [-np.sin(pitch), 0, np.cos(pitch)]])
+    
+    Rz = np.array([[np.cos(yaw), -np.sin(yaw), 0],
+                   [np.sin(yaw), np.cos(yaw), 0],
+                   [0, 0, 1]])
+    
+    rotation_matrix = np.dot(Rz, np.dot(Ry, Rx))
+    
+    return rotation_matrix
+
+
+def yaw_rotation_matrix(yaw):
+    return np.array([
+        [np.cos(yaw), -np.sin(yaw), 0],
+        [np.sin(yaw), np.cos(yaw), 0],
+        [0, 0, 1]
+    ])

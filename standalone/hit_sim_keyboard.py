@@ -28,6 +28,7 @@ from hit_omniverse.utils.hit_keyboard import Se2Keyboard
 from hit_omniverse.standalone.get_action_dataset import get_action
 from hit_omniverse.algo.vec_env import add_env_variable, add_env_method
 import hit_omniverse.extension.mdp as mdp
+from hit_omniverse.utils.helper import setup_config, rotation_matrin, yaw_rotation_matrix
 
 import torch
 import gymnasium as gym
@@ -37,7 +38,7 @@ from scipy.spatial.transform import Rotation as R
 from omni.isaac.lab.assets import Articulation
 from omni.isaac.lab.utils.math import euler_xyz_from_quat
 
-dataset_paths = [os.path.join(HIT_SIM_DATASET_DIR, "CMU_007_03.hdf5")]
+config = setup_config(os.environ["CONFIG"])
 
 def main():
 	env_cfg = HITRLEnvCfg()
@@ -57,7 +58,9 @@ def main():
 	# # policy = torch.jit.load(file_bytes).to(env.device).eval()
 	#
 	obs, _ = env.reset()
-	keyboard = Se2Keyboard(v_x_sensitivity=0.001, v_y_sensitivity=0.001, omega_z_sensitivity=0.01) # 1.8,2.2,3
+
+	# keyboard = Se2Keyboard(v_x_sensitivity=0.001, v_y_sensitivity=0.001, omega_z_sensitivity=0.01) # 1.8,2.2,3
+	keyboard = Se2Keyboard(v_x_sensitivity=0.001, v_y_sensitivity=0.001, omega_z_sensitivity=0.004)
 	keyboard.reset()
 	print(keyboard)
 	# print(env.observation_manager.observation)
@@ -65,6 +68,20 @@ def main():
 
 	asset: Articulation = env.scene["robot"]
 
+	gait_mapping = {
+        config["GAIT"]["30-run_HIT"]: "dataset",
+        config["GAIT"]["slope_lone"]: "slope_lone",
+        config["GAIT"]["squat_walk"]: "squat_walk",
+        config["GAIT"]["stair_full"]: "stair_full",
+        config["GAIT"]["hit_save_people"]: "hit_save_people"
+    }
+	init_dataset = "30-run_HIT"
+	dataset = gait_mapping[config["GAIT"][init_dataset]]
+	pos_init = asset.data.root_pos_w.to(torch.float64)
+	pos_init = pos_init.cpu().numpy()
+	pos_init[-1][-1] = 0
+	pos_init = torch.tensor(pos_init).to(env_cfg.sim.device)
+	rpy = pos = None
 	total_yaw = 0
 	total_x = 0
 	total_y = 0
@@ -76,16 +93,29 @@ def main():
 		# 	obs, _ = env.reset()
 		# asset.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
 		# print(keyboard.advance())
+		if int(keyboard.advance()[-1]) != 0:
+			dataset = gait_mapping[int(keyboard.advance()[-1])]
+			env.command_manager.get_term(dataset).reset([0])
+			pos = pos.cpu().numpy()
+			pos[-1][-1] = 0
+			pos_init = torch.tensor(pos).to(env_cfg.sim.device)
+			print(f"Changing gait to {dataset}")
 
-		pos = mdp.generated_commands(env, "dataset")["robot_world_xyz"]
-		bias = torch.tensor([[0, 0, 0.05]]).cuda()
+		pos = mdp.generated_commands(env, dataset)["robot_world_xyz"]
+		bias = torch.tensor([[0, 0, 0.03]]).cuda()
 		total_x += keyboard.advance()[0]
 		total_y += keyboard.advance()[1]
 		keyboard_pos = torch.tensor([[total_x, total_y, 0]]).cuda()
-		pos = pos + bias + keyboard_pos
+		pos = pos + bias + keyboard_pos + pos_init
+		# if rpy is not None:
+			# T = rotation_matrin(rpy.tolist()[0][0], rpy.tolist()[0][1], rpy.tolist()[0][2])
+		T = yaw_rotation_matrix(total_yaw)
+		temp = pos.cpu().numpy()[0]
+		temp = np.dot(T, temp)
+		pos = torch.tensor([temp]).to(env_cfg.sim.device)
 
-		rpy = mdp.generated_commands(env, "dataset")["robot_world_rpy"].cpu().numpy()
-		total_yaw += keyboard.advance()[-1]
+		rpy = mdp.generated_commands(env, dataset)["robot_world_rpy"].cpu().numpy()
+		total_yaw += keyboard.advance()[2]
 		keyboard_rpy = np.asarray([[0, 0, total_yaw]])
 		rpy = rpy + keyboard_rpy
 		rotation = R.from_euler('xyz', rpy, degrees=False)
@@ -93,9 +123,8 @@ def main():
 		rot = torch.tensor(rot).to(env_cfg.sim.device)
 
 		pose = torch.cat((pos, rot), dim=1)
-		print(pose)
 		asset.write_root_pose_to_sim(pose)
-		action = mdp.generated_commands(env, "dataset")["dof_pos"]
+		action = mdp.generated_commands(env, dataset)["dof_pos"]
 
 		# pos = asset.data.root_pos_w.cpu().numpy()[0]
 		# pos = [pos[0] - 2.1, pos[1] + 0.5, pos[2] + 0.5]

@@ -2,7 +2,6 @@
 DatasetCfg command
 created by ssb 24.7.22
 """
-from dataclasses import MISSING
 import math
 
 from omni.isaac.lab.managers import CommandTermCfg
@@ -16,11 +15,51 @@ class DatasetCommandCfg(CommandTermCfg):
 	"""Configuration for the dataset command generator."""
 	class_type: type = DatasetCommand
 
-	# dataset_file: str = "walk.csv"
-	# dataset_file = "09-run_HIT.npz"
-	# command_name: list = ["dof_pos", "dof_vel"]
-	# command_dimension: int = [22, 22]
 	dataset_file = "30-run_HIT.hit"
+	command_name: list = ["dof_pos", "robot_world_xyz", "robot_world_rpy"]
+	command_dimension: int = [22, 3, 3]
+
+	resampling_time_range: tuple[float, float] = (0.0, 0.001)
+
+@configclass
+class SlopeCommandCfg(CommandTermCfg):
+	"""Configuration for the dataset command generator."""
+	class_type: type = DatasetCommand
+
+	dataset_file = "slope_lone.hit"
+	command_name: list = ["dof_pos", "robot_world_xyz", "robot_world_rpy"]
+	command_dimension: int = [22, 3, 3]
+
+	resampling_time_range: tuple[float, float] = (0.0, 0.001)
+
+@configclass
+class SquatCommandCfg(CommandTermCfg):
+	"""Configuration for the dataset command generator."""
+	class_type: type = DatasetCommand
+
+	dataset_file = "squat_walk.hit"
+	command_name: list = ["dof_pos", "robot_world_xyz", "robot_world_rpy"]
+	command_dimension: int = [22, 3, 3]
+
+	resampling_time_range: tuple[float, float] = (0.0, 0.001)
+
+@configclass
+class StairCommandCfg(CommandTermCfg):
+	"""Configuration for the dataset command generator."""
+	class_type: type = DatasetCommand
+
+	dataset_file = "stair_full.hit"
+	command_name: list = ["dof_pos", "robot_world_xyz", "robot_world_rpy"]
+	command_dimension: int = [22, 3, 3]
+
+	resampling_time_range: tuple[float, float] = (0.0, 0.001)
+
+@configclass
+class PeopleCommandCfg(CommandTermCfg):
+	"""Configuration for the dataset command generator."""
+	class_type: type = DatasetCommand
+
+	dataset_file = "hit_save_people.hit"
 	command_name: list = ["dof_pos", "robot_world_xyz", "robot_world_rpy"]
 	command_dimension: int = [22, 3, 3]
 

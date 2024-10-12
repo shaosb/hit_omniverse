@@ -23,6 +23,13 @@ END_EFFECTOR_NAME:
   left_foot: "l_foot"
   right_foot: "r_foot"
 
+GAIT:
+  30-run_HIT: 1
+  slope_lone: 2
+  squat_walk: 3
+  stair_full: 4
+  hit_save_people: 5
+
 SIM:
   num_envs: 1
   env_spacing: 1
@@ -142,7 +149,7 @@ DOF_ASSET:
    waist_pitch:
      effort_limit: 300
      velocity_limit: 20
-     stiffness: 200.0
+     stiffness: 350.0
      damping: 50.0
    left_arm_pitch:
      effort_limit: 300

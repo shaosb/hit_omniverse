@@ -197,6 +197,10 @@ class TerminationsCfg:
 class CommandsCfg:
     # dataset
     dataset = mdp.dataset_cfg.DatasetCommandCfg()
+    slope_lone = mdp.dataset_cfg.SlopeCommandCfg()
+    squat_walk = mdp.dataset_cfg.SquatCommandCfg()
+    stair_full = mdp.dataset_cfg.StairCommandCfg()
+    hit_save_people = mdp.dataset_cfg.PeopleCommandCfg()
     # # velocity
     # velocity = mdp.velocity_command()
     # Sine
@@ -217,7 +221,7 @@ class HITRLEnvCfg(ManagerBasedRLEnvCfg):
     terminations: TerminationsCfg = TerminationsCfg()
     commands: CommandsCfg = CommandsCfg()
 
-    episode_length_s = 10
+    episode_length_s = 1000
 
     def __post_init__(self):
         self.decimation = 1

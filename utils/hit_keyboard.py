@@ -8,12 +8,15 @@
 import numpy as np
 import weakref
 from collections.abc import Callable
-
+import os
 import carb
 import omni
 
 from omni.isaac.lab.devices.device_base import DeviceBase
 
+from hit_omniverse.utils.helper import setup_config
+
+config = setup_config(os.environ.get("CONFIG"))
 
 class Se2Keyboard(DeviceBase):
     r"""A keyboard controller for sending SE(2) commands as velocity commands.
@@ -63,7 +66,7 @@ class Se2Keyboard(DeviceBase):
         # bindings for keyboard to command
         self._create_key_bindings()
         # command buffers
-        self._base_command = np.zeros(3)
+        self._base_command = np.zeros(4)
         # dictionary for additional callbacks
         self._additional_callbacks = dict()
 
@@ -78,12 +81,17 @@ class Se2Keyboard(DeviceBase):
         msg += f"\tKeyboard name: {self._input.get_keyboard_name(self._keyboard)}\n"
         msg += "\t----------------------------------------------\n"
         msg += "\tReset all commands: L\n"
-        msg += "\tMove forward   (along x-axis): Numpad 8 / Arrow Up\n"
-        msg += "\tMove backward  (along x-axis): Numpad 2 / Arrow Down\n"
-        msg += "\tMove right     (along y-axis): Numpad 4 / Arrow Right\n"
-        msg += "\tMove left      (along y-axis): Numpad 6 / Arrow Left\n"
-        msg += "\tYaw positively (along z-axis): Numpad 7 / X\n"
-        msg += "\tYaw negatively (along z-axis): Numpad 9 / Y"
+        msg += "\tMove forward: Arrow Up\n"
+        msg += "\tMove backward: Arrow Down\n"
+        msg += "\tMove right: Arrow Right\n"
+        msg += "\tMove left: Arrow Left\n"
+        msg += "\tYaw positively (along +z-axis): Z\n"
+        msg += "\tYaw positively (along -z-axis): X\n"
+        msg += "\t30-run_HIT: g\n"
+        msg += "\tslope_lone: h\n"
+        msg += "\tsquat_walk: j\n"
+        msg += "\tstair_full: k\n"
+        msg += "\thit_save_people: i"
         return msg
 
     """
@@ -147,21 +155,25 @@ class Se2Keyboard(DeviceBase):
         """Creates default key binding."""
         self._INPUT_KEY_MAPPING = {
             # forward command 1.5
-            "NUMPAD_8": np.asarray([1., 0.0, 0.0]) * self.v_x_sensitivity,
-            "UP": np.asarray([1., 0.0, 0.0]) * self.v_x_sensitivity,
+            "UP": np.asarray([1., 0.0, 0.0, 0.0]) * self.v_x_sensitivity,
             # back command -1.5
-            "NUMPAD_2": np.asarray([-1., 0.0, 0.0]) * self.v_x_sensitivity,
-            "DOWN": np.asarray([-1., 0.0, 0.0]) * self.v_x_sensitivity,
+            "DOWN": np.asarray([-1., 0.0, 0.0, 0.0]) * self.v_x_sensitivity,
             # right command 1.5
-            "NUMPAD_4": np.asarray([0.0, 1., 0.0]) * self.v_y_sensitivity,
-            "LEFT": np.asarray([0.0, 1., 0.0]) * self.v_y_sensitivity,
+            "LEFT": np.asarray([0.0, 1., 0.0, 0.0]) * self.v_y_sensitivity,
             # left command -1.5
-            "NUMPAD_6": np.asarray([0.0, -1., 0.0]) * self.v_y_sensitivity,
-            "RIGHT": np.asarray([0.0, -1., 0.0]) * self.v_y_sensitivity,
+            "RIGHT": np.asarray([0.0, -1., 0.0, 0.0]) * self.v_y_sensitivity,
             # yaw command (positive) 1.0
-            "NUMPAD_7": np.asarray([0.0, 0.0, 1.]) * self.omega_z_sensitivity,
-            "X": np.asarray([0.0, 0.0, 1.]) * self.omega_z_sensitivity,
+            "X": np.asarray([0.0, 0.0, 1., 0.0]) * self.omega_z_sensitivity,
             # yaw command (negative) -1.0
-            "NUMPAD_9": np.asarray([1, 1, 1]),
-            "Z": np.asarray([0.0, 0.0, -1.0]) * self.omega_z_sensitivity,
+            "Z": np.asarray([0.0, 0.0, -1.0, 0.0]) * self.omega_z_sensitivity,
+            # 30-run_HIT
+            "G": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["30-run_HIT"]]),
+            # slope_lone
+            "H": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["slope_lone"]]),
+            # squat_walk
+            "J": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["squat_walk"]]),
+            # stair_full
+            "K": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["stair_full"]]),
+            # hit_save_people
+            "I": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["hit_save_people"]])
         }
