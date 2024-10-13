@@ -15,7 +15,7 @@ class DatasetCommandCfg(CommandTermCfg):
 	"""Configuration for the dataset command generator."""
 	class_type: type = DatasetCommand
 
-	dataset_file = "30-run_HIT.hit"
+	dataset_file = "60-run_HIT.hit"
 	command_name: list = ["dof_pos", "robot_world_xyz", "robot_world_rpy"]
 	command_dimension: int = [22, 3, 3]
 
@@ -65,6 +65,27 @@ class PeopleCommandCfg(CommandTermCfg):
 
 	resampling_time_range: tuple[float, float] = (0.0, 0.001)
 
+@configclass
+class DownCommandCfg(CommandTermCfg):
+	"""Configuration for the dataset command generator."""
+	class_type: type = DatasetCommand
+
+	dataset_file = "forsquat_down.hit"
+	command_name: list = ["dof_pos", "robot_world_xyz", "robot_world_rpy"]
+	command_dimension: int = [22, 3, 3]
+
+	resampling_time_range: tuple[float, float] = (0.0, 0.001)
+
+@configclass
+class UpCommandCfg(CommandTermCfg):
+	"""Configuration for the dataset command generator."""
+	class_type: type = DatasetCommand
+
+	dataset_file = "forsquat_up.hit"
+	command_name: list = ["dof_pos", "robot_world_xyz", "robot_world_rpy"]
+	command_dimension: int = [22, 3, 3]
+
+	resampling_time_range: tuple[float, float] = (0.0, 0.001)
 
 @configclass
 class SineCommandCfg(CommandTermCfg):

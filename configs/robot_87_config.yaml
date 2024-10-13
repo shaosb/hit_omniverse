@@ -29,6 +29,8 @@ GAIT:
   squat_walk: 3
   stair_full: 4
   hit_save_people: 5
+  forsquat_down: 6
+  forsquat_up: 7
 
 SIM:
   num_envs: 1
@@ -55,29 +57,29 @@ CYCLE_TIME:
 
 INIT_JOINT_POS:
   #--------------hit_elec_squat.usd---------------------
-  l_hip_roll: 0.0
-  l_hip_yaw: 0.0
-  l_hip_pitch: 0.0
-  l_knee: 0.0
-  l_ankle_pitch: 0.0
+  l_hip_roll: -0.12978186
+  l_hip_yaw: -0.010762034
+  l_hip_pitch: 0.219413995
+  l_knee: -0.378585505
+  l_ankle_pitch: -0.471593808
   l_ankle_roll: 0.0
-  r_hip_roll: 0.0
-  r_hip_yaw: 0.0
-  r_hip_pitch: 0.0
-  r_knee: 0.0
-  r_ankle_pitch: 0.0
-  r_ankle_roll: 0.0
+  r_hip_roll: -0.070190828
+  r_hip_yaw: 0.009044493
+  r_hip_pitch: 0.536524408
+  r_knee: 1.427066338
+  r_ankle_pitch: -0.099026858
+  r_ankle_roll: 0
   # --- all dof ---
-  waist_yaw: 0.0
-  waist_pitch: 0.0
-  left_arm_pitch: 0.0
-  left_arm_roll: 0
-  left_arm_yaw: 0.0
-  left_arm_forearm_pitch: 0.0
-  right_arm_pitch: 0.0
-  right_arm_roll: 0
-  right_arm_yaw: 0.0
-  right_arm_forearm_pitch: 0.0
+  waist_yaw: 0.006977122
+  waist_pitch: -0.422990454
+  left_arm_pitch: 0.259341818
+  left_arm_roll: 0.179169593
+  left_arm_yaw: -0.027985491
+  left_arm_forearm_pitch: -1.585207336
+  right_arm_pitch: 0.144874375
+  right_arm_roll: -0.561930215
+  right_arm_yaw: 0.001333859
+  right_arm_forearm_pitch: -1.203534075
 
 DOF_ASSET:
    l_hip_roll:

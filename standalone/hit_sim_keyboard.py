@@ -28,7 +28,7 @@ from hit_omniverse.utils.hit_keyboard import Se2Keyboard
 from hit_omniverse.standalone.get_action_dataset import get_action
 from hit_omniverse.algo.vec_env import add_env_variable, add_env_method
 import hit_omniverse.extension.mdp as mdp
-from hit_omniverse.utils.helper import setup_config, rotation_matrin, yaw_rotation_matrix
+from hit_omniverse.utils.helper import setup_config, rotation_matrin, yaw_rotation_matrix, interpolate_arrays
 
 import torch
 import gymnasium as gym
@@ -36,7 +36,8 @@ import numpy as np
 from scipy.spatial.transform import Rotation as R
 
 from omni.isaac.lab.assets import Articulation
-from omni.isaac.lab.utils.math import euler_xyz_from_quat
+# from omni.isaac.lab.utils.math import euler_xyz_from_quat
+import omni.isaac.lab.utils.math as math_utils
 
 config = setup_config(os.environ["CONFIG"])
 
@@ -64,30 +65,39 @@ def main():
 	keyboard.reset()
 	print(keyboard)
 	# print(env.observation_manager.observation)
-	count = 0
 
 	asset: Articulation = env.scene["robot"]
 
+	# dataset config
 	gait_mapping = {
         config["GAIT"]["30-run_HIT"]: "dataset",
         config["GAIT"]["slope_lone"]: "slope_lone",
         config["GAIT"]["squat_walk"]: "squat_walk",
         config["GAIT"]["stair_full"]: "stair_full",
-        config["GAIT"]["hit_save_people"]: "hit_save_people"
+        config["GAIT"]["hit_save_people"]: "hit_save_people",
+        config["GAIT"]["forsquat_down"]: "forsquat_down",
+        config["GAIT"]["forsquat_up"]: "forsquat_up",
     }
 	init_dataset = "30-run_HIT"
 	dataset = gait_mapping[config["GAIT"][init_dataset]]
+	# Initilization position
 	pos_init = asset.data.root_pos_w.to(torch.float64)
 	pos_init = pos_init.cpu().numpy()
 	pos_init[-1][-1] = 0
 	pos_init = torch.tensor(pos_init).to(env_cfg.sim.device)
+	# Accumulated pos and rpy
 	rpy = pos = None
 	total_yaw = 0
 	total_x = 0
 	total_y = 0
+	# Gait transformation
+	tarnsform_switch = True
+	transform = False
+	count = 0
+	len_transform = 0
+	interval = 0.01
 
 	while simulation_app.is_running():
-		count += 1
 		# env.render()
 		# if count % 500 == 0:
 		# 	obs, _ = env.reset()
@@ -100,9 +110,37 @@ def main():
 			pos[-1][-1] = 0
 			pos_init = torch.tensor(pos).to(env_cfg.sim.device)
 			print(f"Changing gait to {dataset}")
+			transform = True
+			if tarnsform_switch:
+				temp1 = asset.data.root_state_w[:,:3].cpu().numpy()
+				r, p, y = math_utils.euler_xyz_from_quat(asset.data.root_quat_w)
+				temp2 = np.asarray([[r.item(), p.item(), y.item()]])
+				temp2[temp2 > np.pi] -= 2 * np.pi
+				status_init = np.concatenate((temp1, temp2, asset.data.joint_pos.cpu().numpy()), axis=1)[0]
+				status_dataset = np.concatenate((mdp.generated_commands(env, dataset)["robot_world_xyz"].cpu().numpy(),
+												 mdp.generated_commands(env, dataset)["robot_world_rpy"].cpu().numpy(), mdp.generated_commands(env, dataset)["dof_pos"].cpu().numpy()), axis=1)[0]
+				t = status_dataset - status_init
+				interpolated_array = interpolate_arrays(status_init, status_dataset, interval)
+				len_transform = interpolated_array.shape[0]
+
+		if transform and tarnsform_switch:
+			if count < len_transform:
+				pos = torch.tensor(interpolated_array[count, :3]).to(env_cfg.sim.device)
+				rpy = interpolated_array[count, 3:6]
+				action = torch.tensor([interpolated_array[count, 6:]]).to(env_cfg.sim.device)
+				count += 1
+				print(count, len_transform)
+			else:
+				count = 0
+				transform = False
+				env.command_manager.get_term(dataset).reset([0])
+				print(f"tarnsform to {dataset} completed")
+		else:
+			action = mdp.generated_commands(env, dataset)["dof_pos"]
 
 		pos = mdp.generated_commands(env, dataset)["robot_world_xyz"]
-		bias = torch.tensor([[0, 0, 0.03]]).cuda()
+		rpy = mdp.generated_commands(env, dataset)["robot_world_rpy"].cpu().numpy()
+		bias = torch.tensor([[0, 0, 0]]).cuda()
 		total_x += keyboard.advance()[0]
 		total_y += keyboard.advance()[1]
 		keyboard_pos = torch.tensor([[total_x, total_y, 0]]).cuda()
@@ -114,7 +152,6 @@ def main():
 		temp = np.dot(T, temp)
 		pos = torch.tensor([temp]).to(env_cfg.sim.device)
 
-		rpy = mdp.generated_commands(env, dataset)["robot_world_rpy"].cpu().numpy()
 		total_yaw += keyboard.advance()[2]
 		keyboard_rpy = np.asarray([[0, 0, total_yaw]])
 		rpy = rpy + keyboard_rpy
@@ -123,9 +160,6 @@ def main():
 		rot = torch.tensor(rot).to(env_cfg.sim.device)
 
 		pose = torch.cat((pos, rot), dim=1)
-		asset.write_root_pose_to_sim(pose)
-		action = mdp.generated_commands(env, dataset)["dof_pos"]
-
 		# pos = asset.data.root_pos_w.cpu().numpy()[0]
 		# pos = [pos[0] - 2.1, pos[1] + 0.5, pos[2] + 0.5]
 		# rot = asset.data.root_quat_w.cpu().numpy()[0]
@@ -137,6 +171,7 @@ def main():
 		# 	action = torch.ones_like(env.action_manager.action)
 		# for batch in data_loader:
 		# 	action = batch[0]["walker/joints_pos"][:,DOF_INDEX]
+		asset.write_root_pose_to_sim(pose)
 		obs, rew, terminated, truncated, info = env.step(action)
 		# temp = mdp.joint_pos(env)[0].cpu().numpy()
 		# pass

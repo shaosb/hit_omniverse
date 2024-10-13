@@ -201,6 +201,8 @@ class CommandsCfg:
     squat_walk = mdp.dataset_cfg.SquatCommandCfg()
     stair_full = mdp.dataset_cfg.StairCommandCfg()
     hit_save_people = mdp.dataset_cfg.PeopleCommandCfg()
+    forsquat_down = mdp.dataset_cfg.DownCommandCfg()
+    forsquat_up = mdp.dataset_cfg.UpCommandCfg()
     # # velocity
     # velocity = mdp.velocity_command()
     # Sine
