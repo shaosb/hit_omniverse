@@ -15,7 +15,7 @@ class DatasetCommandCfg(CommandTermCfg):
 	"""Configuration for the dataset command generator."""
 	class_type: type = DatasetCommand
 
-	dataset_file = "60-run_HIT.hit"
+	dataset_file = "30-run_HIT.hit"
 	command_name: list = ["dof_pos", "robot_world_xyz", "robot_world_rpy"]
 	command_dimension: int = [22, 3, 3]
 

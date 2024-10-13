@@ -262,11 +262,12 @@ def rotation_matrin(roll, pitch, yaw):
     return rotation_matrix
 
 
-def yaw_rotation_matrix(yaw):
+def yaw_rotation_and_translation_matrix(yaw, x, y):
     return np.array([
-        [np.cos(yaw), -np.sin(yaw), 0],
-        [np.sin(yaw), np.cos(yaw), 0],
-        [0, 0, 1]
+        [np.cos(yaw), -np.sin(yaw), 0, x],
+        [np.sin(yaw), np.cos(yaw), 0, y],
+        [0, 0, 1, 0],
+        [0, 0, 0, 1]
     ])
 
 

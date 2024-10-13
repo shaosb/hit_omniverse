@@ -28,7 +28,7 @@ from hit_omniverse.utils.hit_keyboard import Se2Keyboard
 from hit_omniverse.standalone.get_action_dataset import get_action
 from hit_omniverse.algo.vec_env import add_env_variable, add_env_method
 import hit_omniverse.extension.mdp as mdp
-from hit_omniverse.utils.helper import setup_config, rotation_matrin, yaw_rotation_matrix, interpolate_arrays
+from hit_omniverse.utils.helper import setup_config, rotation_matrin, yaw_rotation_and_translation_matrix, interpolate_arrays
 
 import torch
 import gymnasium as gym
@@ -61,7 +61,7 @@ def main():
 	obs, _ = env.reset()
 
 	# keyboard = Se2Keyboard(v_x_sensitivity=0.001, v_y_sensitivity=0.001, omega_z_sensitivity=0.01) # 1.8,2.2,3
-	keyboard = Se2Keyboard(v_x_sensitivity=0.001, v_y_sensitivity=0.001, omega_z_sensitivity=0.004)
+	keyboard = Se2Keyboard(v_x_sensitivity=0.001, v_y_sensitivity=0.001, omega_z_sensitivity=0.003)
 	keyboard.reset()
 	print(keyboard)
 	# print(env.observation_manager.observation)
@@ -83,6 +83,8 @@ def main():
 	# Initilization position
 	pos_init = asset.data.root_pos_w.to(torch.float64)
 	pos_init = pos_init.cpu().numpy()
+	x_init = pos_init[-1][0]
+	y_init = pos_init[-1][1]
 	pos_init[-1][-1] = 0
 	pos_init = torch.tensor(pos_init).to(env_cfg.sim.device)
 	# Accumulated pos and rpy
@@ -147,9 +149,11 @@ def main():
 		pos = pos + bias + keyboard_pos + pos_init
 		# if rpy is not None:
 			# T = rotation_matrin(rpy.tolist()[0][0], rpy.tolist()[0][1], rpy.tolist()[0][2])
-		T = yaw_rotation_matrix(total_yaw)
+		T = yaw_rotation_and_translation_matrix(total_yaw, x_init, y_init)
 		temp = pos.cpu().numpy()[0]
+		temp = np.append(temp, 1)
 		temp = np.dot(T, temp)
+		temp = temp[:3]
 		pos = torch.tensor([temp]).to(env_cfg.sim.device)
 
 		total_yaw += keyboard.advance()[2]
