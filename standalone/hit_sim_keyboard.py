@@ -61,7 +61,7 @@ def main():
 	obs, _ = env.reset()
 
 	# keyboard = Se2Keyboard(v_x_sensitivity=0.001, v_y_sensitivity=0.001, omega_z_sensitivity=0.01) # 1.8,2.2,3
-	keyboard = Se2Keyboard(v_x_sensitivity=0.001, v_y_sensitivity=0.001, omega_z_sensitivity=0.003)
+	keyboard = Se2Keyboard(v_x_sensitivity=0.01, v_y_sensitivity=0.01, omega_z_sensitivity=0.001)
 	keyboard.reset()
 	print(keyboard)
 	# print(env.observation_manager.observation)
@@ -83,8 +83,6 @@ def main():
 	# Initilization position
 	pos_init = asset.data.root_pos_w.to(torch.float64)
 	pos_init = pos_init.cpu().numpy()
-	x_init = pos_init[-1][0]
-	y_init = pos_init[-1][1]
 	pos_init[-1][-1] = 0
 	pos_init = torch.tensor(pos_init).to(env_cfg.sim.device)
 	# Accumulated pos and rpy
@@ -92,6 +90,7 @@ def main():
 	total_yaw = 0
 	total_x = 0
 	total_y = 0
+	tunning_ratio = 8
 	# Gait transformation
 	tarnsform_switch = True
 	transform = False
@@ -149,7 +148,8 @@ def main():
 		pos = pos + bias + keyboard_pos + pos_init
 		# if rpy is not None:
 			# T = rotation_matrin(rpy.tolist()[0][0], rpy.tolist()[0][1], rpy.tolist()[0][2])
-		T = yaw_rotation_and_translation_matrix(total_yaw, x_init, y_init)
+		# T = yaw_rotation_and_translation_matrix(total_yaw, x_init, y_init)
+		T = yaw_rotation_and_translation_matrix(total_yaw, 0, 0)
 		temp = pos.cpu().numpy()[0]
 		temp = np.append(temp, 1)
 		temp = np.dot(T, temp)
@@ -157,7 +157,7 @@ def main():
 		pos = torch.tensor([temp]).to(env_cfg.sim.device)
 
 		total_yaw += keyboard.advance()[2]
-		keyboard_rpy = np.asarray([[0, 0, total_yaw]])
+		keyboard_rpy = np.asarray([[0, 0, total_yaw * tunning_ratio]])
 		rpy = rpy + keyboard_rpy
 		rotation = R.from_euler('xyz', rpy, degrees=False)
 		rot = np.roll(rotation.as_quat(), 1)

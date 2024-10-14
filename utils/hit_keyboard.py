@@ -87,7 +87,7 @@ class Se2Keyboard(DeviceBase):
         msg += "\tMove left: Arrow Left\n"
         msg += "\tYaw positively (along +z-axis): Z\n"
         msg += "\tYaw positively (along -z-axis): X\n"
-        msg += "\t30-run_HIT: g\n"
+        msg += "\t60-run_HIT: m\n"
         msg += "\tslope_lone: h\n"
         msg += "\tsquat_walk: j\n"
         msg += "\tstair_full: k\n"
@@ -169,7 +169,7 @@ class Se2Keyboard(DeviceBase):
             # yaw command (negative) -1.0
             "Z": np.asarray([0.0, 0.0, -1.0, 0.0]) * self.omega_z_sensitivity,
             # 30-run_HIT
-            "G": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["30-run_HIT"]]),
+            "M": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["30-run_HIT"]]),
             # slope_lone
             "H": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["slope_lone"]]),
             # squat_walk

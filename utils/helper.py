@@ -262,16 +262,26 @@ def rotation_matrin(roll, pitch, yaw):
     return rotation_matrix
 
 
-def yaw_rotation_and_translation_matrix(yaw, x, y):
-    return np.array([
-        [np.cos(yaw), -np.sin(yaw), 0, x],
-        [np.sin(yaw), np.cos(yaw), 0, y],
-        [0, 0, 1, 0],
-        [0, 0, 0, 1]
-    ])
+# def yaw_rotation_and_translation_matrix(yaw, x, y):
+#     return np.array([
+#         [np.cos(yaw), -np.sin(yaw), 0, x],
+#         [np.sin(yaw), np.cos(yaw), 0, y],
+#         [0, 0, 1, 0],
+#         [0, 0, 0, 1]
+#     ])
 
 
 def interpolate_arrays(start, end, interval):
     distance = np.linalg.norm(end - start)
     num_steps = int(np.ceil(distance / interval)) + 1
     return np.linspace(start, end, num_steps, axis=0)
+
+def yaw_rotation_and_translation_matrix(yaw, x, y, offset_x=0.5, offset_y=0):
+    cos_yaw = np.cos(yaw)
+    sin_yaw = np.sin(yaw)
+    return np.array([
+        [cos_yaw, -sin_yaw, 0, x - offset_x * (1 - cos_yaw) + offset_y * sin_yaw],
+        [sin_yaw, cos_yaw, 0, y - offset_x * sin_yaw - offset_y * (1 - cos_yaw)],
+        [0, 0, 1, 0],
+        [0, 0, 0, 1]
+    ])

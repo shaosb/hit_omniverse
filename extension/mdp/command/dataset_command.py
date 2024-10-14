@@ -62,9 +62,11 @@ class DatasetCommand(CommandTerm):
 
             data_iter = self.data_iter_list[env_id]
             try:
-                batch = next(data_iter)
+                for i in range(10):
+                    batch = next(data_iter)
             except StopIteration:
-                self.data_iter = iter(self.dataloader)
+                data_iter = iter(self.dataloader)
+                self.data_iter_list[env_id] = data_iter
                 batch = next(data_iter)
 
             for key in self.command_name:
