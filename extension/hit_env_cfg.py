@@ -203,6 +203,7 @@ class CommandsCfg:
     hit_save_people = mdp.dataset_cfg.PeopleCommandCfg()
     forsquat_down = mdp.dataset_cfg.DownCommandCfg()
     forsquat_up = mdp.dataset_cfg.UpCommandCfg()
+    square_with_people = mdp.dataset_cfg.SquareWithPeopleCommandCfg()
     # # velocity
     # velocity = mdp.velocity_command()
     # Sine

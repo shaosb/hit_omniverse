@@ -2,7 +2,7 @@ USD_PATH:
   "HIT_force/elec_robot_forxml_color.usd"
 
 ROBOT_POS:
-  [5., 5., 0.88]
+  [-10., 30., 0.88]
 
 ROBOT_ROT:
   [1, 0., 0., 0.]
@@ -31,6 +31,7 @@ GAIT:
   hit_save_people: 5
   forsquat_down: 6
   forsquat_up: 7
+  squat_with_people: 8
 
 SIM:
   num_envs: 1

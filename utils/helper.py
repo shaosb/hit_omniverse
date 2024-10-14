@@ -276,7 +276,7 @@ def interpolate_arrays(start, end, interval):
     num_steps = int(np.ceil(distance / interval)) + 1
     return np.linspace(start, end, num_steps, axis=0)
 
-def yaw_rotation_and_translation_matrix(yaw, x, y, offset_x=0.5, offset_y=0):
+def yaw_rotation_and_translation_matrix(yaw, x, y, offset_x, offset_y=0):
     cos_yaw = np.cos(yaw)
     sin_yaw = np.sin(yaw)
     return np.array([

@@ -66,6 +66,16 @@ class PeopleCommandCfg(CommandTermCfg):
 	resampling_time_range: tuple[float, float] = (0.0, 0.001)
 
 @configclass
+class SquareWithPeopleCommandCfg(CommandTermCfg):
+	"""Configuration for the dataset command generator."""
+	class_type: type = DatasetCommand
+
+	dataset_file = "squat_walk_with_people.hit"
+	command_name: list = ["dof_pos", "robot_world_xyz", "robot_world_rpy"]
+	command_dimension: int = [22, 3, 3]
+
+	resampling_time_range: tuple[float, float] = (0.0, 0.001)
+@configclass
 class DownCommandCfg(CommandTermCfg):
 	"""Configuration for the dataset command generator."""
 	class_type: type = DatasetCommand
