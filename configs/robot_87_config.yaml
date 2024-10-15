@@ -1,8 +1,8 @@
 USD_PATH:
-  "HIT_force/elec_robot_forxml_color.usd"
+  "HIT_force\\Collected_fireman\\fireman.usd"
 
 ROBOT_POS:
-  [-10., 30., 0.88]
+  [0., 0., 0.88]
 
 ROBOT_ROT:
   [1, 0., 0., 0.]
@@ -58,13 +58,13 @@ CYCLE_TIME:
 
 INIT_JOINT_POS:
   #--------------hit_elec_squat.usd---------------------
-  l_hip_roll: -0.12978186
+  l_hip_roll: -0.0108
   l_hip_yaw: -0.010762034
   l_hip_pitch: 0.219413995
   l_knee: -0.378585505
-  l_ankle_pitch: -0.471593808
+  l_ankle_pitch: -0.171593808
   l_ankle_roll: 0.0
-  r_hip_roll: -0.070190828
+  r_hip_roll: 0.009
   r_hip_yaw: 0.009044493
   r_hip_pitch: 0.536524408
   r_knee: 1.427066338
@@ -72,7 +72,7 @@ INIT_JOINT_POS:
   r_ankle_roll: 0
   # --- all dof ---
   waist_yaw: 0.006977122
-  waist_pitch: -0.422990454
+  waist_pitch: -0.022990454
   left_arm_pitch: 0.259341818
   left_arm_roll: 0.179169593
   left_arm_yaw: -0.027985491
@@ -87,7 +87,7 @@ DOF_ASSET:
      effort_limit: 300.0
      velocity_limit: 20.0
      stiffness: 350.0
-     damping: 10.0
+     damping: 5.0
    l_hip_yaw:
      effort_limit: 300.0
      velocity_limit: 20.0
@@ -96,16 +96,16 @@ DOF_ASSET:
    l_hip_pitch:
      effort_limit: 300.0
      velocity_limit: 20.0
-     stiffness: 350
-     damping: 10.0
+     stiffness: 150
+     damping: 5.0
    l_knee:
      effort_limit: 300
      velocity_limit: 20
-     stiffness: 350
-     damping: 10.0
+     stiffness: 550
+     damping: 5.0
    l_ankle_pitch:
      effort_limit: 300
-     velocity_limit: 30
+     velocity_limit: 20
      stiffness: 350.0
      damping: 10.0
    l_ankle_roll:
@@ -116,28 +116,28 @@ DOF_ASSET:
    r_hip_roll:
      effort_limit: 300
      velocity_limit: 20
-     stiffness: 350.0
-     damping: 10.0
+     stiffness: 300.0
+     damping: 15.0
    r_hip_yaw:
      effort_limit: 300
      velocity_limit: 20
-     stiffness: 350.0
+     stiffness: 400.0
      damping: 10.0
    r_hip_pitch:
      effort_limit: 300
      velocity_limit: 20
-     stiffness: 350.0
-     damping: 10.0
+     stiffness: 150.0
+     damping: 5.0
    r_knee:
      effort_limit: 300
      velocity_limit: 20
-     stiffness: 350.0
-     damping: 10.0
+     stiffness: 550.0
+     damping: 5.0
    r_ankle_pitch:
      effort_limit: 300
      velocity_limit: 20
-     stiffness: 350.0
-     damping: 10.0
+     stiffness: 250.0
+     damping: 5.0
    r_ankle_roll:
      effort_limit: 300
      velocity_limit: 20
@@ -147,13 +147,13 @@ DOF_ASSET:
    waist_yaw:
      effort_limit: 300
      velocity_limit: 20
-     stiffness: 350.0
+     stiffness: 100.0
      damping: 10.0
    waist_pitch:
      effort_limit: 300
      velocity_limit: 20
-     stiffness: 350.0
-     damping: 50.0
+     stiffness: 500.0
+     damping: 10.0
    left_arm_pitch:
      effort_limit: 300
      velocity_limit: 20
@@ -161,7 +161,7 @@ DOF_ASSET:
      damping: 10.0
    left_arm_roll:
      effort_limit: 300
-     velocity_limit: 320
+     velocity_limit: 20
      stiffness: 350
      damping: 10.0
    left_arm_yaw:
@@ -172,8 +172,8 @@ DOF_ASSET:
    left_arm_forearm_pitch:
      effort_limit: 300
      velocity_limit: 20
-     stiffness: 350
-     damping: 10.0
+     stiffness: 400
+     damping: 20.0
    right_arm_pitch:
      effort_limit: 300
      velocity_limit: 20
@@ -192,8 +192,8 @@ DOF_ASSET:
    right_arm_forearm_pitch:
      effort_limit: 300
      velocity_limit: 20
-     stiffness: 350
-     damping: 10.0
+     stiffness: 400
+     damping: 20.0
 
 
 terrain:

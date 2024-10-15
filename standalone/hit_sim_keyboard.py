@@ -61,7 +61,7 @@ def main():
 	obs, _ = env.reset()
 
 	# keyboard = Se2Keyboard(v_x_sensitivity=0.001, v_y_sensitivity=0.001, omega_z_sensitivity=0.01) # 1.8,2.2,3
-	keyboard = Se2Keyboard(v_x_sensitivity=0.01, v_y_sensitivity=0.01, omega_z_sensitivity=0.01)
+	keyboard = Se2Keyboard(v_x_sensitivity=0.01, v_y_sensitivity=0.01, omega_z_sensitivity=0.001)
 	keyboard.reset()
 	print(keyboard)
 	# print(env.observation_manager.observation)
@@ -92,7 +92,7 @@ def main():
 	total_yaw = 0
 	total_x = 0
 	total_y = 0
-	offset_x = 0.01
+	offset_x = 0.00001
 	# Gait transformation
 	tarnsform_switch = True
 	transform = False
@@ -107,7 +107,7 @@ def main():
 		# 	obs, _ = env.reset()
 		# asset.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
 		# print(keyboard.advance())
-		if int(keyboard.advance()[-1]) != 0:
+		if int(keyboard.advance()[-1]) != 0 and transform == False:
 			rpy_target = mdp.generated_commands(env, dataset)["robot_world_rpy"].cpu().numpy()
 			xyz_target = mdp.generated_commands(env, dataset)["robot_world_xyz"].cpu().numpy()
 			dataset = gait_mapping[int(keyboard.advance()[-1])]

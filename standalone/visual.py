@@ -47,7 +47,7 @@ gait_mapping = {
     config["GAIT"]["forsquat_up"]: "forsquat_up",
     config["GAIT"]["squat_with_people"]: "square_with_people",
 }
-init_dataset = "30-run_HIT"
+init_dataset = "squat_walk"
 
 def startup_sim(queue:mp.Queue):
     env_cfg = HITRLEnvCfg()

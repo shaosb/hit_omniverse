@@ -30,29 +30,33 @@ class HITSceneCfg(InteractiveSceneCfg):
     Configuration for a HIT humanoid robot scene.
     """
 
-    # ground plane
-    terrain = TerrainImporterCfg(
-        prim_path="/World/ground",
-        terrain_type="plane",
-        collision_group=-1,
-        physics_material=sim_utils.RigidBodyMaterialCfg(static_friction=config["terrain"]["static_friction"],
-                                                        dynamic_friction=config["terrain"]["dynamic_friction"],
-                                                        restitution=config["terrain"]["restitution"]),
-        debug_vis=False,
-    )
-    #
-    # # lights
-    dome_light = AssetBaseCfg(
-        prim_path="/World/Light",
-        spawn=sim_utils.DomeLightCfg(intensity=3000.0, color=(0.75, 0.75, 0.75)),
-    )
-
-    # cangku = AssetBaseCfg(
-    #     prim_path="/World/cangku",
-    #     spawn=sim_utils.UsdFileCfg(
-    #         usd_path="C:\\Users\\Administrator\\Desktop\\Collected_cangku3_reset_final\\yuan_cangku3_reset.usd"
-    #     )
+    # # ground plane
+    # terrain = TerrainImporterCfg(
+    #     prim_path="/World/ground",
+    #     terrain_type="plane",
+    #     collision_group=-1,
+    #     physics_material=sim_utils.RigidBodyMaterialCfg(static_friction=config["terrain"]["static_friction"],
+    #                                                     dynamic_friction=config["terrain"]["dynamic_friction"],
+    #                                                     restitution=config["terrain"]["restitution"]),
+    #     debug_vis=False,
     # )
+    # #
+    # # # lights
+    # dome_light = AssetBaseCfg(
+    #     prim_path="/World/Light",
+    #     spawn=sim_utils.DomeLightCfg(intensity=3000.0, color=(0.75, 0.75, 0.75)),
+    # )
+
+    cangku = AssetBaseCfg(
+        prim_path="/World/cangku",
+        spawn=sim_utils.UsdFileCfg(
+            usd_path="G:\\Tianzp\\ShenHaoBei_scene\\ShenHaoBei_scene\\yuan_cangku3_reset.usd"
+        ),
+        init_state=AssetBaseCfg.InitialStateCfg(
+            pos=tuple((55., 10., -5)),
+            rot=tuple((0.70711,0.,0.,0.70711)),
+            )
+    )# (55., 10., -0.015)
 
     # HIT humanoid robot
     robot: ArticulationCfg = HIT_HUMANOID_CFG.replace(prim_path="{ENV_REGEX_NS}/robot")
