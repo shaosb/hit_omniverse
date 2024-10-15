@@ -30,33 +30,33 @@ class HITSceneCfg(InteractiveSceneCfg):
     Configuration for a HIT humanoid robot scene.
     """
 
-    # # ground plane
-    # terrain = TerrainImporterCfg(
-    #     prim_path="/World/ground",
-    #     terrain_type="plane",
-    #     collision_group=-1,
-    #     physics_material=sim_utils.RigidBodyMaterialCfg(static_friction=config["terrain"]["static_friction"],
-    #                                                     dynamic_friction=config["terrain"]["dynamic_friction"],
-    #                                                     restitution=config["terrain"]["restitution"]),
-    #     debug_vis=False,
-    # )
-    # #
-    # # # lights
-    # dome_light = AssetBaseCfg(
-    #     prim_path="/World/Light",
-    #     spawn=sim_utils.DomeLightCfg(intensity=3000.0, color=(0.75, 0.75, 0.75)),
-    # )
+    # ground plane
+    terrain = TerrainImporterCfg(
+        prim_path="/World/ground",
+        terrain_type="plane",
+        collision_group=-1,
+        physics_material=sim_utils.RigidBodyMaterialCfg(static_friction=config["terrain"]["static_friction"],
+                                                        dynamic_friction=config["terrain"]["dynamic_friction"],
+                                                        restitution=config["terrain"]["restitution"]),
+        debug_vis=False,
+    )
+    #
+    # # lights
+    dome_light = AssetBaseCfg(
+        prim_path="/World/Light",
+        spawn=sim_utils.DomeLightCfg(intensity=3000.0, color=(0.75, 0.75, 0.75)),
+    )
 
-    cangku = AssetBaseCfg(
-        prim_path="/World/cangku",
-        spawn=sim_utils.UsdFileCfg(
-            usd_path="G:\\Tianzp\\ShenHaoBei_scene\\ShenHaoBei_scene\\yuan_cangku3_reset.usd"
-        ),
-        init_state=AssetBaseCfg.InitialStateCfg(
-            pos=tuple((55., 10., -5)),
-            rot=tuple((0.70711,0.,0.,0.70711)),
-            )
-    )# (55., 10., -0.015)
+    # cangku = AssetBaseCfg(
+    #     prim_path="/World/cangku",
+    #     spawn=sim_utils.UsdFileCfg(
+    #         usd_path="G:\\Tianzp\\ShenHaoBei_scene\\ShenHaoBei_scene\\yuan_cangku3_reset.usd"
+    #     ),
+    #     init_state=AssetBaseCfg.InitialStateCfg(
+    #         pos=tuple((55., 10., -5)),
+    #         rot=tuple((0.70711,0.,0.,0.70711)),
+    #         )
+    # )# (55., 10., -0.015)
 
     # HIT humanoid robot
     robot: ArticulationCfg = HIT_HUMANOID_CFG.replace(prim_path="{ENV_REGEX_NS}/robot")
@@ -79,7 +79,19 @@ class HITSceneCfg(InteractiveSceneCfg):
         data_types=["rgb"],
         width=640,
         height=480,
-        offset=CameraCfg.OffsetCfg(pos=(0.0, 0.5, 0.30), rot=(0, 0, 0, 0), convention="ros"),
+        offset=CameraCfg.OffsetCfg(pos=(0.0, 0.5, 0.30), rot=(0, -0, -0.0349, 0.99939), convention="ros"),
+        spawn=sim_utils.PinholeCameraCfg(
+            focal_length=24.0, focus_distance=400.0, horizontal_aperture=20.955, clipping_range=(0.1, 1.0e5)
+        ),
+    )
+
+    RGB_camera2 = CameraCfg(
+        prim_path="{ENV_REGEX_NS}/robot/body/camera2",
+        update_period=0,
+        data_types=["rgb"],
+        width=640,
+        height=480,
+        offset=CameraCfg.OffsetCfg(pos=(0.0, 0.2, -3.4), rot=(0, 0, -0.05234, 0.99863), convention="ros"),
         spawn=sim_utils.PinholeCameraCfg(
             focal_length=24.0, focus_distance=400.0, horizontal_aperture=20.955, clipping_range=(0.1, 1.0e5)
         ),
@@ -207,7 +219,7 @@ class CommandsCfg:
     hit_save_people = mdp.dataset_cfg.PeopleCommandCfg()
     forsquat_down = mdp.dataset_cfg.DownCommandCfg()
     forsquat_up = mdp.dataset_cfg.UpCommandCfg()
-    square_with_people = mdp.dataset_cfg.SquareWithPeopleCommandCfg()
+    squat_with_people = mdp.dataset_cfg.SquatWithPeopleCommandCfg()
     # # velocity
     # velocity = mdp.velocity_command()
     # Sine

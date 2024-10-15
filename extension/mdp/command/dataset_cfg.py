@@ -66,7 +66,7 @@ class PeopleCommandCfg(CommandTermCfg):
 	resampling_time_range: tuple[float, float] = (0.0, 0.001)
 
 @configclass
-class SquareWithPeopleCommandCfg(CommandTermCfg):
+class SquatWithPeopleCommandCfg(CommandTermCfg):
 	"""Configuration for the dataset command generator."""
 	class_type: type = DatasetCommand
 

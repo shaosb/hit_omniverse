@@ -1,5 +1,6 @@
 import argparse
 import os
+import cv2
 
 parser = argparse.ArgumentParser(description="HIT humanoid robot exhibit in isaac sim")
 parser.add_argument("--num_envs", type=int, default=1, help="Number of robot to spawn")
@@ -79,11 +80,13 @@ def main():
 		config["GAIT"]["hit_save_people"]: "hit_save_people",
 		config["GAIT"]["forsquat_down"]: "forsquat_down",
 		config["GAIT"]["forsquat_up"]: "forsquat_up",
-		config["GAIT"]["squat_with_people"]: "square_with_people",
+		config["GAIT"]["squat_with_people"]: "squat_with_people",
     }
 
 	init_dataset = "30-run_HIT"
 	dataset = gait_mapping[config["GAIT"][init_dataset]]
+	# Save video
+	Save = True
 	# Initilization position
 	pos_init = asset.data.root_pos_w.to(torch.float64)
 	pos_init = pos_init.cpu().numpy()
@@ -103,6 +106,10 @@ def main():
 	interval = 0.01
 	# interval = 0.1
 
+	if Save:
+		fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+		out = cv2.VideoWriter('output_video.mp4', fourcc, 20.0, (640, 480))
+
 	while simulation_app.is_running():
 		# env.render()
 		# if count % 500 == 0:
@@ -111,6 +118,13 @@ def main():
 		# print(keyboard.advance())
 
 		if int(keyboard.advance()[-1]) != 0 and transform == False:
+			# save and quit
+			if int(keyboard.advance()[-1]) == config["GAIT"]["save_and_quit"]:
+				if Save:
+					out.release()
+					print("Write video success")
+				print("End simulation ")
+				simulation_app.close()
 
 			rpy_target = mdp.generated_commands(env, dataset)["robot_world_rpy"].cpu().numpy()
 			xyz_target = mdp.generated_commands(env, dataset)["robot_world_xyz"].cpu().numpy()
@@ -134,8 +148,7 @@ def main():
 				rpy = interpolated_array[count, 3:6]
 				action = torch.tensor([interpolated_array[count, 6:]]).to(env_cfg.sim.device)
 				count += 1
-				print(count, len_transform)
-				pass
+				# print(count, len_transform)
 			else:
 				count = 0
 				transform = False
@@ -143,13 +156,15 @@ def main():
 				temp1 = asset.data.root_state_w[:, :3].cpu().numpy()
 				temp1[-1][-1] = 0
 				pos_init = torch.tensor(temp1).to(env_cfg.sim.device)
+				action = mdp.generated_commands(env, dataset)["dof_pos"]
+				pos = mdp.generated_commands(env, dataset)["robot_world_xyz"]
+				rpy = mdp.generated_commands(env, dataset)["robot_world_rpy"].cpu().numpy()
 				print(f"tarnsform to {dataset} completed")
 		else:
 			action = mdp.generated_commands(env, dataset)["dof_pos"]
 			pos = mdp.generated_commands(env, dataset)["robot_world_xyz"]
 			rpy = mdp.generated_commands(env, dataset)["robot_world_rpy"].cpu().numpy()
 
-		print(pos_init, pos)
 		bias = torch.tensor([[0, 0, 0.02]]).cuda()
 		total_x += keyboard.advance()[0]
 		total_y += keyboard.advance()[1]
@@ -179,17 +194,16 @@ def main():
 		# eye, target = calculate_eye_and_target(pos, rot)
 		# env.unwrapped.sim.set_camera_view(eye, target)
 
-		# print("action:",action)
-		# if count >= 100:
-		# 	action = torch.ones_like(env.action_manager.action)
-		# for batch in data_loader:
-		# 	action = batch[0]["walker/joints_pos"][:,DOF_INDEX]
 		asset.write_root_pose_to_sim(pose)
 		obs, rew, terminated, truncated, info = env.step(action)
-		# temp = mdp.joint_pos(env)[0].cpu().numpy()
-		# pass
+
+		if Save:
+			tensor = env.scene["RGB_camera"].data.output["rgb"].cpu()
+			frame = tensor.numpy()[0]
+			frame_bgr = cv2.cvtColor(frame, cv2.COLOR_RGBA2BGR)
+
+			out.write(frame_bgr)
 
 
 if __name__ == '__main__':
 	main()
-	simulation_app.close()

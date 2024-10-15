@@ -94,7 +94,8 @@ class Se2Keyboard(DeviceBase):
         msg += "\thit_save_people: i\n"
         msg += "\tforsquat_down: v\n"
         msg += "\tsquat_with_people: n\n"
-        msg += "\tforsquat_up: b"
+        msg += "\tforsquat_up: b\n"
+        msg += "\tsave and quit: q"
         return msg
 
     """
@@ -185,4 +186,6 @@ class Se2Keyboard(DeviceBase):
             "B": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["forsquat_up"]]),
             # squat_with_people
             "N": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["squat_with_people"]]),
+            # save and quid
+            "Q": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["save_and_quit"]]),
         }

@@ -47,6 +47,7 @@ gait_mapping = {
     config["GAIT"]["forsquat_up"]: "forsquat_up",
     config["GAIT"]["squat_with_people"]: "square_with_people",
 }
+
 init_dataset = "squat_walk"
 
 def startup_sim(queue:mp.Queue):

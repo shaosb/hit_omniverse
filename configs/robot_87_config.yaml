@@ -1,5 +1,5 @@
 USD_PATH:
-  "HIT_force\\Collected_fireman\\fireman.usd"
+  "HIT_force/elec_robot_forxml_color.usd"
 
 ROBOT_POS:
   [0., 0., 0.88]
@@ -32,6 +32,7 @@ GAIT:
   forsquat_down: 6
   forsquat_up: 7
   squat_with_people: 8
+  save_and_quit: 9
 
 SIM:
   num_envs: 1
