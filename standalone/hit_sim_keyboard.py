@@ -169,7 +169,7 @@ def main():
 		bias = torch.tensor([[0, 0, 0.02]]).cuda()
 		total_x += keyboard.advance()[0]
 		total_y += keyboard.advance()[1]
-		total_z += keyboard.advance()[2]
+		total_z += keyboard.advance()[3]
 		keyboard_pos = torch.tensor([[total_x, total_y, total_z]]).cuda()
 		# pos = pos + bias + keyboard_pos + pos_init
 		pos = pos + bias
@@ -182,7 +182,7 @@ def main():
 		temp = temp[:3]
 		pos = torch.tensor([temp]).to(env_cfg.sim.device)
 
-		total_yaw += keyboard.advance()[3]
+		total_yaw += keyboard.advance()[2]
 		keyboard_rpy = np.asarray([[0, 0, total_yaw]])
 		rpy = rpy + keyboard_rpy
 		rotation = R.from_euler('xyz', rpy, degrees=False)
