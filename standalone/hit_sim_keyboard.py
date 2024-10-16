@@ -97,6 +97,7 @@ def main():
 	total_yaw = 0
 	total_x = 0
 	total_y = 0
+	total_z = 0
 	offset_x = 0.00001
 	# Gait transformation
 	tarnsform_switch = True
@@ -168,7 +169,8 @@ def main():
 		bias = torch.tensor([[0, 0, 0.02]]).cuda()
 		total_x += keyboard.advance()[0]
 		total_y += keyboard.advance()[1]
-		keyboard_pos = torch.tensor([[total_x, total_y, 0]]).cuda()
+		total_z += keyboard.advance()[2]
+		keyboard_pos = torch.tensor([[total_x, total_y, total_z]]).cuda()
 		# pos = pos + bias + keyboard_pos + pos_init
 		pos = pos + bias
 		x_bias = (keyboard_pos + pos_init).cpu().numpy()[0][0]
@@ -180,7 +182,7 @@ def main():
 		temp = temp[:3]
 		pos = torch.tensor([temp]).to(env_cfg.sim.device)
 
-		total_yaw += keyboard.advance()[2]
+		total_yaw += keyboard.advance()[3]
 		keyboard_rpy = np.asarray([[0, 0, total_yaw]])
 		rpy = rpy + keyboard_rpy
 		rotation = R.from_euler('xyz', rpy, degrees=False)

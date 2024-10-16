@@ -85,6 +85,8 @@ class Se2Keyboard(DeviceBase):
         msg += "\tMove backward: Arrow Down\n"
         msg += "\tMove right: Arrow Right\n"
         msg += "\tMove left: Arrow Left\n"
+        msg += "\tMove Up: 1\n"
+        msg += "\tMove Down: 2\n"
         msg += "\tYaw positively (along +z-axis): Z\n"
         msg += "\tYaw positively (along -z-axis): X\n"
         msg += "\t60-run_HIT: m\n"
@@ -95,7 +97,7 @@ class Se2Keyboard(DeviceBase):
         msg += "\tforsquat_down: v\n"
         msg += "\tsquat_with_people: n\n"
         msg += "\tforsquat_up: b\n"
-        msg += "\tsave and quit: q"
+        msg += "\tsave and quit: t"
         return msg
 
     """
@@ -158,34 +160,37 @@ class Se2Keyboard(DeviceBase):
     def _create_key_bindings(self):
         """Creates default key binding."""
         self._INPUT_KEY_MAPPING = {
+            #up and down
+            "1": np.asarray([0.0, 0.0, 0.0, 1.0, 0.0]) * self.v_x_sensitivity,
+            "2": np.asarray([0.0, 0.0, 0.0, -1.0, 0.0]) * self.v_x_sensitivity,
             # forward command 1.5
-            "UP": np.asarray([1., 0.0, 0.0, 0.0]) * self.v_x_sensitivity,
+            "UP": np.asarray([1., 0.0, 0.0, 0.0, 0.0]) * self.v_x_sensitivity,
             # back command -1.5
-            "DOWN": np.asarray([-1., 0.0, 0.0, 0.0]) * self.v_x_sensitivity,
+            "DOWN": np.asarray([-1., 0.0, 0.0, 0.0, 0.0]) * self.v_x_sensitivity,
             # right command 1.5
-            "LEFT": np.asarray([0.0, 1., 0.0, 0.0]) * self.v_y_sensitivity,
+            "LEFT": np.asarray([0.0, 1., 0.0, 0.0, 0.0]) * self.v_y_sensitivity,
             # left command -1.5
-            "RIGHT": np.asarray([0.0, -1., 0.0, 0.0]) * self.v_y_sensitivity,
+            "RIGHT": np.asarray([0.0, -1., 0.0, 0.0, 0.0]) * self.v_y_sensitivity,
             # yaw command (positive) 1.0
-            "X": np.asarray([0.0, 0.0, 1., 0.0]) * self.omega_z_sensitivity,
+            "X": np.asarray([0.0, 0.0, 1., 0.0, 0.0]) * self.omega_z_sensitivity,
             # yaw command (negative) -1.0
-            "Z": np.asarray([0.0, 0.0, -1.0, 0.0]) * self.omega_z_sensitivity,
+            "Z": np.asarray([0.0, 0.0, -1.0, 0.0, 0.0]) * self.omega_z_sensitivity,
             # 30-run_HIT
-            "M": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["30-run_HIT"]]),
+            "M": np.asarray([0.0, 0.0, 0.0, 0.0, config["GAIT"]["30-run_HIT"]]),
             # slope_lone
-            "H": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["slope_lone"]]),
+            "H": np.asarray([0.0, 0.0, 0.0, 0.0, config["GAIT"]["slope_lone"]]),
             # squat_walk
-            "J": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["squat_walk"]]),
+            "J": np.asarray([0.0, 0.0, 0.0, 0.0, config["GAIT"]["squat_walk"]]),
             # stair_full
-            "K": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["stair_full"]]),
+            "K": np.asarray([0.0, 0.0, 0.0, 0.0, config["GAIT"]["stair_full"]]),
             # hit_save_people
-            "I": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["hit_save_people"]]),
+            "I": np.asarray([0.0, 0.0, 0.0, 0.0, config["GAIT"]["hit_save_people"]]),
             # forsquat_down
-            "V": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["forsquat_down"]]),
+            "V": np.asarray([0.0, 0.0, 0.0, 0.0, config["GAIT"]["forsquat_down"]]),
             # forsquat_up
-            "B": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["forsquat_up"]]),
+            "B": np.asarray([0.0, 0.0, 0.0, 0.0, config["GAIT"]["forsquat_up"]]),
             # squat_with_people
-            "N": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["squat_with_people"]]),
+            "N": np.asarray([0.0, 0.0, 0.0, 0.0, config["GAIT"]["squat_with_people"]]),
             # save and quid
-            "Q": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["save_and_quit"]]),
+            "T": np.asarray([0.0, 0.0, 0.0, 0.0, config["GAIT"]["save_and_quit"]]),
         }
