@@ -285,3 +285,13 @@ def yaw_rotation_and_translation_matrix(yaw, x, y, offset_x, offset_y=0):
         [0, 0, 1, 0],
         [0, 0, 0, 1]
     ])
+
+def yaw_rotation_and_translation_matrix(yaw, x, y, z, offset_x, offset_y=0, offset_z=0):
+    cos_yaw = np.cos(yaw)
+    sin_yaw = np.sin(yaw)
+    return np.array([
+        [cos_yaw, -sin_yaw, 0, x - offset_x * (1 - cos_yaw) + offset_y * sin_yaw],
+        [sin_yaw, cos_yaw, 0, y - offset_x * sin_yaw - offset_y * (1 - cos_yaw)],
+        [0, 0, 1, z + offset_z],
+        [0, 0, 0, 1]
+    ])

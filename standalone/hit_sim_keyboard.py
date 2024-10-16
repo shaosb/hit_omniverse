@@ -63,7 +63,7 @@ def main():
 
 	# keyboard = Se2Keyboard(v_x_sensitivity=0.001, v_y_sensitivity=0.001, omega_z_sensitivity=0.01) # 1.8,2.2,3
 
-	keyboard = Se2Keyboard(v_x_sensitivity=0.01, v_y_sensitivity=0.01, omega_z_sensitivity=0.005)
+	keyboard = Se2Keyboard(v_x_sensitivity=0.01, v_y_sensitivity=0.01, v_z_sensitivity=0.01, omega_z_sensitivity=0.005)
 
 	keyboard.reset()
 	print(keyboard)
@@ -166,16 +166,19 @@ def main():
 			pos = mdp.generated_commands(env, dataset)["robot_world_xyz"]
 			rpy = mdp.generated_commands(env, dataset)["robot_world_rpy"].cpu().numpy()
 
-		bias = torch.tensor([[0, 0, 0.02]]).cuda()
+		# print(pos_init, pos)
+		bias = torch.tensor([[0, 0, 0]]).cuda()
 		total_x += keyboard.advance()[0]
 		total_y += keyboard.advance()[1]
 		total_z += keyboard.advance()[3]
 		keyboard_pos = torch.tensor([[total_x, total_y, total_z]]).cuda()
+		# print(keyboard_pos)
 		# pos = pos + bias + keyboard_pos + pos_init
 		pos = pos + bias
 		x_bias = (keyboard_pos + pos_init).cpu().numpy()[0][0]
 		y_bias = (keyboard_pos + pos_init).cpu().numpy()[0][1]
-		T = yaw_rotation_and_translation_matrix(total_yaw, x_bias, y_bias, offset_x=offset_x)
+		z_bias = (keyboard_pos + pos_init).cpu().numpy()[0][-1]
+		T = yaw_rotation_and_translation_matrix(total_yaw, x_bias, y_bias, z_bias, offset_x=offset_x)
 		temp = pos.cpu().numpy()[0]
 		temp = np.append(temp, 1)
 		temp = np.dot(T, temp)

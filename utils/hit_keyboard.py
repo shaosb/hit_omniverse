@@ -42,7 +42,7 @@ class Se2Keyboard(DeviceBase):
 
     """
 
-    def __init__(self, v_x_sensitivity: float = 0.8, v_y_sensitivity: float = 0.4, omega_z_sensitivity: float = 1.0):
+    def __init__(self, v_x_sensitivity: float = 0.8, v_y_sensitivity: float = 0.4, v_z_sensitivity: float = 0.4, omega_z_sensitivity: float = 1.0):
         """Initialize the keyboard layer.
 
         Args:
@@ -53,6 +53,7 @@ class Se2Keyboard(DeviceBase):
         # store inputs
         self.v_x_sensitivity = v_x_sensitivity
         self.v_y_sensitivity = v_y_sensitivity
+        self.v_z_sensitivity = v_z_sensitivity
         self.omega_z_sensitivity = omega_z_sensitivity
         # acquire omniverse interfaces
         self._appwindow = omni.appwindow.get_default_app_window()
@@ -66,7 +67,7 @@ class Se2Keyboard(DeviceBase):
         # bindings for keyboard to command
         self._create_key_bindings()
         # command buffers
-        self._base_command = np.zeros(4)
+        self._base_command = np.zeros(5)
         # dictionary for additional callbacks
         self._additional_callbacks = dict()
 
@@ -85,8 +86,8 @@ class Se2Keyboard(DeviceBase):
         msg += "\tMove backward: Arrow Down\n"
         msg += "\tMove right: Arrow Right\n"
         msg += "\tMove left: Arrow Left\n"
-        msg += "\tMove Up: 1\n"
-        msg += "\tMove Down: 2\n"
+        msg += "\tMove Up: A\n"
+        msg += "\tMove Down: S\n"
         msg += "\tYaw positively (along +z-axis): Z\n"
         msg += "\tYaw positively (along -z-axis): X\n"
         msg += "\t60-run_HIT: m\n"
@@ -161,8 +162,8 @@ class Se2Keyboard(DeviceBase):
         """Creates default key binding."""
         self._INPUT_KEY_MAPPING = {
             #up and down
-            "1": np.asarray([0.0, 0.0, 0.0, 1.0, 0.0]) * self.v_x_sensitivity,
-            "2": np.asarray([0.0, 0.0, 0.0, -1.0, 0.0]) * self.v_x_sensitivity,
+            "A": np.asarray([0.0, 0.0, 0.0, 1.0, 0.0]) * self.v_z_sensitivity,
+            "S": np.asarray([0.0, 0.0, 0.0, -1.0, 0.0]) * self.v_z_sensitivity,
             # forward command 1.5
             "UP": np.asarray([1., 0.0, 0.0, 0.0, 0.0]) * self.v_x_sensitivity,
             # back command -1.5
@@ -193,4 +194,5 @@ class Se2Keyboard(DeviceBase):
             "N": np.asarray([0.0, 0.0, 0.0, 0.0, config["GAIT"]["squat_with_people"]]),
             # save and quid
             "T": np.asarray([0.0, 0.0, 0.0, 0.0, config["GAIT"]["save_and_quit"]]),
+            "T": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["save_and_quit"]]),
         }
