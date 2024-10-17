@@ -194,5 +194,4 @@ class Se2Keyboard(DeviceBase):
             "N": np.asarray([0.0, 0.0, 0.0, 0.0, config["GAIT"]["squat_with_people"]]),
             # save and quid
             "T": np.asarray([0.0, 0.0, 0.0, 0.0, config["GAIT"]["save_and_quit"]]),
-            "T": np.asarray([0.0, 0.0, 0.0, config["GAIT"]["save_and_quit"]]),
         }

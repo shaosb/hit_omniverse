@@ -403,7 +403,7 @@ def translate(matrix, dx, dy, dz):
     
 #     return new_x, new_y, new_z, new_yaw
 
-def update_robot_positiosn(pos_x, pos_y, pos_z, key_x, key_y, key_z, yaw):
+def update_robot_position(pos_x, pos_y, pos_z, key_x, key_y, key_z, yaw):
     auto_move = np.array([pos_x, pos_y, pos_z])
 
     cos_yaw = np.cos(yaw)

@@ -141,7 +141,8 @@ def read_hit_npz(file_path):
 	]
 
 	robot_world_xyz = [npz[mapping["x"]], npz[mapping["y"]], npz[mapping["z"]]]
-	robot_world_rpy = [npz[mapping["roll"]], npz[mapping["pitch"]], npz[mapping["yaw"]]]
+	# robot_world_rpy = [npz[mapping["roll"]], npz[mapping["pitch"]], npz[mapping["yaw"]]]
+	robot_world_rpy = [np.zeros(length), np.zeros(length), npz[mapping["yaw"]]]
 
 	dof_pos = np.column_stack(dof_pos_numpy)
 	robot_world_xyz = np.column_stack(robot_world_xyz)

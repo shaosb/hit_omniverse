@@ -79,7 +79,7 @@ class HITSceneCfg(InteractiveSceneCfg):
         data_types=["rgb"],
         width=640,
         height=480,
-        offset=CameraCfg.OffsetCfg(pos=(0.0, 0.5, 0.30), rot=(0, -0, -0.0349, 0.99939), convention="ros"),
+        offset=CameraCfg.OffsetCfg(pos=(0.0, 0.5, 0.20), rot=(0, -0, -0.0349, 0.99939), convention="ros"),
         spawn=sim_utils.PinholeCameraCfg(
             focal_length=24.0, focus_distance=400.0, horizontal_aperture=20.955, clipping_range=(0.1, 1.0e5)
         ),
