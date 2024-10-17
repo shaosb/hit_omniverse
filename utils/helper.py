@@ -276,22 +276,160 @@ def interpolate_arrays(start, end, interval):
     num_steps = int(np.ceil(distance / interval)) + 1
     return np.linspace(start, end, num_steps, axis=0)
 
-def yaw_rotation_and_translation_matrix(yaw, x, y, offset_x, offset_y=0):
+# def yaw_rotation_and_translation_matrix(yaw, x, y, offset_x, offset_y=0):
+#     cos_yaw = np.cos(yaw)
+#     sin_yaw = np.sin(yaw)
+#     return np.array([
+#         [cos_yaw, -sin_yaw, 0, x - offset_x * (1 - cos_yaw) + offset_y * sin_yaw],
+#         [sin_yaw, cos_yaw, 0, y - offset_x * sin_yaw - offset_y * (1 - cos_yaw)],
+#         [0, 0, 1, 0],
+#         [0, 0, 0, 1]
+#     ])
+
+# def yaw_rotation_and_translation_matrix(yaw, x, y, z, offset_x, offset_y=0, offset_z=0):
+#     cos_yaw = np.cos(yaw)
+#     sin_yaw = np.sin(yaw)
+#     return np.array([
+#         [cos_yaw, -sin_yaw, 0, x - offset_x * (1 - cos_yaw) + offset_y * sin_yaw],
+#         [sin_yaw, cos_yaw, 0, y - offset_x * sin_yaw - offset_y * (1 - cos_yaw)],
+#         [0, 0, 1, z + offset_z],
+#         [0, 0, 0, 1]
+#     ])
+
+def yaw_rotation_matrix(yaw):
+    """生成仅包含偏航旋转的矩阵"""
     cos_yaw = np.cos(yaw)
     sin_yaw = np.sin(yaw)
     return np.array([
-        [cos_yaw, -sin_yaw, 0, x - offset_x * (1 - cos_yaw) + offset_y * sin_yaw],
-        [sin_yaw, cos_yaw, 0, y - offset_x * sin_yaw - offset_y * (1 - cos_yaw)],
+        [cos_yaw, -sin_yaw, 0, 0],
+        [sin_yaw, cos_yaw, 0, 0],
         [0, 0, 1, 0],
         [0, 0, 0, 1]
     ])
 
-def yaw_rotation_and_translation_matrix(yaw, x, y, z, offset_x, offset_y=0, offset_z=0):
-    cos_yaw = np.cos(yaw)
-    sin_yaw = np.sin(yaw)
+def translation_matrix(x, y, z):
+    """生成仅包含平移的矩阵"""
     return np.array([
-        [cos_yaw, -sin_yaw, 0, x - offset_x * (1 - cos_yaw) + offset_y * sin_yaw],
-        [sin_yaw, cos_yaw, 0, y - offset_x * sin_yaw - offset_y * (1 - cos_yaw)],
-        [0, 0, 1, z + offset_z],
+        [1, 0, 0, x],
+        [0, 1, 0, y],
+        [0, 0, 1, z],
         [0, 0, 0, 1]
     ])
+
+import numpy as np
+
+def in_place_rotation(yaw, x, y, z):
+    """
+    在物体当前位置(x, y, z)进行原地旋转
+    """
+    # 创建平移矩阵
+    translate_to_origin = np.array([
+        [1, 0, 0, -x],
+        [0, 1, 0, -y],
+        [0, 0, 1, -z],
+        [0, 0, 0, 1]
+    ])
+    
+    translate_back = np.array([
+        [1, 0, 0, x],
+        [0, 1, 0, y],
+        [0, 0, 1, z],
+        [0, 0, 0, 1]
+    ])
+    
+    # 创建旋转矩阵
+    cos_yaw, sin_yaw = np.cos(yaw), np.sin(yaw)
+    rotation = np.array([
+        [cos_yaw, -sin_yaw, 0, 0],
+        [sin_yaw, cos_yaw, 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 0, 1]
+    ])
+    
+    # 组合变换：先移到原点，然后旋转，最后移回原位置
+    return np.dot(translate_back, np.dot(rotation, translate_to_origin))
+
+def translate(matrix, dx, dy, dz):
+    """
+    对给定的变换矩阵应用平移
+    """
+    translation = np.array([
+        [1, 0, 0, dx],
+        [0, 1, 0, dy],
+        [0, 0, 1, dz],
+        [0, 0, 0, 1]
+    ])
+    return np.dot(translation, matrix)
+
+
+# def update_robot_position(pos_x, pos_y, pos_z, key_x, key_y, key_z, yaw):
+#     # 计算自动运动的方向向量
+#     auto_move = np.array([pos_x, pos_y, pos_z])
+    
+#     # 计算键盘输入的移动向量
+#     key_move = np.array([key_x, key_y, key_z])
+    
+#     # 合并自动运动和键盘输入
+#     total_move = auto_move + key_move
+    
+#     # 计算水平面上的移动方向
+#     move_direction = np.array([total_move[0], total_move[1], 0])
+#     move_distance = np.linalg.norm(move_direction)
+    
+#     if move_distance > 0:
+#         # 计算新的朝向角度
+#         new_yaw = np.arctan2(move_direction[1], move_direction[0])
+        
+#         # 创建新的旋转矩阵
+#         cos_new_yaw = np.cos(new_yaw)
+#         sin_new_yaw = np.sin(new_yaw)
+#         rotation_matrix = np.array([
+#             [cos_new_yaw, -sin_new_yaw, 0],
+#             [sin_new_yaw, cos_new_yaw, 0],
+#             [0, 0, 1]
+#         ])
+        
+#         # 应用旋转到总移动向量
+#         rotated_move = np.dot(rotation_matrix, total_move)
+#     else:
+#         # 如果没有水平移动，保持原有朝向和垂直移动
+#         new_yaw = yaw
+#         rotated_move = total_move
+    
+#     # 更新位置
+#     new_x = rotated_move[0]
+#     new_y = rotated_move[1]
+#     new_z = rotated_move[2]
+    
+#     return new_x, new_y, new_z, new_yaw
+
+def update_robot_positiosn(pos_x, pos_y, pos_z, key_x, key_y, key_z, yaw):
+    auto_move = np.array([pos_x, pos_y, pos_z])
+
+    cos_yaw = np.cos(yaw)
+    sin_yaw = np.sin(yaw)
+    current_rotation_matrix = np.array([
+        [cos_yaw, -sin_yaw, 0],
+        [sin_yaw, cos_yaw, 0],
+        [0, 0, 1]
+    ])
+
+    rotated_auto_move = np.dot(current_rotation_matrix, auto_move)
+
+    key_move = np.array([key_x, key_y, key_z])
+
+    total_move = rotated_auto_move + key_move
+
+    move_direction = np.array([total_move[0], total_move[1], 0])
+    move_distance = np.linalg.norm(move_direction)
+    
+    if move_distance > 0:
+        new_yaw = np.arctan2(move_direction[1], move_direction[0])
+    else:
+        new_yaw = yaw
+
+    new_x = total_move[0]
+    new_y = total_move[1]
+    new_z = total_move[2]
+    
+    return new_x, new_y, new_z, new_yaw

@@ -29,7 +29,7 @@ from hit_omniverse.utils.hit_keyboard import Se2Keyboard
 from hit_omniverse.standalone.get_action_dataset import get_action
 from hit_omniverse.algo.vec_env import add_env_variable, add_env_method
 import hit_omniverse.extension.mdp as mdp
-from hit_omniverse.utils.helper import setup_config, rotation_matrin, yaw_rotation_and_translation_matrix, interpolate_arrays
+from hit_omniverse.utils.helper import setup_config, interpolate_arrays, update_robot_position
 
 import torch
 import gymnasium as gym
@@ -63,7 +63,7 @@ def main():
 
 	# keyboard = Se2Keyboard(v_x_sensitivity=0.001, v_y_sensitivity=0.001, omega_z_sensitivity=0.01) # 1.8,2.2,3
 
-	keyboard = Se2Keyboard(v_x_sensitivity=0.01, v_y_sensitivity=0.01, v_z_sensitivity=0.01, omega_z_sensitivity=0.005)
+	keyboard = Se2Keyboard(v_x_sensitivity=1, v_y_sensitivity=1, v_z_sensitivity=0.01, omega_z_sensitivity=0.3)
 
 	keyboard.reset()
 	print(keyboard)
@@ -98,13 +98,12 @@ def main():
 	total_x = 0
 	total_y = 0
 	total_z = 0
-	offset_x = 0.00001
 	# Gait transformation
 	tarnsform_switch = True
 	transform = False
 	count = 0
 	len_transform = 0
-	interval = 0.01
+	interval = 0.1
 	# interval = 0.1
 
 	if Save:
@@ -157,6 +156,7 @@ def main():
 				temp1 = asset.data.root_state_w[:, :3].cpu().numpy()
 				temp1[-1][-1] = 0
 				pos_init = torch.tensor(temp1).to(env_cfg.sim.device)
+				pos_init -= keyboard_pos
 				action = mdp.generated_commands(env, dataset)["dof_pos"]
 				pos = mdp.generated_commands(env, dataset)["robot_world_xyz"]
 				rpy = mdp.generated_commands(env, dataset)["robot_world_rpy"].cpu().numpy()
@@ -167,7 +167,7 @@ def main():
 			rpy = mdp.generated_commands(env, dataset)["robot_world_rpy"].cpu().numpy()
 
 		# print(pos_init, pos)
-		bias = torch.tensor([[0, 0, 0]]).cuda()
+		bias = torch.tensor([[0, 0, 5]]).cuda()
 		total_x += keyboard.advance()[0]
 		total_y += keyboard.advance()[1]
 		total_z += keyboard.advance()[3]
@@ -178,12 +178,10 @@ def main():
 		x_bias = (keyboard_pos + pos_init).cpu().numpy()[0][0]
 		y_bias = (keyboard_pos + pos_init).cpu().numpy()[0][1]
 		z_bias = (keyboard_pos + pos_init).cpu().numpy()[0][-1]
-		T = yaw_rotation_and_translation_matrix(total_yaw, x_bias, y_bias, z_bias, offset_x=offset_x)
-		temp = pos.cpu().numpy()[0]
-		temp = np.append(temp, 1)
-		temp = np.dot(T, temp)
-		temp = temp[:3]
-		pos = torch.tensor([temp]).to(env_cfg.sim.device)
+		pos = pos.cpu().numpy()
+		new_x, new_y, new_z, _ = update_robot_position(pos[0][0], pos[0][1], pos[0][2], x_bias, y_bias, z_bias, total_yaw)
+		temp = [[new_x, new_y, new_z]]
+		pos = torch.tensor(temp).to(env_cfg.sim.device)
 
 		total_yaw += keyboard.advance()[2]
 		keyboard_rpy = np.asarray([[0, 0, total_yaw]])
