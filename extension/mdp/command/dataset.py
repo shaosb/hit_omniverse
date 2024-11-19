@@ -141,8 +141,8 @@ def read_hit_npz(file_path):
 	]
 
 	robot_world_xyz = [npz[mapping["x"]], npz[mapping["y"]], npz[mapping["z"]]]
-	# robot_world_rpy = [npz[mapping["roll"]], npz[mapping["pitch"]], npz[mapping["yaw"]]]
-	robot_world_rpy = [np.zeros(length), np.zeros(length), npz[mapping["yaw"]]]
+	robot_world_rpy = [npz[mapping["roll"]], npz[mapping["pitch"]], npz[mapping["yaw"]]]
+	# robot_world_rpy = [np.zeros(length), np.zeros(length), np.zeros(length)]
 
 	dof_pos = np.column_stack(dof_pos_numpy)
 	robot_world_xyz = np.column_stack(robot_world_xyz)
@@ -161,6 +161,21 @@ def read_txt(file_path):
 	pass
 
 
+def read_npy(file_path):
+	from poselib.skeleton.skeleton3d import SkeletonMotion
+
+	motion = SkeletonMotion.from_file(file_path)
+	node_names = motion.skeleton_tree.node_names
+
+	length = len(motion.global_transformation.numpy()[:, 0, :])
+
+	data = {name: motion.global_transformation.numpy()[:, i, :] for i, name in enumerate(node_names)}
+	time = [i for i in range(length)]
+	data.update({"time": time})
+
+	return data
+
+
 class BaseDataset(Dataset):
 	def __init__(self, file: str):
 		self.file = os.path.join(HIT_SIM_DATASET_DIR, file)
@@ -172,6 +187,8 @@ class BaseDataset(Dataset):
 			self.data = read_npz(self.file)
 		elif self.file.endswith("hit"):
 			self.data = read_hit_npz(self.file)
+		elif self.file.endswith("npy"):
+			self.data = read_npy(self.file)
 
 	def __getitem__(self, index):
 		item = {}
@@ -208,3 +225,19 @@ def get_dataLoader(file: str,
 					  drop_last=drop_last,
 					  collate_fn=collate_fn,
 					  )
+
+
+def get_dataset(file: str):
+	file = os.path.join(HIT_SIM_DATASET_DIR, file)
+	if file.endswith("csv"):
+		data = read_csv(file)
+	elif file.endswith("txt"):
+		data = read_txt(file)
+	elif file.endswith("npz"):
+		data = read_npz(file)
+	elif file.endswith("hit"):
+		data = read_hit_npz(file)
+	elif file.endswith("npy"):
+		data = read_npy(file)
+
+	return data

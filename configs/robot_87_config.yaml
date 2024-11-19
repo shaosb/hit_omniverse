@@ -1,17 +1,15 @@
 USD_PATH:
-  "HIT_force/elec_robot_forxml_color.usd"
+#  "HIT_force/elec_robot_forxml_color.usd"
+  "robot_simplify/robot_simplify.usd"
 
 ROBOT_POS:
-  [0., 0., 0.88]
+  [0., 0., 0.94]
 
 ROBOT_ROT:
   [1, 0., 0., 0.]
 
-REFERENCE_OFFSET:
-  [1, 0, -0.065]
-
 VELOCITY:
-  [2.2, 0, 0]
+  [1.5, 0, 0, 0, 0, 0]
 
 FIXED_BASE:
   False
@@ -79,7 +77,8 @@ INIT_JOINT_POS:
   left_arm_yaw: -0.027985491
   left_arm_forearm_pitch: -1.585207336
   right_arm_pitch: 0.144874375
-  right_arm_roll: -0.561930215
+#  right_arm_roll: -0.561930215
+  right_arm_roll: 1
   right_arm_yaw: 0.001333859
   right_arm_forearm_pitch: -1.203534075
 

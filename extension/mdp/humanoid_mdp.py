@@ -190,6 +190,7 @@ def root_height_over_maximum(
 
 def get_contact_sensor_data(env: ManagerBasedRLEnv, bodies) -> torch.Tensor:
     contact_sensor = env.scene["contact_sensor"]
+
     return contact_sensor.data.net_forces_w[:,contact_sensor.find_bodies(bodies)[0][0],2:3]
 
 def Base_height_penalty(env: ManagerBasedRLEnv,threshold:float,asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")):
@@ -246,15 +247,31 @@ def joint_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = Scene
     asset: Articulation = env.scene[asset_cfg.name]
     joint_pos = math_utils.wrap_to_pi(asset.data.joint_pos)
     target = mdp.generated_commands(env, "dataset")["dof_pos"]
-    # return torch.sum(torch.square(joint_pos - target), dim=1)
-    return torch.exp(-2 * torch.sum(torch.square(joint_pos - target), dim=1))
+    return torch.exp(-torch.sum(torch.square(joint_pos - target), dim=1))
 
-
-def velocity_command(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+def joint_upper_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+    """
+    This is computed as a sum of the absolute value of the difference between the joint position and the reference motion.
+    """
+    # extract the used quantities (to enable type-hinting)
     asset: Articulation = env.scene[asset_cfg.name]
-    velocity = [1,0,0]
-    return torch.Tensor(velocity * env.num_envs)
 
+    upper_body = [2, 5, 8, 9, 12, 13, 16, 17, 20, 21]
+    joint_pos = math_utils.wrap_to_pi(asset.data.joint_pos)[:, upper_body]
+    target = mdp.generated_commands(env, "dataset")["dof_pos"][:, upper_body]
+    return torch.exp(-torch.sum(torch.square(joint_pos - target), dim=1))
+
+def joint_lower_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+    """
+    This is computed as a sum of the absolute value of the difference between the joint position and the reference motion.
+    """
+    # extract the used quantities (to enable type-hinting)
+    asset: Articulation = env.scene[asset_cfg.name]
+
+    lower_body = [0, 1, 3, 4, 6, 7, 10, 11, 14, 15, 18, 19]
+    joint_pos = math_utils.wrap_to_pi(asset.data.joint_pos)[:, lower_body]
+    target = mdp.generated_commands(env, "dataset")["dof_pos"][:, lower_body]
+    return torch.exp(-5 * torch.sum(torch.square(joint_pos - target), dim=1))
 
 def target_xy_velocities(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     asset: Articulation = env.scene[asset_cfg.name]
@@ -279,7 +296,7 @@ def feet_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntit
 def foot_slip(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     asset: Articulation = env.scene[asset_cfg.name]
 
-    contact = get_contact_sensor_data(env, ["link_l_foot", "link_r_foot"]) > 5.
+    contact = get_contact_sensor_data(env, ["l_foot", "r_foot"]) > 5.
     foot_speed_norm = torch.norm(asset.data.body_state_w[:, asset.find_bodies(["link_l_foot", "link_r_foot"])[0], 10:12], dim=2)
     rew = torch.sqrt(foot_speed_norm)
     rew *= contact
@@ -290,13 +307,13 @@ def track_velocity(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEnti
     asset: Articulation = env.scene[asset_cfg.name]
     commands = constant_commands(env)
     lin_vel_error = torch.norm(
-        commands[:, :2] - asset.data.root_lin_vel_w[:, :2], dim=1)
-    lin_vel_error_exp = torch.exp(-lin_vel_error * 10)
+        commands[:, :3] - asset.data.root_lin_vel_w[:, :3], dim=1)
+    lin_vel_error_exp = torch.exp(-lin_vel_error)
 
     # Tracking of angular velocity commands (yaw)
     ang_vel_error = torch.abs(
-        commands[:, 2] - asset.data.root_ang_vel_w[:, 2])
-    ang_vel_error_exp = torch.exp(-ang_vel_error * 10)
+        commands[:, 3] - asset.data.root_ang_vel_w[:, 3])
+    ang_vel_error_exp = torch.exp(-ang_vel_error)
 
     linear_error = 0.2 * (lin_vel_error + ang_vel_error)
 
@@ -308,36 +325,56 @@ def track_lin(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg
     commands = constant_commands(env)
 
     lin_vel_error = torch.sum(torch.square(
-        commands[:, :2] - asset.data.root_lin_vel_w[:, :2]), dim=1)
-    return torch.exp(-lin_vel_error * 5)
-
+        commands[:, :3] - asset.data.root_lin_vel_w[:, :]), dim=1)
+    return torch.exp(-lin_vel_error)
+    # return lin_vel_error
 
 def track_ang(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     asset: Articulation = env.scene[asset_cfg.name]
     commands = constant_commands(env)
 
     lin_ang_error = torch.sum(torch.square(
-        commands[:, 2] - asset.data.root_ang_vel_w[:, 2]))
-    return torch.exp(-lin_ang_error * 5)
+        commands[:, 3:6] - asset.data.root_ang_vel_w[:, :]), dim=1)
+    return torch.exp(-0.001 * lin_ang_error)
+    # return lin_ang_error
 
+def track_lin_x(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+    asset: Articulation = env.scene[asset_cfg.name]
+    commands = constant_commands(env)
+
+    lin_x_error = torch.sum(torch.square(
+        commands[:, 0] - asset.data.root_lin_vel_w[:, 0]))
+    return torch.exp(-0.001 * lin_x_error)
+
+def reward_feet_contact_force(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+
+    contact_sensor = env.scene["contact_sensor"]
+    net_contact_forces = contact_sensor.data.net_forces_w
+
+    max_values = torch.max(net_contact_forces, dim=2)[0].max(dim=1).values
+    min_values = torch.max(net_contact_forces, dim=2)[0].min(dim=1).values
+    condition = (max_values > 400) & (min_values < 10)
+    result = condition.int()
+
+    return result
 
 def torques(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     asset: Articulation = env.scene[asset_cfg.name]
+    torques = asset.data.applied_torque[:, :]
 
-    torques = asset.data.applied_torque
-    return torch.sum(torch.square(torques), dim=1)
-
+    return torch.exp(-0.001 * torch.sum(torch.abs(torques), dim=1))
 
 def reward_joint_pos(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     asset: Articulation = env.scene[asset_cfg.name]
 
     joint_pos = math_utils.wrap_to_pi(asset.data.joint_pos)
-    pos_target = mdp.generated_commands(env, "sine")
-
-    diff = joint_pos - pos_target
-    diff = diff[:,[2,3,4,8,9,10]]
-
-    return torch.exp(-2 * torch.norm(diff, dim=1)) - 0.2 * torch.norm(diff, dim=1).clamp(0, 0.5)
+    # pos_target = mdp.generated_commands(env, "sine")
+    pos_target = mdp.generated_commands(env, "dataset")["dof_pos"]
+    # diff = joint_pos - pos_target
+    # diff = diff[:,[2,3,4,8,9,10]]
+    diff = torch.sum(torch.square(joint_pos - pos_target), dim=1)
+    return diff
+    # return torch.exp(-2 * torch.norm(diff, dim=1)) - 0.2 * torch.norm(diff, dim=1).clamp(0, 0.5)
 
 
 def get_gait_phase(env: ManagerBasedRLEnv):
@@ -359,24 +396,15 @@ def get_gait_phase(env: ManagerBasedRLEnv):
 def reward_feet_contact_number(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     asset: Articulation = env.scene[asset_cfg.name]
 
-    contact = get_contact_sensor_data(env, ["link_l_foot", "link_r_foot"]) > 5.
+    contact = get_contact_sensor_data(env, ["l_foot", "r_foot"]) > 5.
     stance_mask = get_gait_phase(env)
     reward = torch.where(contact == stance_mask, 1, -0.3)
     return torch.mean(reward, dim=1)
 
-
-def reward_feet_contact_force(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
-    asset: Articulation = env.scene[asset_cfg.name]
-
-    contact = get_contact_sensor_data(env, ["link_l_foot", "link_r_foot"])
-
-    return torch.sum((torch.norm(contact, dim=-1)) - 400, dim=1)
-
-
 def reward_action_smooth(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     asset: Articulation = env.scene[asset_cfg.name]
-
-    return torch.sum(torch.square(asset.data.joint_pos_target - mdp.last_action(env)[:, :22]), dim=1)
+    action_smooth = mdp.action_rate_l2(env)
+    return torch.exp(-0.1 * action_smooth)
 
 
 def reward_feet_clearance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
@@ -431,6 +459,22 @@ def dataset_dof_pos(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEnt
 
 def dataset_dof_vel(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     return mdp.generated_commands(env, "dataset")["dof_vel"]
+
+
+def world_xyz(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+    target = mdp.generated_commands(env, "dataset")["robot_world_xyz"]
+    asset: Articulation = env.scene[asset_cfg.name]
+    world_xyz = asset.data.root_pos_w
+
+    world_xyz_error = torch.exp(-torch.sum(torch.square(target - world_xyz), dim=1))
+
+    return world_xyz_error
+
+def dataset_world_xyz(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+    return mdp.generated_commands(env, "dataset")["robot_world_xyz"]
+
+def dataset_world_rpy(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+    return mdp.generated_commands(env, "dataset")["robot_world_rpy"]
 
 
 def reset_reference_and_robot_to_default(env: ManagerBasedRLEnv, env_ids: torch.Tensor, offset: list):
@@ -511,3 +555,20 @@ def reset_obs_buff(env: ManagerBasedRLEnv, env_ids: torch.Tensor):
 
         env.obs_queue = obs_queue_new
         env.critic_queue = critic_queue_new
+
+def reset_robot_position(env, env_ids: torch.Tensor, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")):
+    asset: Articulation = env.scene[asset_cfg.name]
+    pos_target = mdp.generated_commands(env, "dataset")["dof_pos"]
+    default_joint_vel = asset.data.default_joint_vel[env_ids].clone()
+    asset.write_joint_state_to_sim(pos_target[env_ids], default_joint_vel, env_ids=env_ids)
+
+def track_yaw_row(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+    asset: Articulation = env.scene[asset_cfg.name]
+    target = torch.tensor([[0, 0]], device=env.device).repeat(env.num_envs, 1)
+
+    return torch.exp(-5 * torch.sum(torch.square(target - base_yaw_roll(env, asset_cfg)), dim=1))
+
+def joint_toqrue(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+    asset: Articulation = env.scene[asset_cfg.name]
+
+    return asset.data.applied_torque[:, :]

@@ -362,47 +362,6 @@ def translate(matrix, dx, dy, dz):
     return np.dot(translation, matrix)
 
 
-# def update_robot_position(pos_x, pos_y, pos_z, key_x, key_y, key_z, yaw):
-#     # 计算自动运动的方向向量
-#     auto_move = np.array([pos_x, pos_y, pos_z])
-    
-#     # 计算键盘输入的移动向量
-#     key_move = np.array([key_x, key_y, key_z])
-    
-#     # 合并自动运动和键盘输入
-#     total_move = auto_move + key_move
-    
-#     # 计算水平面上的移动方向
-#     move_direction = np.array([total_move[0], total_move[1], 0])
-#     move_distance = np.linalg.norm(move_direction)
-    
-#     if move_distance > 0:
-#         # 计算新的朝向角度
-#         new_yaw = np.arctan2(move_direction[1], move_direction[0])
-        
-#         # 创建新的旋转矩阵
-#         cos_new_yaw = np.cos(new_yaw)
-#         sin_new_yaw = np.sin(new_yaw)
-#         rotation_matrix = np.array([
-#             [cos_new_yaw, -sin_new_yaw, 0],
-#             [sin_new_yaw, cos_new_yaw, 0],
-#             [0, 0, 1]
-#         ])
-        
-#         # 应用旋转到总移动向量
-#         rotated_move = np.dot(rotation_matrix, total_move)
-#     else:
-#         # 如果没有水平移动，保持原有朝向和垂直移动
-#         new_yaw = yaw
-#         rotated_move = total_move
-    
-#     # 更新位置
-#     new_x = rotated_move[0]
-#     new_y = rotated_move[1]
-#     new_z = rotated_move[2]
-    
-#     return new_x, new_y, new_z, new_yaw
-
 def update_robot_position(pos_x, pos_y, pos_z, key_x, key_y, key_z, yaw):
     auto_move = np.array([pos_x, pos_y, pos_z])
 
@@ -433,3 +392,14 @@ def update_robot_position(pos_x, pos_y, pos_z, key_x, key_y, key_z, yaw):
     new_z = total_move[2]
     
     return new_x, new_y, new_z, new_yaw
+
+def quaternion_multiply(q1, q2):
+    """计算两个四元数的乘积"""
+    w1, x1, y1, z1 = q1
+    w2, x2, y2, z2 = q2
+    return np.array([
+        w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2,
+        w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2,
+        w1 * y2 - x1 * z2 + y1 * w2 + z1 * x2,
+        w1 * z2 + x1 * y2 - y1 * x2 + z1 * w2
+    ])

@@ -1,5 +1,7 @@
 import argparse
 import os
+import time
+
 import cv2
 
 parser = argparse.ArgumentParser(description="HIT humanoid robot exhibit in isaac sim")
@@ -86,7 +88,7 @@ def main():
 	init_dataset = "30-run_HIT"
 	dataset = gait_mapping[config["GAIT"][init_dataset]]
 	# Save video
-	Save = True
+	Save = False
 	# Initilization position
 	pos_init = asset.data.root_pos_w.to(torch.float64)
 	pos_init = pos_init.cpu().numpy()
@@ -167,7 +169,7 @@ def main():
 			rpy = mdp.generated_commands(env, dataset)["robot_world_rpy"].cpu().numpy()
 
 		# print(pos_init, pos)
-		bias = torch.tensor([[0, 0, 5]]).cuda()
+		bias = torch.tensor([[0, 0, 0.12]]).cuda()
 		total_x += keyboard.advance()[0]
 		total_y += keyboard.advance()[1]
 		total_z += keyboard.advance()[3]
@@ -191,6 +193,7 @@ def main():
 		rot = torch.tensor(rot).to(env_cfg.sim.device)
 
 		pose = torch.cat((pos, rot), dim=1)
+		# print(f"v:{asset.data.root_lin_vel_b}")
 		# pos = asset.data.root_pos_w.cpu().numpy()[0]
 		# pos = [pos[0] - 2.1, pos[1] + 0.5, pos[2] + 0.5]
 		# rot = asset.data.root_quat_w.cpu().numpy()[0]
@@ -198,7 +201,9 @@ def main():
 		# env.unwrapped.sim.set_camera_view(eye, target)
 
 		asset.write_root_pose_to_sim(pose)
+		# t = time.time()
 		obs, rew, terminated, truncated, info = env.step(action)
+		# print(f"{time.time() - t}")
 
 		if Save:
 			tensor = env.scene["RGB_camera"].data.output["rgb"].cpu()

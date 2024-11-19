@@ -98,6 +98,24 @@ class UpCommandCfg(CommandTermCfg):
 	resampling_time_range: tuple[float, float] = (0.0, 0.001)
 
 @configclass
+class ImitationCommandCfg(CommandTermCfg):
+	"""Configuration for the dataset command generator."""
+	class_type: type = DatasetCommand
+
+	dataset_file = "motion_retarget\\01_01.npy"
+	command_name: list = ['pelvis', 'r_hip_roll', 'r_hip_yaw', 
+					   'r_upper_leg', 'r_lower_leg', 'r_ankle', 
+					   'r_foot', 'l_hip_roll', 'l_hip_yaw', 
+					   'l_upper_leg', 'l_lower_leg', 'l_ankle', 
+					   'l_foot', 'waist_link1', 'body_link', 
+					   'right_arm_link1', 'right_arm_link2', 'right_arm_link3', 
+					   'right_arm_link4', 'left_arm_link1', 'left_arm_link2', 'left_arm_link3', 
+					   'left_arm_link4']
+	command_dimension: int = [7] * len(command_name)
+
+	resampling_time_range: tuple[float, float] = (0.0, 0.001)
+
+@configclass
 class SineCommandCfg(CommandTermCfg):
 	"""Configuration for the dataset command generator."""
 	class_type: type = SineCommand

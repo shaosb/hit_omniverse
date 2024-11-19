@@ -32,7 +32,7 @@ class HITSceneCfg(InteractiveSceneCfg):
 
     # ground plane
     terrain = TerrainImporterCfg(
-        prim_path="/World/ground",
+        prim_path="/World/defaultGroundPlane",
         terrain_type="plane",
         collision_group=-1,
         physics_material=sim_utils.RigidBodyMaterialCfg(static_friction=config["terrain"]["static_friction"],
@@ -72,31 +72,6 @@ class HITSceneCfg(InteractiveSceneCfg):
         force_threshold=1,
         )
 
-    # RGB Camera
-    RGB_camera = CameraCfg(
-        prim_path="{ENV_REGEX_NS}/robot/body/camera",
-        update_period=0,
-        data_types=["rgb"],
-        width=640,
-        height=480,
-        offset=CameraCfg.OffsetCfg(pos=(0.0, 0.5, 0.20), rot=(0, -0, -0.0349, 0.99939), convention="ros"),
-        spawn=sim_utils.PinholeCameraCfg(
-            focal_length=24.0, focus_distance=400.0, horizontal_aperture=20.955, clipping_range=(0.1, 1.0e5)
-        ),
-    )
-
-    RGB_camera2 = CameraCfg(
-        prim_path="{ENV_REGEX_NS}/robot/body/camera2",
-        update_period=0,
-        data_types=["rgb"],
-        width=640,
-        height=480,
-        offset=CameraCfg.OffsetCfg(pos=(0.0, 0.2, -3.4), rot=(0, 0, -0.05234, 0.99863), convention="ros"),
-        spawn=sim_utils.PinholeCameraCfg(
-            focal_length=24.0, focus_distance=400.0, horizontal_aperture=20.955, clipping_range=(0.1, 1.0e5)
-        ),
-    )
-
 
 @configclass
 class ActionCFg:
@@ -112,24 +87,27 @@ class ObservationsCfg:
     class ObsCfg(ObsGroup):
         # clock = ObsTerm(func=mdp.generated_commands, params={"command_name": "sine"})
         command = ObsTerm(func=mdp.constant_commands)
-        joint_pos = ObsTerm(func=mdp.joint_pos, scale=config["normalization"]["obs_scales"]["dof_pos"])
-        joint_vel = ObsTerm(func=mdp.joint_vel, scale=config["normalization"]["obs_scales"]["dof_vel"])
-        base_quat = ObsTerm(func=mdp.get_euler_xyz_tensor, scale=config["normalization"]["obs_scales"]["quat"])  # 三维朝向
-        base_ang_vel = ObsTerm(func=mdp.base_ang_vel, scale=config["normalization"]["obs_scales"]["ang_vel"]) #角速度
+        joint_pos = ObsTerm(func=mdp.joint_pos)#, scale=config["normalization"]["obs_scales"]["dof_pos"])
+        joint_vel = ObsTerm(func=mdp.joint_vel)#, scale=config["normalization"]["obs_scales"]["dof_vel"])
+        # base_quat = ObsTerm(func=mdp.get_euler_xyz_tensor)#, scale=config["normalization"]["obs_scales"]["quat"])  # 三维朝向
+        base_ang_vel = ObsTerm(func=mdp.base_ang_vel)#, scale=config["normalization"]["obs_scales"]["ang_vel"]) #角速度
         base_lin_vel = ObsTerm(func=mdp.base_lin_vel) #线速度
-        # base_yaw_roll = ObsTerm(func=mdp.base_yaw_roll)
+        base_yaw_roll = ObsTerm(func=mdp.base_yaw_roll)
         action = ObsTerm(func=mdp.last_action)
+        torques = ObsTerm(func=mdp.joint_toqrue, scale=0.01)
 
     class PrivilegedCfg(ObsCfg):
-        # right_contact = ObsTerm(func=mdp.get_contact_sensor_data, params= {"bodies": config["END_EFFECTOR_NAME"]["left_foot"]})
-        # left_contact = ObsTerm(func=mdp.get_contact_sensor_data, params={"bodies": config["END_EFFECTOR_NAME"]["right_foot"]})
+        right_contact = ObsTerm(func=mdp.get_contact_sensor_data, params= {"bodies": config["END_EFFECTOR_NAME"]["left_foot"]})
+        left_contact = ObsTerm(func=mdp.get_contact_sensor_data, params={"bodies": config["END_EFFECTOR_NAME"]["right_foot"]})
         # contact_mask = ObsTerm(func=mdp.get_gait_phase)
         dataset_pos = ObsTerm(func=mdp.dataset_dof_pos)
+        # world_xyz = ObsTerm(func=mdp.dataset_world_xyz)
+        # world_rpy = ObsTerm(func=mdp.dataset_world_rpy)
         # dataset_vel = ObsTerm(func=mdp.dataset_dof_vel)
-
+        pass
 
     policy: ObsCfg = ObsCfg()
-    privileged: PrivilegedCfg = PrivilegedCfg()
+    critic: PrivilegedCfg = PrivilegedCfg()
 
 @configclass
 class EventCfg:
@@ -147,6 +125,11 @@ class EventCfg:
         },
     )
 
+    reset_robot_position = EventTerm(
+        func=mdp.reset_robot_position,
+        mode="reset",
+    )
+
 
 @configclass
 class CurriculumCfg:
@@ -156,56 +139,32 @@ class CurriculumCfg:
 @configclass
 class RewardsCfg:
     # # Penclity
-    # alive = RewTerm(func=mdp.is_alive, weight=2)
-    # terminating = RewTerm(func=mdp.is_terminated, weight=-10.0)
-    # # Regularization
-    # torques = RewTerm(func=mdp.torques, weight=-1e-5)
-    # smooth = RewTerm(func=mdp.reward_action_smooth, weight=-0.002)
-    # # feet_contact_force = RewTerm(func=mdp.reward_feet_contact_number, weight=-0.01)
-    # # foot_slip = RewTerm(func=mdp.foot_slip, weight=-0.05)
-    # # joint_acc = RewTerm(func=mdp.joint_acc_l2, weight=-1e-7)
-    # # Task Reward
-    # joint_pos = RewTerm(func=mdp.reward_joint_pos, weight=1.6)
-    # # feet_clearance = RewTerm(func=mdp.reward_feet_clearance, weight=1)
-    # # feet_air_time = RewTerm(func=mdp.reward_feet_air_time, weight=1)
-    # # feet_distance = RewTerm(func=mdp.feet_distance, weight=0.2)
-    # # feet_contact_number = RewTerm(func=mdp.reward_feet_contact_number, weight=1.2)
-    # track = RewTerm(func=mdp.track_velocity, weight=0.5)
-    # track_lin = RewTerm(func=mdp.track_lin, weight=1.1)
-    # track_ang = RewTerm(func=mdp.track_ang, weight=1.2)
-
-    # imitate
-    # Pencity
-    # alive = RewTerm(func=mdp.is_alive, weight=5)
-    # terminating = RewTerm(func=mdp.is_terminated, weight=-5.0)
-    # # Regularization
-    # torques = RewTerm(func=mdp.torques, weight=-1e-5)
-    # smooth = RewTerm(func=mdp.reward_action_smooth, weight=-0.002)
-    # # joint_acc = RewTerm(func=mdp.joint_acc_l2, weight=-1e-7)
-    # # R_t
-    # r_p = RewTerm(func=mdp.joint_pos_distance, weight=0.65)
-    # r_v = RewTerm(func=mdp.joint_vel_distance, weight=0.1)
-    # #TODO by ssb 8.7
-    # # r_e, r_c
-    #
-    # # Task
-    # # track = RewTerm(func=mdp.track_velocity, weight=0.5)
-    # track_lin = RewTerm(func=mdp.track_lin, weight=1.1)
-    # track_ang = RewTerm(func=mdp.track_ang, weight=1.2)
     alive = RewTerm(func=mdp.is_alive, weight=5)
-
+    # terminating = RewTerm(func=mdp.is_terminated, weight=-100.0)
+    # # Regularization
+    torques = RewTerm(func=mdp.torques, weight=10)
+    # reward_feet_contact_force = RewTerm(func=mdp.reward_feet_contact_force, weight=0.05)
+    smooth = RewTerm(func=mdp.reward_action_smooth, weight=10)
+    # # Imitation
+    # track_pos = RewTerm(func=mdp.joint_pos_distance, weight=50)
+    track_lower_pos = RewTerm(func=mdp.joint_lower_pos_distance, weight=100)
+    track_upper_pos = RewTerm(func=mdp.joint_upper_pos_distance, weight=1)
+    track_lin = RewTerm(func=mdp.track_lin, weight=5)
+    track_ang = RewTerm(func=mdp.track_ang, weight=5)
+    track_lin_x = RewTerm(func=mdp.track_lin_x, weight=2)
+    track_yaw_row = RewTerm(func=mdp.track_yaw_row, weight=5)
 
 
 @configclass
 class TerminationsCfg:
-    # # (1) Bogy height
-    # body_height_below = DoneTerm(
-    #     func=mdp.root_height_below_minimum,
-    #     params={"minimum_height": 0.5}
-    # )
-    #
-    # # (2) Timeout
-    # time_out = DoneTerm(func=mdp.time_out, time_out=True)
+    # (1) Bogy height
+    body_height_below = DoneTerm(
+        func=mdp.root_height_below_minimum,
+        params={"minimum_height": 0.65}
+    )
+
+    # (2) Timeout
+    time_out = DoneTerm(func=mdp.time_out, time_out=True)
     pass
 
 
@@ -213,13 +172,15 @@ class TerminationsCfg:
 class CommandsCfg:
     # dataset
     dataset = mdp.dataset_cfg.DatasetCommandCfg()
-    slope_lone = mdp.dataset_cfg.SlopeCommandCfg()
-    squat_walk = mdp.dataset_cfg.SquatCommandCfg()
-    stair_full = mdp.dataset_cfg.StairCommandCfg()
-    hit_save_people = mdp.dataset_cfg.PeopleCommandCfg()
-    forsquat_down = mdp.dataset_cfg.DownCommandCfg()
-    forsquat_up = mdp.dataset_cfg.UpCommandCfg()
-    squat_with_people = mdp.dataset_cfg.SquatWithPeopleCommandCfg()
+    # # slope_lone = mdp.dataset_cfg.SlopeCommandCfg()
+    # # squat_walk = mdp.dataset_cfg.SquatCommandCfg()
+    # # stair_full = mdp.dataset_cfg.StairCommandCfg()
+    # # hit_save_people = mdp.dataset_cfg.PeopleCommandCfg()
+    # # forsquat_down = mdp.dataset_cfg.DownCommandCfg()
+    # # forsquat_up = mdp.dataset_cfg.UpCommandCfg()
+    # # squat_with_people = mdp.dataset_cfg.SquatWithPeopleCommandCfg()
+    # imitation = mdp.dataset_cfg.ImitationCommandCfg()
+    pass
     # # velocity
     # velocity = mdp.velocity_command()
     # Sine
@@ -240,11 +201,12 @@ class HITRLEnvCfg(ManagerBasedRLEnvCfg):
     terminations: TerminationsCfg = TerminationsCfg()
     commands: CommandsCfg = CommandsCfg()
 
-    episode_length_s = 1000
+    episode_length_s = 10
 
     def __post_init__(self):
-        self.decimation = 1
+        self.decimation = 5
         self.sim.dt = 0.001
+
 
         self.sim.physx.bounce_threshold_velocity = 0.2
         # default friction material

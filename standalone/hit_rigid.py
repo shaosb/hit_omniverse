@@ -16,14 +16,14 @@ from omni.isaac.lab.app import AppLauncher
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 
-args_cli.headless = True
+args_cli.headless = False
 
 app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
 
-from hit_omniverse.extension.hit_env_cfg import HITRLEnvCfg
+from hit_omniverse.extension.hit_env_cfg_rigid import HITRighdEnvCfg
 from hit_omniverse import HIT_SIM_DATASET_DIR
-from hit_omniverse.utils.helper import TransCMU2HIT
+from hit_omniverse.utils.helper import TransCMU2HIT, quaternion_multiply
 from hit_omniverse.standalone.get_action_dataset import get_action
 
 import torch
@@ -32,15 +32,26 @@ from hit_omniverse.algo.vec_env import add_env_variable, add_env_method
 import hit_omniverse.extension.mdp as mdp
 import numpy as np
 from omni.isaac.lab.assets import Articulation
+import time
 
+LINK_NAMES = ['pelvis', 'r_hip_roll', 'r_hip_yaw',
+			   'r_upper_leg', 'r_lower_leg', 'r_ankle',
+			   'r_foot', 'l_hip_roll', 'l_hip_yaw',
+			   'l_upper_leg', 'l_lower_leg', 'l_ankle',
+			   'l_foot', 'waist_link1', 'body_link',
+			   'right_arm_link1', 'right_arm_link2', 'right_arm_link3',
+			   'right_arm_link4', 'left_arm_link1', 'left_arm_link2', 'left_arm_link3',
+			   'left_arm_link4']
+
+QUAT_INIT = {}
 
 def main():
-	env_cfg = HITRLEnvCfg()
+	env_cfg = HITRighdEnvCfg()
 	env_cfg.scene.num_envs = args_cli.num_envs
 	env_cfg.scene.env_spacing = args_cli.env_spacing
 	env_cfg.sim.device = args_cli.device
 
-	env = gym.make("HIT-Humanoid-Imitate-v0", cfg=env_cfg)
+	env = gym.make("HIT-Humanoid-rigid-v0", cfg=env_cfg)
 	# add_env_variable(env)
 	# add_env_method(env)
 
@@ -55,11 +66,12 @@ def main():
 	# print(env.observation_manager.observation)
 	count = 0
 
-	asset: Articulation = env.scene["robot"]
-	body = asset.body_physx_view
-	link_name = [link_name.split("/")[-1] for link_name in body.prim_paths]
-	link_name = [link.replace("base_link", "pelvis") for link in link_name]
-	link_name = [link.replace("body", "body_link") for link in link_name]
+	# body = env.scene["body"]
+	body = {}
+	for link in LINK_NAMES:
+		body.update({link: env.scene[link]})
+		QUAT_INIT.update({link:env.scene[link].data.body_quat_w.cpu().numpy()[0][0]})
+
 	while simulation_app.is_running():
 		count += 1
 		# env.render()
@@ -67,10 +79,11 @@ def main():
 		# 	obs, _ = env.reset()
 		# asset.write_root_velocity_to_sim(torch.tensor([[[2.2, 0, 0, 0, 0, 0]]]))
 		# asset.write_root_velocity_to_sim(torch.tensor([[[1.9, 0, 0, 0, 0, 0]]]))
-		body_transforms = [mdp.generated_commands(env, "imitation")[link].cpu().numpy() for link in link_name]
-		body_transforms = [np.concatenate((transform[0][4:], transform[0][:4])) for transform in body_transforms]
-		body_transforms = torch.tensor(body_transforms).to(env_cfg.sim.device)
-		body.set_transforms(body_transforms, torch.tensor([0]).to(env_cfg.sim.device))
+		# body.set_world_poses(positions=torch.tensor([[5,5,5]]))
+		# body_transforms = [mdp.generated_commands(env, "imitation")[link].cpu().numpy() for link in link_name]
+		# body_transforms = [np.concatenate((transform[0][4:], transform[0][:4])) for transform in body_transforms]
+		# body_transforms = torch.tensor(body_transforms).to(env_cfg.sim.device)
+		# body.set_transforms(body_transforms, torch.tensor([0]).to(env_cfg.sim.device))
 		# action = torch.ones_like(env.action_manager.action)*0.01
 		# if count >= 100:
 		# 	action = torch.ones_like(env.action_manager.action)
@@ -78,6 +91,23 @@ def main():
 		# 	action = batch[0]["walker/joints_pos"][:,DOF_INDEX]
 		# obs, rew, terminated, truncated, info = env.step(action)
 		# temp = mdp.joint_pos(env)[0].cpu().numpy()
+
+		for link in LINK_NAMES:
+			transform = mdp.generated_commands(env, "imitation")[link].cpu().numpy()
+			transform += np.asarray([0, 0, 0, 0, 0, 0, 0.2])
+			body_transforms = np.concatenate((transform[0][4:], [transform[0][3]], transform[0][:3]))
+			body_transforms = np.concatenate((body_transforms[:3], quaternion_multiply(body_transforms[3:], QUAT_INIT[link])))
+			body_transforms = torch.tensor(body_transforms).to(env_cfg.sim.device)
+			body.get(link).write_root_pose_to_sim(body_transforms)
+
+		t = time.time()
+		env.command_manager.compute(dt=env.step_dt)
+		env.sim.step(render=False)
+		env.scene.update(dt=env.physics_dt)
+		print(f"spend {time.time() - t}")
+
+		env.render()
+		time.sleep(0.05)
 		pass
 
 
