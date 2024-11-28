@@ -1,0 +1,3291 @@
+motions:
+  root: ../retarget_npy/
+  '02_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '02_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '05_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '06_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '07_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '07_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '07_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '07_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: slow walk
+    difficulty: 4
+  '07_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: slow walk
+    difficulty: 4
+  '07_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '07_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '07_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '07_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '07_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '07_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '07_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: brisk walk
+    difficulty: 4
+  '08_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '08_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '08_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '08_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: slow walk
+    difficulty: 4
+  '08_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, stride
+    difficulty: 4
+  '08_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '08_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, exaggerated stride
+    difficulty: 4
+  '08_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '08_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '08_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '08_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: slow walk, stride
+    difficulty: 4
+  '09_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: navigate - walk forward, backward, sideways
+    difficulty: 4
+  '10_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '12_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '12_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '12_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '15_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, wander
+    difficulty: 4
+  '15_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, wander
+    difficulty: 4
+  '15_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, wander
+    difficulty: 4
+  '15_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: wash windows; basketball - dribble, lay-up shot, pass; throw ball;
+      dance - Egyptian walk, the Dive, the Twist; strew
+    difficulty: 4
+  '15_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, wander
+    difficulty: 4
+  '16_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, veer left
+    difficulty: 4
+  '16_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, veer left
+    difficulty: 4
+  '16_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, veer right
+    difficulty: 4
+  '16_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, veer right
+    difficulty: 4
+  '16_15':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '16_16':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '16_17':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, 90-degree left turn
+    difficulty: 4
+  '16_18':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, 90-degree left turn
+    difficulty: 4
+  '16_19':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, 90-degree right turn
+    difficulty: 4
+  '16_20':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, 90-degree right turn
+    difficulty: 4
+  '16_21':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '16_22':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '16_23':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, veer left
+    difficulty: 4
+  '16_24':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, veer left
+    difficulty: 4
+  '16_25':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, veer right
+    difficulty: 4
+  '16_26':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, veer right
+    difficulty: 4
+  '16_27':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, 90-degree left turn
+    difficulty: 4
+  '16_28':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, 90-degree left turn
+    difficulty: 4
+  '16_29':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, 90-degree right turn
+    difficulty: 4
+  '16_30':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, 90-degree right turn
+    difficulty: 4
+  '16_31':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '16_32':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '16_33':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: slow walk, stop
+    difficulty: 4
+  '16_34':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: slow walk, stop
+    difficulty: 4
+  '16_47':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '16_58':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '17_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk with anger, frustration
+    difficulty: 4
+  '17_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk with anger, frustration
+    difficulty: 4
+  '17_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk stealthily
+    difficulty: 4
+  '17_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk stealthily
+    difficulty: 4
+  '17_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, hobble
+    difficulty: 4
+  '17_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: whistle, walk jauntily
+    difficulty: 4
+  '17_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: whistle, walk jauntily
+    difficulty: 4
+  '17_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: muscular, heavyset person's walk
+    difficulty: 4
+  '17_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: muscular, heavyset person's walk
+    difficulty: 4
+  '18_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, shake hands (2 subjects - subject A)
+    difficulty: 4
+  '18_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, shake hands (2 subjects - subject A)
+    difficulty: 4
+  '18_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: navigate busy sidewalk; A leads the way, takes B by the arm (2 subjects
+      - subject A)
+    difficulty: 4
+  '18_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: conversation - explain with hand gestures, walk (2 subjects - subject
+      A)
+    difficulty: 4
+  '19_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, shake hands (2 subjects - subject B)
+    difficulty: 4
+  '19_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, shake hands (2 subjects - subject B)
+    difficulty: 4
+  '19_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: navigate busy sidewalk; A leads the way, takes B by the arm (2 subjects
+      - subject B)
+    difficulty: 4
+  '19_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: conversation - explain with hand gestures, walk (2 subjects - subject
+      B)
+    difficulty: 4
+  '20_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: link arms, walk (2 subjects - subject A)
+    difficulty: 4
+  '20_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: link arms, walk (2 subjects - subject A)
+    difficulty: 4
+  '20_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: synchronized walk (2 subjects - subject A)
+    difficulty: 4
+  '20_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: synchronized walk (2 subjects - subject A)
+    difficulty: 4
+  '20_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: high-five, walk (2 subjects - subject A)
+    difficulty: 4
+  '20_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: low-five, walk (2 subjects - subject A)
+    difficulty: 4
+  '21_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: link arms, walk (2 subjects - subject B)
+    difficulty: 4
+  '21_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: link arms, walk (2 subjects - subject B)
+    difficulty: 4
+  '21_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: synchronized walk (2 subjects - subject B)
+    difficulty: 4
+  '21_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: synchronized walk (2 subjects - subject B)
+    difficulty: 4
+  '21_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: high-five, walk (2 subjects - subject B)
+    difficulty: 4
+  '21_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: low-five, walk (2 subjects - subject B)
+    difficulty: 4
+  '22_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: hold hands, swing arms, walk (2 subjects - subject A)
+    difficulty: 4
+  '22_22':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk; B catches keys thrown by A (2 subjects - subject A)
+    difficulty: 4
+  '22_23':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk; A catches keys thrown by B (2 subjects - subject A)
+    difficulty: 4
+  '22_24':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk; B catches wallet thrown by A (2 subjects - subject A)
+    difficulty: 4
+  '22_25':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk; A catches wallet thrown by B (2 subjects - subject A)
+    difficulty: 4
+  '23_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: hold hands, swing arms, walk (2 subjects - subject B)
+    difficulty: 4
+  '23_22':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk; B catches keys thrown by A (2 subjects - subject B)
+    difficulty: 4
+  '23_23':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk; A catches keys thrown by B (2 subjects - subject B)
+    difficulty: 4
+  '23_24':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk; B catches wallet thrown by A (2 subjects - subject B)
+    difficulty: 4
+  '23_25':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk; A catches wallet thrown by B (2 subjects - subject B)
+    difficulty: 4
+  '26_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '27_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '29_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '32_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '32_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_15':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_16':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_28':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_29':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_30':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_31':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_32':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_33':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '35_34':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '36_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward, turn around, walk back
+    difficulty: 4
+  '36_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward, turn around, walk back
+    difficulty: 4
+  '36_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward, turn around, walk back
+    difficulty: 4
+  '37_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: slow walk
+    difficulty: 4
+  '38_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '38_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '38_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk around, frequent turns, cyclic walk along a line
+    difficulty: 4
+  '39_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '39_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '39_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '39_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '39_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '39_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '39_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '39_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '39_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '39_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '39_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward, turn around, walk back
+    difficulty: 4
+  '39_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '39_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '39_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '40_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: navigate - walk forward, backward, on a diagonal
+    difficulty: 4
+  '40_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: navigate - walk forward, backward, on a diagonal
+    difficulty: 4
+  '40_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: navigate - walk forward, backward, on a diagonal
+    difficulty: 4
+  '40_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: navigate - walk forward, backward, on a diagonal
+    difficulty: 4
+  '41_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: navigate - walk forward, backward, sideways, on a diagonal
+    difficulty: 4
+  '41_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: navigate - walk forward, backward, sideways, on a diagonal
+    difficulty: 4
+  '41_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: navigate - walk forward, backward, on a diagonal
+    difficulty: 4
+  '41_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: navigate - walk forward, backward, on a diagonal
+    difficulty: 4
+  '41_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: navigate - walk forward, backward, on a diagonal
+    difficulty: 4
+  '43_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '45_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '46_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '47_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward, turn around, walk back
+    difficulty: 4
+  '49_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '54_20':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: follow path, walk around obstacles
+    difficulty: 4
+  '54_21':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: follow path, walk around obstacles
+    difficulty: 4
+  '54_22':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: follow path, walk around obstacles
+    difficulty: 4
+  '55_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '56_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk around
+    difficulty: 4
+  '56_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: vignettes - fists up, wipe window, grab, lift open window, throw
+      punches, yawn, stretch, walk, jump
+    difficulty: 4
+  '56_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: vignettes - walk, drink water, run, jog, jump, wipe window, lift
+      open window, throw punches, yawn, stretch
+    difficulty: 4
+  '56_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: vignettes - throw punches, grab, skip, yawn, stretch, leap, lift
+      open window, walk, jump, bound
+    difficulty: 4
+  '56_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: vignettes - yawn, stretch, walk, run, jog, angrily grab, jump, skip,
+      halt
+    difficulty: 4
+  '56_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: vignettes - lift open window, smash against wall, hop, walk, run,
+      jog, yawn, stretch
+    difficulty: 4
+  '69_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward
+    difficulty: 4
+  '69_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward
+    difficulty: 4
+  '69_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward
+    difficulty: 4
+  '69_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward
+    difficulty: 4
+  '69_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward
+    difficulty: 4
+  '69_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk and turn (repeated)
+    difficulty: 4
+  '69_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk and turn (repeated)
+    difficulty: 4
+  '69_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk and turn (repeated)
+    difficulty: 4
+  '69_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk and turn (repeated)
+    difficulty: 4
+  '69_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk and turn (repeated)
+    difficulty: 4
+  '69_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk and turn (repeated)
+    difficulty: 4
+  '69_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk and turn both directions (repeated)
+    difficulty: 4
+  '69_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, turn in place (repeated)
+    difficulty: 4
+  '69_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, turn in place (repeated)
+    difficulty: 4
+  '69_15':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, turn in place (repeated)
+    difficulty: 4
+  '69_20':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree right turn
+    difficulty: 4
+  '69_21':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree right turn
+    difficulty: 4
+  '69_22':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree right turn
+    difficulty: 4
+  '69_23':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree right turn
+    difficulty: 4
+  '69_24':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree left turn
+    difficulty: 4
+  '69_25':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree left turn
+    difficulty: 4
+  '69_26':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree left turn
+    difficulty: 4
+  '69_27':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree left turn
+    difficulty: 4
+  '69_28':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree smooth right turn
+    difficulty: 4
+  '69_29':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree smooth right turn
+    difficulty: 4
+  '69_30':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree smooth right turn
+    difficulty: 4
+  '69_31':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree smooth left turn
+    difficulty: 4
+  '69_32':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree smooth left turn
+    difficulty: 4
+  '69_33':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward 90 degree smooth left turn
+    difficulty: 4
+  '69_34':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backwards and turn
+    difficulty: 4
+  '69_35':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backwards and turn
+    difficulty: 4
+  '69_36':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backwards and turn
+    difficulty: 4
+  '69_37':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backwards and turn
+    difficulty: 4
+  '69_38':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backwards and turn (repeated)
+    difficulty: 4
+  '69_39':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backward, turn in place
+    difficulty: 4
+  '69_40':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backward, turn in place
+    difficulty: 4
+  '69_41':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backward, turn in place
+    difficulty: 4
+  '69_42':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk sideways and turn (repeated)
+    difficulty: 4
+  '69_43':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk sideways and turn (repeated)
+    difficulty: 4
+  '69_44':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk sideways and turn (repeated)
+    difficulty: 4
+  '69_45':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk sideways and turn (repeated)
+    difficulty: 4
+  '69_46':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk sideways and turn (repeated)
+    difficulty: 4
+  '69_47':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk sideways and turn (repeated)
+    difficulty: 4
+  '69_50':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk sideways and backwards
+    difficulty: 4
+  '69_51':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backwards and turn
+    difficulty: 4
+  '69_52':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backwards and turn
+    difficulty: 4
+  '69_53':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backwards and turn
+    difficulty: 4
+  '69_54':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backwards and turn
+    difficulty: 4
+  '69_55':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backwards and turn
+    difficulty: 4
+  '69_59':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk sideways and turn
+    difficulty: 4
+  '69_60':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk sideways and turn
+    difficulty: 4
+  '69_61':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk sideways and turn
+    difficulty: 4
+  '69_65':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk sideways and turn
+    difficulty: 4
+  '69_66':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk sideways and turn
+    difficulty: 4
+  '69_67':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk sideways and turn
+    difficulty: 4
+  '69_68':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward and pick up object, set down object
+    difficulty: 4
+  '69_69':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward and pick up object, carry back object
+    difficulty: 4
+  '69_70':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk up to object, squat, pick up object, set down in another place.
+    difficulty: 4
+  '69_71':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk up to object, squat, pick up object, set down in another place
+    difficulty: 4
+  '69_72':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk up to object, pick up object, set down in another place
+    difficulty: 4
+  '69_73':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk up to object, lean over, pick up object, set down in another
+      place
+    difficulty: 4
+  '69_74':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk up to object, lean over, pick up object, set down in another
+      place
+    difficulty: 4
+  '69_75':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk up to object, squat, pick up object, set down in another place
+    difficulty: 4
+  '74_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: stiff walk
+    difficulty: 4
+  '74_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: stiff walk
+    difficulty: 4
+  '74_20':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: stiff walk
+    difficulty: 4
+  '76_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backwards then attack with a punch
+    difficulty: 4
+  '76_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backwards, feign a few attacks, then attack
+    difficulty: 4
+  '76_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walking backwards
+    difficulty: 4
+  '77_25':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: careful walk and search
+    difficulty: 4
+  '77_26':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: careful walk and search
+    difficulty: 4
+  '77_27':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: careful walk and search
+    difficulty: 4
+  '77_28':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: careful walk
+    difficulty: 4
+  '77_29':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: creeping walk
+    difficulty: 4
+  '77_30':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: creeping walk
+    difficulty: 4
+  '77_31':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: silent walk
+    difficulty: 4
+  '77_32':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: creeping walk
+    difficulty: 4
+  '81_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: fix hair and walk forward
+    difficulty: 4
+  '81_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward
+    difficulty: 4
+  '81_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk
+    difficulty: 4
+  '81_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk at a brisk pace
+    difficulty: 4
+  '81_17':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward
+    difficulty: 4
+  '81_18':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: adjust hair walk forward
+    difficulty: 4
+  '82_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: stand still; casual walk forward
+    difficulty: 4
+  '82_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: confident walk forward
+    difficulty: 4
+  '82_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: sad walk forward
+    difficulty: 4
+  '82_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: normal walk forward
+    difficulty: 4
+  '82_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: happy or fast walk forward
+    difficulty: 4
+  '82_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: normal walk forward
+    difficulty: 4
+  '82_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward and slow down
+    difficulty: 4
+  '82_15':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward and turn sideways
+    difficulty: 4
+  '83_36':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward turn 90 degrees left walk forward
+    difficulty: 4
+  '83_37':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward turn 90 degrees right walk forward
+    difficulty: 4
+  '83_38':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward turn 90 degrees left walk forward
+    difficulty: 4
+  '83_39':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk forward turn 90 degrees right walk forward
+    difficulty: 4
+  '86_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, squats, run, stretch, jumps, punches, and drinking
+    difficulty: 4
+  '86_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walking, running, jumping, kicking, and stretching
+    difficulty: 4
+  '86_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walking, stretching, punching, chopping, and drinking
+    difficulty: 4
+  '86_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walking, jumping, jumping jacks,  jumping on one foot, punching,
+      chopping,
+    difficulty: 4
+  '86_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walking, running, kicking, punching, knee kicking, and stretching
+    difficulty: 4
+  '86_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walking, swinging arms, stretching, jumping on one leg, and jumping
+    difficulty: 4
+  '86_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walking, squats, stretching, kicking, and punching
+    difficulty: 4
+  '86_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walking, stretching, walking and turning
+    difficulty: 4
+  '86_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walking, dragging, sweeping, dustpan, wipe window, and wipe mirror
+    difficulty: 4
+  '90_22':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: straight walk
+    difficulty: 4
+  '90_23':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: straight walk
+    difficulty: 4
+  '90_25':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: fwd ball walk
+    difficulty: 4
+  '90_26':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: fwd ball walk
+    difficulty: 4
+  '90_27':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: bwk ball walk
+    difficulty: 4
+  '90_32':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: moonwalk
+    difficulty: 4
+  '91_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk digital figure eight
+    difficulty: 4
+  '91_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: WalkStraight
+    difficulty: 4
+  '91_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk figure eight
+    difficulty: 4
+  '91_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walking
+    difficulty: 4
+  '91_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Mummy Walk
+    difficulty: 4
+  '91_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: DrunkWalk
+    difficulty: 4
+  '91_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SlowWalk
+    difficulty: 4
+  '91_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: LavishWalk
+    difficulty: 4
+  '91_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: TooCoolWalk
+    difficulty: 4
+  '91_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SadWalk
+    difficulty: 4
+  '91_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: DepressedWalk
+    difficulty: 4
+  '91_15':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: ClumsyWalk
+    difficulty: 4
+  '91_17':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: QuickWalk
+    difficulty: 4
+  '91_18':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: CarefulWalk LookingAround
+    difficulty: 4
+  '91_20':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: ShyWalk
+    difficulty: 4
+  '91_21':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: acheyWalk
+    difficulty: 4
+  '91_22':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: CasualQuickWalk
+    difficulty: 4
+  '91_23':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: CoolWalk
+    difficulty: 4
+  '91_24':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: HurtLegWalk
+    difficulty: 4
+  '91_25':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: DragBadLegWalk
+    difficulty: 4
+  '91_26':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: HurtStomachWalk
+    difficulty: 4
+  '91_27':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SlowWalk
+    difficulty: 4
+  '91_28':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: GhettoWalk
+    difficulty: 4
+  '91_29':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: NormalWalk
+    difficulty: 4
+  '91_30':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SexyWalk
+    difficulty: 4
+  '91_31':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: NormalWalk
+    difficulty: 4
+  '91_32':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: ScaredWalk
+    difficulty: 4
+  '91_33':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: MachoWalk
+    difficulty: 4
+  '91_34':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: NormalWalk
+    difficulty: 4
+  '91_35':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: TrafficWalk
+    difficulty: 4
+  '91_36':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: WalkStraight
+    difficulty: 4
+  '91_57':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: WalkForward
+    difficulty: 4
+  '91_62':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walkFigure8
+    difficulty: 4
+  '93_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Casual Walk
+    difficulty: 4
+  '102_16':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: WalkEvasiveLeft
+    difficulty: 4
+  '102_17':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: WalkEvasiveRight
+    difficulty: 4
+  '103_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Casual Walk
+    difficulty: 4
+  '104_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: neutral Male walk, exact footfalls
+    difficulty: 4
+  '104_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Frankenstein male walk, exact footfalls
+    difficulty: 4
+  '104_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: HappyGoLuckWalk
+    difficulty: 4
+  '104_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: ExcitedWalk
+    difficulty: 4
+  '104_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: StumbleWalk
+    difficulty: 4
+  '104_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: HappyStartWalk
+    difficulty: 4
+  '104_16':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SpasticWalk
+    difficulty: 4
+  '104_19':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: CasualWalk
+    difficulty: 4
+  '104_22':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: RegularWalk8
+    difficulty: 4
+  '104_27':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: RegularWalkRightAngleTurns
+    difficulty: 4
+  '104_28':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SternWalk
+    difficulty: 4
+  '104_29':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SternWalk
+    difficulty: 4
+  '104_30':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SternWalk8
+    difficulty: 4
+  '104_32':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SternWalkRightAngleTurns
+    difficulty: 4
+  '104_35':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SlowWalk
+    difficulty: 4
+  '104_36':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SlowWalk8
+    difficulty: 4
+  '104_39':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SlowWalkRightAngleTurns
+    difficulty: 4
+  '104_41':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: ZombieWalk
+    difficulty: 4
+  '104_42':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: ZombieWalk8
+    difficulty: 4
+  '104_43':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: ZombieWalkRightAngleTurns
+    difficulty: 4
+  '104_44':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: AttitudeWalk
+    difficulty: 4
+  '104_45':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: AttitudeWalk8
+    difficulty: 4
+  '104_46':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: AttitudeWalkRightAngleTurns
+    difficulty: 4
+  '105_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: WalkDigital8
+    difficulty: 4
+  '105_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: WalkStraight
+    difficulty: 4
+  '105_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk8
+    difficulty: 4
+  '105_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: mummyWalk
+    difficulty: 4
+  '105_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: DrunkWalk
+    difficulty: 4
+  '105_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SlowWalk
+    difficulty: 4
+  '105_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: LavishWalk
+    difficulty: 4
+  '105_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: TooCoolWalk
+    difficulty: 4
+  '105_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SadWalk
+    difficulty: 4
+  '105_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: DepressedWalk
+    difficulty: 4
+  '105_15':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: ClumsyWalk
+    difficulty: 4
+  '105_17':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: QuickWalk
+    difficulty: 4
+  '105_18':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: CarefulWalk LookingAround
+    difficulty: 4
+  '105_20':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: ShyWalk
+    difficulty: 4
+  '105_21':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: acheyWalk
+    difficulty: 4
+  '105_22':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: CasualQuickWalk
+    difficulty: 4
+  '105_23':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: CoolWalk
+    difficulty: 4
+  '105_24':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: HurtLegWalk
+    difficulty: 4
+  '105_25':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: DragBadLegWalk
+    difficulty: 4
+  '105_26':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: HurtStomachWalk
+    difficulty: 4
+  '105_27':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SlowWalk
+    difficulty: 4
+  '105_28':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: GhettoWalk
+    difficulty: 4
+  '105_29':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: NormalWalk
+    difficulty: 4
+  '105_30':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: SexyWalk
+    difficulty: 4
+  '105_31':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: NormalWalk
+    difficulty: 4
+  '105_32':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: ScaredWalk
+    difficulty: 4
+  '105_33':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: MachoWalk
+    difficulty: 4
+  '105_34':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: NormalWalk
+    difficulty: 4
+  '105_35':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: TrafficWalk
+    difficulty: 4
+  '105_36':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: WalkStraight
+    difficulty: 4
+  '105_57':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: WalkForward
+    difficulty: 4
+  '105_62':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walkFigure8
+    difficulty: 4
+  '111_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk backwards
+    difficulty: 4
+  '111_26':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk sideways
+    difficulty: 4
+  '111_34':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk
+    difficulty: 4
+  '111_35':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk
+    difficulty: 4
+  '111_36':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk and carry
+    difficulty: 4
+  '113_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk backwards
+    difficulty: 4
+  '113_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk digital 8
+    difficulty: 4
+  '113_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk figure 8
+    difficulty: 4
+  '113_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk, mope around
+    difficulty: 4
+  '113_17':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk sideway
+    difficulty: 4
+  '113_18':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk sideways
+    difficulty: 4
+  '113_25':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk
+    difficulty: 4
+  '113_26':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk and carry
+    difficulty: 4
+  '114_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk
+    difficulty: 4
+  '114_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk
+    difficulty: 4
+  '114_15':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk
+    difficulty: 4
+  '120_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Mickey sneaky walk
+    difficulty: 4
+  '120_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Mickey sneaking walk
+    difficulty: 4
+  '120_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Mickey sneaking walk
+    difficulty: 4
+  '120_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Mickey sneaking walk
+    difficulty: 4
+  '120_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Mickey sneaking walk
+    difficulty: 4
+  '120_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Mickey sneaking walk
+    difficulty: 4
+  '120_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Mickey sneaking walk
+    difficulty: 4
+  '120_17':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Mickey Walk
+    difficulty: 4
+  '120_18':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Mickey Walk
+    difficulty: 4
+  '120_19':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk slow
+    difficulty: 4
+  '120_20':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk
+    difficulty: 4
+  '127_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk to Run
+    difficulty: 4
+  '131_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Start Walk Stop
+    difficulty: 4
+  '131_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Start Walk Stop
+    difficulty: 4
+  '131_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Start Walk Left
+    difficulty: 4
+  '131_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Start Walk Left
+    difficulty: 4
+  '131_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Start Walk Left
+    difficulty: 4
+  '131_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Start Walk Right
+    difficulty: 4
+  '131_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Start Walk Right
+    difficulty: 4
+  '131_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Start Walk Right
+    difficulty: 4
+  '132_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Arms Out,  balancing
+    difficulty: 4
+  '132_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Arms Out,  balancing
+    difficulty: 4
+  '132_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Arms Out,  balancing
+    difficulty: 4
+  '132_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Arms Out,  balancing
+    difficulty: 4
+  '132_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Arms Out,  balancing
+    difficulty: 4
+  '132_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Arms Out,  balancing
+    difficulty: 4
+  '132_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Arms Out,  balancing
+    difficulty: 4
+  '132_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Arms Out,  balancing
+    difficulty: 4
+  '132_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Arms Out,  balancing
+    difficulty: 4
+  '132_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Arms Out,  balancing
+    difficulty: 4
+  '132_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Arms Out,  balancing
+    difficulty: 4
+  '132_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Arms Out,  balancing
+    difficulty: 4
+  '132_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Backwards
+    difficulty: 4
+  '132_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Duck Footed
+    difficulty: 4
+  '132_15':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Knees Bent
+    difficulty: 4
+  '132_16':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Crossover
+    difficulty: 4
+  '132_17':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Fast
+    difficulty: 4
+  '132_18':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Fast
+    difficulty: 4
+  '132_19':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Fast
+    difficulty: 4
+  '132_20':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Fast
+    difficulty: 4
+  '132_21':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Fast
+    difficulty: 4
+  '132_22':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Fast
+    difficulty: 4
+  '132_29':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Bouncy Walk
+    difficulty: 4
+  '132_30':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Bouncy Walk
+    difficulty: 4
+  '132_31':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Bouncy Walk
+    difficulty: 4
+  '132_32':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Bouncy Walk
+    difficulty: 4
+  '132_33':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Bouncy Walk
+    difficulty: 4
+  '132_34':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Bouncy Walk
+    difficulty: 4
+  '132_35':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Leaning To The Right
+    difficulty: 4
+  '132_36':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Leaning To The Right
+    difficulty: 4
+  '132_39':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Pigeon Toed Walking
+    difficulty: 4
+  '132_40':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Stiff Arms
+    difficulty: 4
+  '132_41':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Stiff Arms
+    difficulty: 4
+  '132_42':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Swinging Shoulders
+    difficulty: 4
+  '132_43':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Swinging Shoulders
+    difficulty: 4
+  '132_44':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Swinging Shoulders
+    difficulty: 4
+  '132_45':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Slow
+    difficulty: 4
+  '132_46':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Slow
+    difficulty: 4
+  '132_47':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Slow
+    difficulty: 4
+  '132_48':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Slow
+    difficulty: 4
+  '132_49':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Slow
+    difficulty: 4
+  '132_50':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Slow
+    difficulty: 4
+  '132_53':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Legs Apart
+    difficulty: 4
+  '132_54':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Wild Arms
+    difficulty: 4
+  '132_55':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Wild Legs
+    difficulty: 4
+  '132_56':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk With Wild Legs
+    difficulty: 4
+  '133_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Crawl
+    difficulty: 4
+  '133_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Crawl
+    difficulty: 4
+  '133_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Jump
+    difficulty: 4
+  '133_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Jump
+    difficulty: 4
+  '133_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Jump
+    difficulty: 4
+  '133_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Jump
+    difficulty: 4
+  '133_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Jump
+    difficulty: 4
+  '133_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Stretch Walk
+    difficulty: 4
+  '133_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Stretch Walk
+    difficulty: 4
+  '133_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Stretch Walk
+    difficulty: 4
+  '133_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Stop Walk
+    difficulty: 4
+  '133_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Stop Walk
+    difficulty: 4
+  '133_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Stop Walk
+    difficulty: 4
+  '133_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Left
+    difficulty: 4
+  '133_15':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Left
+    difficulty: 4
+  '133_16':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Left
+    difficulty: 4
+  '133_17':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Right
+    difficulty: 4
+  '133_18':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Right
+    difficulty: 4
+  '133_19':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Right
+    difficulty: 4
+  '133_20':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Right
+    difficulty: 4
+  '133_21':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk
+    difficulty: 4
+  '133_22':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk
+    difficulty: 4
+  '133_23':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk
+    difficulty: 4
+  '133_24':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk ZigZag
+    difficulty: 4
+  '136_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Bent Forward
+    difficulty: 4
+  '136_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Bent Forward
+    difficulty: 4
+  '136_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Backwards Bent Forward
+    difficulty: 4
+  '136_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Backwards Bent Forward
+    difficulty: 4
+  '136_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk on Toes Bent Forward
+    difficulty: 4
+  '136_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk on Toes Bent Forward
+    difficulty: 4
+  '136_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Backward on Toes Bent Forward
+    difficulty: 4
+  '136_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Backward on Toes Bent Forward
+    difficulty: 4
+  '136_09':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Crouched
+    difficulty: 4
+  '136_10':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Crouched
+    difficulty: 4
+  '136_11':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Backwards Crouched
+    difficulty: 4
+  '136_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Backwards Crouched
+    difficulty: 4
+  '136_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk on Toes Crouched
+    difficulty: 4
+  '136_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk on Toes Crouched
+    difficulty: 4
+  '136_15':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Backwards on Toes Crouched
+    difficulty: 4
+  '136_16':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Backwards on Toes Crouched
+    difficulty: 4
+  '136_20':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Normal Walk
+    difficulty: 4
+  '136_21':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Normal Walk
+    difficulty: 4
+  '136_22':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Normal Walk
+    difficulty: 4
+  '136_23':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Normal Walk
+    difficulty: 4
+  '136_24':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Normal Walk
+    difficulty: 4
+  '136_25':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Normal Walk Backwards
+    difficulty: 4
+  '136_26':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Normal Walk Backwards
+    difficulty: 4
+  '136_27':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk on Toes
+    difficulty: 4
+  '136_28':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk on Toes
+    difficulty: 4
+  '136_29':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Backwards on Toes
+    difficulty: 4
+  '136_30':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Backwards on Toes
+    difficulty: 4
+  '137_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Cat Walk
+    difficulty: 4
+  '137_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Chicken Walk
+    difficulty: 4
+  '137_12':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Dinosaur Walk
+    difficulty: 4
+  '137_16':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Drunk Walk
+    difficulty: 4
+  '137_20':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Gangly Teen Walk
+    difficulty: 4
+  '137_24':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Graceful Lady Walk
+    difficulty: 4
+  '137_29':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Normal Walk
+    difficulty: 4
+  '137_33':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Old Man Walk
+    difficulty: 4
+  '137_38':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Sexy Lady Walk
+    difficulty: 4
+  '137_42':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Strong Man Walk
+    difficulty: 4
+  '139_19':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Wounded Leg
+    difficulty: 4
+  '139_20':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Wounded Leg
+    difficulty: 4
+  '139_22':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Wounded Leg
+    difficulty: 4
+  '139_23':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Wounded Leg
+    difficulty: 4
+  '139_24':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Wounded Leg
+    difficulty: 4
+  '139_28':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walking
+    difficulty: 4
+  '139_30':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walking
+    difficulty: 4
+  '141_07':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Up and Over
+    difficulty: 4
+  '141_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Steop On Walk Down
+    difficulty: 4
+  '141_19':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk
+    difficulty: 4
+  '141_25':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk
+    difficulty: 4
+  '141_29':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Random Walk
+    difficulty: 4
+  '141_30':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Random Walk
+    difficulty: 4
+  '141_31':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Backwards
+    difficulty: 4
+  '141_32':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Sideways, Cross Legs
+    difficulty: 4
+  '141_33':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Sideways, Foot to Foot
+    difficulty: 4
+  '143_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk and Pick up Laundry Basket
+    difficulty: 4
+  '143_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk And Step Over
+    difficulty: 4
+  '143_15':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk And Step Over
+    difficulty: 4
+  '143_16':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk And Step Over
+    difficulty: 4
+  '143_32':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk
+    difficulty: 4
+  '143_38':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Digital 8
+    difficulty: 4
+  '143_39':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Backwards
+    difficulty: 4
+  '143_40':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walk Sideways
+    difficulty: 4
+  '144_33':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walking
+    difficulty: 4
+  '144_34':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Walking001
+    difficulty: 4

@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 import matplotlib.pyplot as plt
+import numpy
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import numpy as np
 import multiprocessing as mp
@@ -16,6 +17,11 @@ parser.add_argument("--device", type=str, default="cuda:0", help="Device for run
 parser.add_argument("--policy", type=str, default=None, help="Policy file to be import")
 parser.add_argument("--config_file", type=str, default="robot_87_config.yaml", help="Config file to be import")
 parser.add_argument("--training_config", type=str, default="ppo_87_mlp.yaml", help="Config file to be import")
+parser.add_argument("--task_name", type=str, default="HIT-Humanoid-Imitate-v0", help="Name of the task")
+parser.add_argument("--experiment_name", type=str, default="HIT-Humanoid-Imitate-v0", help="Experiment name")
+parser.add_argument("--seed", type=int, default=None, help="Seed used for the environment")
+parser.add_argument("--log_path", type=str, default="2024-11-25_15-45-34\\model_700.pt", help="Model to be import")
+
 
 os.environ["CONFIG"] = parser.parse_args().config_file
 os.environ["TRAINING_CONFIG"] = parser.parse_args().training_config
@@ -34,6 +40,12 @@ import os
 from hit_omniverse.extension.hit_env_cfg import HITRLEnvCfg
 import hit_omniverse.extension.mdp as mdp
 from hit_omniverse.utils.helper import DynamicPlotApp, setup_config
+from hit_omniverse import HIT_SIM_LOGS_DIR
+
+from omni.isaac.lab_tasks.utils.wrappers.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlVecEnvWrapper
+from omni.isaac.lab_tasks.utils.parse_cfg import load_cfg_from_registry
+from hit_omniverse.rsl_rl.runners import OnPolicyRunner
+from hit_omniverse.rsl_rl.env import HistoryEnv
 
 config = setup_config(os.environ["CONFIG"])
 
@@ -55,35 +67,39 @@ def startup_sim(queue:mp.Queue):
     env_cfg.scene.num_envs = args_cli.num_envs
     env_cfg.scene.env_spacing = args_cli.env_spacing
     env_cfg.sim.device = args_cli.device
+    agent_cfg: RslRlOnPolicyRunnerCfg = load_cfg_from_registry(args_cli.task_name, "rsl_rl_cfg_entry_point")
+    policy_path = os.path.join(HIT_SIM_LOGS_DIR, "rsl_rl", args_cli.experiment_name, args_cli.log_path)
 
-    env = gym.make("HIT-Humanoid-Imitate-v0", cfg=env_cfg)
-    #TODO be pythonic
-    # observation
-    env.unwrapped.last_feet_z = 0.05
-    env.unwrapped.feet_height = torch.zeros((env.num_envs, 2), device=env.device)
-    env.unwrapped.last_contacts = torch.zeros(env.num_envs, 2, dtype=torch.bool, device=env.device, requires_grad=False)
-    env.unwrapped.feet_air_time = torch.zeros(env.num_envs, 2, dtype=torch.float, device=env.device,
-                                              requires_grad=False)
+    env = gym.make(args_cli.task_name, cfg=env_cfg)
+    # env = RslRlVecEnvWrapper(env)
+    env = HistoryEnv(env, agent_cfg.to_dict())
+    # env.seed(args_cli.seed)
 
-    obs, _ = env.reset()
+    runner = OnPolicyRunner(env, agent_cfg.to_dict(), log_dir=None, device=agent_cfg.device)
+    runner.load(policy_path)
+    policy = runner.get_inference_policy(device=agent_cfg.device)
+
+    obs, _ = env.get_observations()
 
     while simulation_app.is_running():
-        # action = mdp.generated_commands(env, "dataset")
-        action = mdp.generated_commands(env, "dataset")["dof_pos"]
-        obs, rew, terminated, truncated, info = env.step(action)
+        # actions = mdp.generated_commands(env, "dataset")
+        # actions = mdp.generated_commands(env.unwrapped, "dataset")["dof_pos"]
+        actions = get_action(env, policy, obs)
+        obs, rewards, dones, infos = env.step(actions)
 
-        joint_pos = mdp.joint_pos(env)[0].cpu().numpy()
-        reference = action[0].cpu().numpy()
+        # joint_pos = mdp.joint_pos(env.unwrapped)[0].cpu().numpy()
+        # joint_pos = numpy.asarray([0 for i in range(22)])
+        joint_pos = mdp.generated_commands(env.unwrapped, "dataset")["dof_pos"][0].cpu().numpy()
+        reference = actions[0].cpu().detach().numpy()
         data = []
         for i in range(len(joint_pos)):
             data.append([joint_pos[i], reference[i]])
         queue.put(data)
 
 
-def get_atcion(env, policy, observation):
+def get_action(env, policy, observation):
     if policy is not None:
         return policy(observation)
-    print(mdp.generated_commands(env, init_dataset)["dof_pos"])
     return mdp.generated_commands(env, init_dataset)["dof_pos"]
 
 

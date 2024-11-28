@@ -24,11 +24,9 @@ simulation_app = app_launcher.app
 from hit_omniverse.extension.hit_env_cfg_rigid import HITRighdEnvCfg
 from hit_omniverse import HIT_SIM_DATASET_DIR
 from hit_omniverse.utils.helper import TransCMU2HIT, quaternion_multiply
-from hit_omniverse.standalone.get_action_dataset import get_action
 
 import torch
 import gymnasium as gym
-from hit_omniverse.algo.vec_env import add_env_variable, add_env_method
 import hit_omniverse.extension.mdp as mdp
 import numpy as np
 from omni.isaac.lab.assets import Articulation
@@ -94,20 +92,20 @@ def main():
 
 		for link in LINK_NAMES:
 			transform = mdp.generated_commands(env, "imitation")[link].cpu().numpy()
-			transform += np.asarray([0, 0, 0, 0, 0, 0, 0.2])
+			transform += np.asarray([0, 0, 0, 0, 0, 0, 1])
 			body_transforms = np.concatenate((transform[0][4:], [transform[0][3]], transform[0][:3]))
 			body_transforms = np.concatenate((body_transforms[:3], quaternion_multiply(body_transforms[3:], QUAT_INIT[link])))
 			body_transforms = torch.tensor(body_transforms).to(env_cfg.sim.device)
 			body.get(link).write_root_pose_to_sim(body_transforms)
 
-		t = time.time()
+		# t = time.time()
 		env.command_manager.compute(dt=env.step_dt)
 		env.sim.step(render=False)
 		env.scene.update(dt=env.physics_dt)
-		print(f"spend {time.time() - t}")
+		# print(f"spend {time.time() - t}")
 
 		env.render()
-		time.sleep(0.05)
+		# time.sleep(0.05)
 		pass
 
 

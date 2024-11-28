@@ -1,0 +1,108 @@
+<ObservationManager> contains 2 groups.
++---------------------------------------------------------+
+| Active Observation Terms in Group: 'policy' (shape: (80,)) |
++-----------+---------------------------------+-----------+
+|   Index   | Name                            |   Shape   |
++-----------+---------------------------------+-----------+
+|     0     | base_lin_vel                    |    (3,)   |
+|     1     | base_ang_vel                    |    (3,)   |
+|     2     | projected_gravity               |    (3,)   |
+|     3     | velocity_commands               |    (3,)   |
+|     4     | joint_pos                       |   (22,)   |
+|     5     | joint_vel                       |   (22,)   |
+|     6     | actions                         |   (22,)   |
+|     7     | base_yaw_roll                   |    (2,)   |
++-----------+---------------------------------+-----------+
++---------------------------------------------------------+
+| Active Observation Terms in Group: 'critic' (shape: (80,)) |
++-----------+---------------------------------+-----------+
+|   Index   | Name                            |   Shape   |
++-----------+---------------------------------+-----------+
+|     0     | base_lin_vel                    |    (3,)   |
+|     1     | base_ang_vel                    |    (3,)   |
+|     2     | projected_gravity               |    (3,)   |
+|     3     | velocity_commands               |    (3,)   |
+|     4     | joint_pos                       |   (22,)   |
+|     5     | joint_vel                       |   (22,)   |
+|     6     | actions                         |   (22,)   |
+|     7     | base_yaw_roll                   |    (2,)   |
++-----------+---------------------------------+-----------+
+
+<ActionManager> contains 1 active terms.
++------------------------------------+
+|  Active Action Terms (shape: 22)   |
++-------+----------------+-----------+
+| Index | Name           | Dimension |
++-------+----------------+-----------+
+|   0   | joint_position |        22 |
++-------+----------------+-----------+
+
+<RewardManager> contains 12 active terms.
++-----------------------------------------+
+|           Active Reward Terms           |
++-------+----------------------+----------+
+| Index | Name                 |   Weight |
++-------+----------------------+----------+
+|   0   | alive                |        5 |
+|   1   | track_lin_vel_xy_exp |      1.0 |
+|   2   | track_ang_vel_z_exp  |      0.5 |
+|   3   | lin_vel_z_l2         |     -2.0 |
+|   4   | ang_vel_xy_l2        |    -0.05 |
+|   5   | dof_torques_l2       |   -1e-05 |
+|   6   | dof_acc_l2           | -2.5e-07 |
+|   7   | action_rate_l2       |    -0.01 |
+|   8   | feet_air_time        |    0.125 |
+|   9   | undesired_contacts   |     -1.0 |
+|   10  | flat_orientation_l2  |      0.0 |
+|   11  | dof_pos_limits       |      0.0 |
++-------+----------------------+----------+
+
+<CommandManager> contains 1 active terms.
++------------------------------------------------+
+|              Active Command Terms              |
++-------+---------------+------------------------+
+| Index | Name          |          Type          |
++-------+---------------+------------------------+
+|   0   | base_velocity | UniformVelocityCommand |
++-------+---------------+------------------------+
+
+<EventManager> contains 2 active terms.
++--------------------------------------+
+| Active Event Terms in Mode: 'startup' |
++----------+---------------------------+
+|  Index   | Name                      |
++----------+---------------------------+
+|    0     | physics_material          |
+|    1     | add_base_mass             |
++----------+---------------------------+
++----------------------------------+
+| Active Event Terms in Mode: 'reset' |
++-----------+----------------------+
+|   Index   | Name                 |
++-----------+----------------------+
+|     0     | reset_scene          |
+|     1     | reset_base           |
++-----------+----------------------+
+
+<TerminationManager> contains 2 active terms.
++---------------------------------+
+|     Active Termination Terms    |
++-------+--------------+----------+
+| Index | Name         | Time Out |
++-------+--------------+----------+
+|   0   | time_out     |   True   |
+|   1   | base_contact |  False   |
++-------+--------------+----------+
+
+<TerminationManager> contains 2 active terms.
++---------------------------------+
+|     Active Termination Terms    |
++-------+--------------+----------+
+| Index | Name         | Time Out |
++-------+--------------+----------+
+|   0   | time_out     |   True   |
+|   1   | base_contact |  False   |
++-------+--------------+----------+
+
+obs_context_len:4
+privileged_context_len:4

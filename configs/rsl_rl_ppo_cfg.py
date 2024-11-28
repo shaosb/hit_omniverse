@@ -14,6 +14,8 @@ from hit_omniverse.rsl_rl.modules import (
     ActorCritic,
     ActorCriticRecurrent
 )
+from dataclasses import MISSING
+
 
 
 @configclass
@@ -23,15 +25,17 @@ class HumanoidPPORunnerCfg(RslRlOnPolicyRunnerCfg):
     save_interval = 50
     experiment_name = "humanoid"
     empirical_normalization = False
-    obs_context_len = 5
-    privileged_context_len = 3
-    # policy_class_name = "ActorCriticTransformer"
+    obs_context_len = 2
+    privileged_context_len = 2
     policy = RslRlPpoActorCriticCfg(
         init_noise_std=1.0,
-        actor_hidden_dims=[400, 200, 100],
-        critic_hidden_dims=[400, 200, 100],
+        # actor_hidden_dims=[400, 200, 100],
+        # critic_hidden_dims=[400, 200, 100],
+        actor_hidden_dims=[512, 256, 128],
+        critic_hidden_dims=[512, 256, 128],
         activation="elu",
     )
+
     algorithm = RslRlPpoAlgorithmCfg(
         value_loss_coef=1.0,
         use_clipped_value_loss=True,

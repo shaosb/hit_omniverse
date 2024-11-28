@@ -168,10 +168,13 @@ def read_npy(file_path):
 	node_names = motion.skeleton_tree.node_names
 
 	length = len(motion.global_transformation.numpy()[:, 0, :])
-
+	
+	data = {}
 	data = {name: motion.global_transformation.numpy()[:, i, :] for i, name in enumerate(node_names)}
 	time = [i for i in range(length)]
 	data.update({"time": time})
+	# data.update({"dof_pos": data["dof_pos"]})
+	# data.update({"dof_vel": data["dof_vel"]})
 
 	return data
 

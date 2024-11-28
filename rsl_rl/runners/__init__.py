@@ -3,6 +3,7 @@
 
 """Implementation of runners for environment-agent interaction."""
 
+from .on_policy_runner_transformer import OnPolicyTransformerRunner
 from .on_policy_runner import OnPolicyRunner
 
-__all__ = ["OnPolicyRunner"]
+__all__ = ["OnPolicyTransformerRunner", "OnPolicyRunner"]

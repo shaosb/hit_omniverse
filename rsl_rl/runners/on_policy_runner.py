@@ -28,8 +28,11 @@ class OnPolicyRunner:
         obs, extras = self.env.get_observations()
         num_obs = obs.shape[1]
         if "critic" in extras["observations"]:
-            # num_critic_obs = extras["observations"]["critic"].shape[1]
-            num_critic_obs = self.env.get_critic_observations(extras["observations"]["critic"]).shape[1]
+            # TODO
+            try:
+                num_critic_obs = self.env.get_critic_observations(extras["observations"]["critic"]).shape[1]
+            except:
+                num_critic_obs = extras["observations"]["critic"].shape[1]
         else:
             num_critic_obs = num_obs
         actor_critic_class = eval(self.policy_cfg.pop("class_name"))  # ActorCritic
@@ -92,8 +95,11 @@ class OnPolicyRunner:
                 self.env.episode_length_buf, high=int(self.env.max_episode_length)
             )
         obs, extras = self.env.get_observations()
-        # critic_obs = extras["observations"].get("critic", obs)
-        critic_obs = self.env.get_critic_observations(extras["observations"].get("critic", obs))
+        # TODO
+        try:
+            critic_obs = self.env.get_critic_observations(extras["observations"].get("critic", obs))
+        except:
+            critic_obs = extras["observations"].get("critic", obs)
         obs, critic_obs = obs.to(self.device), critic_obs.to(self.device)
         self.train_mode()  # switch to train mode (for dropout for example)
 
@@ -123,6 +129,7 @@ class OnPolicyRunner:
                         rewards.to(self.device),
                         dones.to(self.device),
                     )
+
                     self.alg.process_env_step(rewards, dones, infos)
 
                     if self.log_dir is not None:

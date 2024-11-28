@@ -5,5 +5,6 @@
 
 from .vec_env import VecEnv
 from .history_env import HistoryEnv
+from .transformer_env import TransformerEnv
 
-__all__ = ["VecEnv", "HistoryEnv"]
+__all__ = ["VecEnv", "HistoryEnv", "TransformerEnv"]

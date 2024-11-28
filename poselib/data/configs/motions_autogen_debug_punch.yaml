@@ -1,0 +1,127 @@
+motions:
+  root: ../retarget_npy/
+  '02_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: punch, strike
+    difficulty: 4
+  '56_03':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: vignettes - fists up, wipe window, yawn, stretch, angrily grab, smash
+      against wall, lift open window, throw punches, skip
+    difficulty: 4
+  '56_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: vignettes - fists up, wipe window, grab, lift open window, throw
+      punches, yawn, stretch, walk, jump
+    difficulty: 4
+  '56_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: vignettes - walk, drink water, run, jog, jump, wipe window, lift
+      open window, throw punches, yawn, stretch
+    difficulty: 4
+  '56_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: vignettes - throw punches, grab, skip, yawn, stretch, leap, lift
+      open window, walk, jump, bound
+    difficulty: 4
+  '76_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk backwards then attack with a punch
+    difficulty: 4
+  '86_01':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: jumps kicks and punches
+    difficulty: 4
+  '86_02':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walk, squats, run, stretch, jumps, punches, and drinking
+    difficulty: 4
+  '86_04':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walking, stretching, punching, chopping, and drinking
+    difficulty: 4
+  '86_05':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walking, jumping, jumping jacks,  jumping on one foot, punching,
+      chopping,
+    difficulty: 4
+  '86_06':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walking, running, kicking, punching, knee kicking, and stretching
+    difficulty: 4
+  '86_08':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: walking, squats, stretching, kicking, and punching
+    difficulty: 4
+  '111_19':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Punch Kick
+    difficulty: 4
+  '113_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Punch and kick
+    difficulty: 4
+  '141_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Punch and Kick
+    difficulty: 4
+  '143_23':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Punching
+    difficulty: 4
+  '144_13':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Left_Punch_Sequence001
+    difficulty: 4
+  '144_14':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Left_Punch_Sequence002
+    difficulty: 4
+  '144_20':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Punch_Sequence
+    difficulty: 4
+  '144_21':
+    trim_beg: -1
+    trim_end: -1
+    weight: 1.0
+    description: Punch_Sequence001
+    difficulty: 4

@@ -63,7 +63,7 @@ class DatasetCommand(CommandTerm):
         for env_id in env_ids:
             try:
                 batch = self._prepare_data(self.command_counter[env_id])
-                self.command_counter[env_id] += 9
+                # self.command_counter[env_id] += 9
             except IndexError as e:
                 self.command_counter[env_id] = 0
                 batch = self._prepare_data(self.command_counter[env_id])

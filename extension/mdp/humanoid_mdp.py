@@ -246,8 +246,9 @@ def joint_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = Scene
     # extract the used quantities (to enable type-hinting)
     asset: Articulation = env.scene[asset_cfg.name]
     joint_pos = math_utils.wrap_to_pi(asset.data.joint_pos)
-    target = mdp.generated_commands(env, "dataset")["dof_pos"]
-    return torch.exp(-torch.sum(torch.square(joint_pos - target), dim=1))
+    # target = mdp.generated_commands(env, "dataset")["dof_pos"]
+    target = torch.tensor([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device=env.device).repeat(env.num_envs, 1)
+    return torch.exp(-torch.sum(torch.abs(joint_pos - target), dim=1))
 
 def joint_upper_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     """
@@ -259,7 +260,7 @@ def joint_upper_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg =
     upper_body = [2, 5, 8, 9, 12, 13, 16, 17, 20, 21]
     joint_pos = math_utils.wrap_to_pi(asset.data.joint_pos)[:, upper_body]
     target = mdp.generated_commands(env, "dataset")["dof_pos"][:, upper_body]
-    return torch.exp(-torch.sum(torch.square(joint_pos - target), dim=1))
+    return torch.exp(-torch.sum(torch.abs(joint_pos - target), dim=1))
 
 def joint_lower_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     """
@@ -271,7 +272,7 @@ def joint_lower_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg =
     lower_body = [0, 1, 3, 4, 6, 7, 10, 11, 14, 15, 18, 19]
     joint_pos = math_utils.wrap_to_pi(asset.data.joint_pos)[:, lower_body]
     target = mdp.generated_commands(env, "dataset")["dof_pos"][:, lower_body]
-    return torch.exp(-5 * torch.sum(torch.square(joint_pos - target), dim=1))
+    return torch.exp(-torch.sum(torch.abs(joint_pos - target), dim=1))
 
 def target_xy_velocities(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     asset: Articulation = env.scene[asset_cfg.name]
@@ -324,7 +325,7 @@ def track_lin(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg
     asset: Articulation = env.scene[asset_cfg.name]
     commands = constant_commands(env)
 
-    lin_vel_error = torch.sum(torch.square(
+    lin_vel_error = torch.sum(torch.abs(
         commands[:, :3] - asset.data.root_lin_vel_w[:, :]), dim=1)
     return torch.exp(-lin_vel_error)
     # return lin_vel_error
@@ -333,16 +334,16 @@ def track_ang(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg
     asset: Articulation = env.scene[asset_cfg.name]
     commands = constant_commands(env)
 
-    lin_ang_error = torch.sum(torch.square(
+    lin_ang_error = torch.sum(torch.abs(
         commands[:, 3:6] - asset.data.root_ang_vel_w[:, :]), dim=1)
-    return torch.exp(-0.001 * lin_ang_error)
+    return torch.exp(-0.01 * lin_ang_error)
     # return lin_ang_error
 
 def track_lin_x(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     asset: Articulation = env.scene[asset_cfg.name]
     commands = constant_commands(env)
 
-    lin_x_error = torch.sum(torch.square(
+    lin_x_error = torch.sum(torch.abs(
         commands[:, 0] - asset.data.root_lin_vel_w[:, 0]))
     return torch.exp(-0.001 * lin_x_error)
 
@@ -476,86 +477,6 @@ def dataset_world_xyz(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneE
 def dataset_world_rpy(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     return mdp.generated_commands(env, "dataset")["robot_world_rpy"]
 
-
-def reset_reference_and_robot_to_default(env: ManagerBasedRLEnv, env_ids: torch.Tensor, offset: list):
-    asset: Articulation = env.scene["robot"]
-    asset_reference: Articulation = env.scene["robot_reference"]
-
-    pos_default = asset.data.root_pos_w[env_ids, ]
-    offset = torch.tensor([offset], device=env.device).repeat(env_ids.shape[0], 1)
-    orientations = asset.data.root_quat_w[env_ids, ]
-    positions = pos_default + offset
-
-    asset_reference.write_root_pose_to_sim(torch.cat([positions, orientations], dim=-1), env_ids=env_ids)
-
-
-def reference_joint_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
-    """
-    This is computed as a sum of the absolute value of the difference between the joint position and the reference motion.
-    """
-    # extract the used quantities (to enable type-hinting)
-    asset: Articulation = env.scene[asset_cfg.name]
-    asset_reference: Articulation = env.scene[asset_cfg.name + "_reference"]
-
-    joint_pos = math_utils.wrap_to_pi(asset.data.joint_pos)
-    reference_joint_pos = math_utils.wrap_to_pi(asset_reference.data.joint_pos)
-
-    # return torch.exp(-2 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1))
-    return 10 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1)
-
-
-def reference_joint_vel_distance(env: ManagerBasedRLEnv,
-                                 asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
-    """
-    This is computed as a sum of the absolute value of the difference between the joint position and the reference motion.
-    """
-    # extract the used quantities (to enable type-hinting)
-    asset: Articulation = env.scene[asset_cfg.name]
-    asset_reference: Articulation = env.scene[asset_cfg.name + "_reference"]
-
-    joint_pos = math_utils.wrap_to_pi(asset.data.joint_vel)
-    reference_joint_pos = math_utils.wrap_to_pi(asset_reference.data.joint_vel)
-
-    # return torch.exp(-2 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1))
-    return 10 * torch.sum(torch.square(joint_pos - reference_joint_pos), dim=1)
-
-
-def reference_body_pos_distance(env: ManagerBasedRLEnv,
-                                 asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
-    """
-    This is computed as a sum of the absolute value of the difference between the joint position and the reference motion.
-    """
-    # extract the used quantities (to enable type-hinting)
-    asset: Articulation = env.scene[asset_cfg.name]
-    asset_reference: Articulation = env.scene[asset_cfg.name + "_reference"]
-
-    body_pos = asset.data.body_pos_w
-    reference_pos = asset_reference.data.body_pos_w
-    target = reference_pos - torch.tensor(config["REFERENCE_OFFSET"], device=env.device)
-    # return torch.exp(-40 * torch.sum(torch.square(target - body_pos)))
-    return 0.01 * torch.sum(torch.square(target - body_pos))
-
-
-def reset_obs_buff(env: ManagerBasedRLEnv, env_ids: torch.Tensor):
-    if hasattr(env, "obs_queue"):
-        obs_queue_new = deque(maxlen=training_config["max_actor_history"])
-        critic_queue_new = deque(maxlen=training_config["max_critic_history"])
-
-        for i in range(training_config["max_actor_history"]):
-            temp = env.obs_queue[i]
-            temp[env_ids, ] = torch.zeros(env_ids.shape[0], env.observation_space["policy"].shape[1],
-                                         dtype=torch.float, device=env.device)
-            obs_queue_new.append(temp)
-
-        for i in range(training_config["max_critic_history"]):
-            temp = env.critic_queue[i]
-            temp[env_ids, ] = torch.zeros(env_ids.shape[0], env.observation_space["privileged"].shape[1],
-                                         dtype=torch.float, device=env.device)
-            critic_queue_new.append(temp)
-
-        env.obs_queue = obs_queue_new
-        env.critic_queue = critic_queue_new
-
 def reset_robot_position(env, env_ids: torch.Tensor, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")):
     asset: Articulation = env.scene[asset_cfg.name]
     pos_target = mdp.generated_commands(env, "dataset")["dof_pos"]
@@ -566,9 +487,62 @@ def track_yaw_row(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntit
     asset: Articulation = env.scene[asset_cfg.name]
     target = torch.tensor([[0, 0]], device=env.device).repeat(env.num_envs, 1)
 
-    return torch.exp(-5 * torch.sum(torch.square(target - base_yaw_roll(env, asset_cfg)), dim=1))
+    return torch.exp(-torch.sum(torch.abs(target - base_yaw_roll(env, asset_cfg)), dim=1))
 
 def joint_toqrue(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     asset: Articulation = env.scene[asset_cfg.name]
 
     return asset.data.applied_torque[:, :]
+
+
+def feet_air_time(
+    env: ManagerBasedRLEnv, command_name: str, sensor_cfg: SceneEntityCfg, threshold: float
+) -> torch.Tensor:
+    """Reward long steps taken by the feet using L2-kernel.
+
+    This function rewards the agent for taking steps that are longer than a threshold. This helps ensure
+    that the robot lifts its feet off the ground and takes steps. The reward is computed as the sum of
+    the time for which the feet are in the air.
+
+    If the commands are small (i.e. the agent is not supposed to take a step), then the reward is zero.
+    """
+    # extract the used quantities (to enable type-hinting)
+    contact_sensor: ContactSensor = env.scene.sensors[sensor_cfg.name]
+    # compute the reward
+    first_contact = contact_sensor.compute_first_contact(env.step_dt)[:, sensor_cfg.body_ids]
+    last_air_time = contact_sensor.data.last_air_time[:, sensor_cfg.body_ids]
+    reward = torch.sum((last_air_time - threshold) * first_contact, dim=1)
+    # no reward for zero command
+    reward *= torch.norm(env.command_manager.get_command(command_name)[:, :2], dim=1) > 0.1
+    return reward
+
+def terrain_levels_vel(
+    env: ManagerBasedRLEnv, env_ids, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
+) -> torch.Tensor:
+    """Curriculum based on the distance the robot walked when commanded to move at a desired velocity.
+
+    This term is used to increase the difficulty of the terrain when the robot walks far enough and decrease the
+    difficulty when the robot walks less than half of the distance required by the commanded velocity.
+
+    .. note::
+        It is only possible to use this term with the terrain type ``generator``. For further information
+        on different terrain types, check the :class:`omni.isaac.lab.terrains.TerrainImporter` class.
+
+    Returns:
+        The mean terrain level for the given environment ids.
+    """
+    # extract the used quantities (to enable type-hinting)
+    asset: Articulation = env.scene[asset_cfg.name]
+    terrain: TerrainImporter = env.scene.terrain
+    command = env.command_manager.get_command("base_velocity")
+    # compute the distance the robot walked
+    distance = torch.norm(asset.data.root_pos_w[env_ids, :2] - env.scene.env_origins[env_ids, :2], dim=1)
+    # robots that walked far enough progress to harder terrains
+    move_up = distance > terrain.cfg.terrain_generator.size[0] / 2
+    # robots that walked less than half of their required distance go to simpler terrains
+    move_down = distance < torch.norm(command[env_ids, :2], dim=1) * env.max_episode_length_s * 0.5
+    move_down *= ~move_up
+    # update terrain levels
+    terrain.update_env_origins(env_ids, move_up, move_down)
+    # return the mean terrain level
+    return torch.mean(terrain.terrain_levels.float())

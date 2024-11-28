@@ -4,7 +4,7 @@
 *.pyc
 /hit_omniverse.egg-info
 /.idea
-/test/LM/val
-/test/LM/config.yaml
+/test
+/test
 *.pt
 *.MP4
