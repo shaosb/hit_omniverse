@@ -70,14 +70,6 @@ def setup_config(file_path):
         return data
 
 
-def export_policy_as_jit(actor_critic, path):
-    os.makedirs(path, exist_ok=True)
-    path = os.path.join(path, "export_policy.pt")
-    model = copy.deepcopy(actor_critic.actor).to("cpu")
-    traced_script_module = torch.jit.script(model)
-    traced_script_module.save(path)
-
-
 class DynamicPlotApp:
     def __init__(self, root, queue, num_tensors):
         self.root = root
@@ -403,3 +395,33 @@ def quaternion_multiply(q1, q2):
         w1 * y2 - x1 * z2 + y1 * w2 + z1 * x2,
         w1 * z2 + x1 * y2 - y1 * x2 + z1 * w2
     ])
+
+
+def export_onnx(policy_dir, observation_dim, actor_critic, output_dir=None):
+    model = copy.deepcopy(actor_critic.actor).to('cpu')
+    policy_jit_model = torch.jit.script(model)
+
+    # policy_jit_model = torch.jit.load(policy_dir)
+    policy_jit_model.eval()
+
+    if output_dir is None:
+        directory = os.path.join(os.path.dirname(policy_dir), "output")
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        policy_onnx_model = os.path.join(directory, "zqsa01_policy.onnx")
+    else:
+        policy_onnx_model = os.path.join(output_dir, "zqsa01_policy.onnx")
+
+    test_input_tensor = torch.randn(1, observation_dim)
+
+    torch.onnx.export(policy_jit_model,
+                      test_input_tensor,
+                      policy_onnx_model,  # params below can be ignored
+                      export_params=True,
+                      opset_version=11,
+                      do_constant_folding=True,
+                      input_names=['input'],
+                      output_names=['output'],
+                      )
+
+    print(f"Succeed to output at {policy_onnx_model}")

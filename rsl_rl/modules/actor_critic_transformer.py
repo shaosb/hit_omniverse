@@ -59,7 +59,8 @@ class Transformer_Block(nn.Module):
         return x
 
 class Transformer(nn.Module):
-    def __init__(self, input_dim, output_dim, context_len, latent_dim=128, num_head=4, num_layer=4, dropout_rate=0.1) -> None:
+    # def __init__(self, input_dim, output_dim, context_len, latent_dim=128, num_head=4, num_layer=4, dropout_rate=0.1) -> None:
+    def __init__(self, input_dim, output_dim, context_len, latent_dim=128, num_head=4, num_layer=2, dropout_rate=0.1) -> None:
         super().__init__()
         self.input_dim = input_dim
         self.output_dim = output_dim

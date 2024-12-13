@@ -6,10 +6,10 @@ parser = argparse.ArgumentParser(description="HIT humanoid robot exhibit in isaa
 parser.add_argument("--num_envs", type=int, default=4096, help="Number of robot to spawn")
 parser.add_argument("--env_spacing", type=int, default=2.5, help="Spacing between different envs")
 parser.add_argument("--device", type=str, default="cuda:0", help="Device for running")
-parser.add_argument("--task_name", type=str, default="HIT-Humanoid-Imitate-v0", help="Name of the task")
-parser.add_argument("--experiment_name", type=str, default="HIT-Humanoid-Imitate-v0", help="Experiment name")
+parser.add_argument("--task_name", type=str, default="SA01-Humanoid-Imitate-v0", help="Name of the task")
+parser.add_argument("--experiment_name", type=str, default="SA01-Humanoid-Imitate-v0", help="Experiment name")
 parser.add_argument("--seed", type=int, default=3407, help="Seed used for the environment")
-parser.add_argument("--config_file", type=str, default="robot_87_config.yaml", help="Robot config file to be import")
+parser.add_argument("--config_file", type=str, default="SA01_config.yaml", help="Robot config file to be import")
 
 os.environ["CONFIG"] = parser.parse_args().config_file
 
@@ -24,6 +24,7 @@ app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
 
 from hit_omniverse.extension.hit_env_cfg import HITRLEnvCfg
+from hit_omniverse.extension.SA01_env_cfg import SA01RLEnvCfg
 from hit_omniverse import HIT_SIM_LOGS_DIR
 
 from omni.isaac.lab_tasks.utils.wrappers.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlVecEnvWrapper
@@ -53,8 +54,10 @@ def save_managers_file(env, agent_cfg):
 		managers_file.write("privileged_context_len:" + str(agent_cfg.to_dict().get("privileged_context_len")) + "\n")
 
 def main():
-	env_cfg = HITRLEnvCfg()
+	# env_cfg = HITRLEnvCfg()
 	# env_cfg = HITRecoverRLEnvCfg()
+	env_cfg = SA01RLEnvCfg()
+
 	env_cfg.scene.num_envs = args_cli.num_envs
 	env_cfg.scene.env_spacing = args_cli.env_spacing
 	env_cfg.sim.device = args_cli.device

@@ -1,6 +1,6 @@
 {
     "motions_yaml": "data/configs/motions.yaml",
-    "source_motion": "data/npy",
+    "source_motion": "D:\\humanoid\\cmu_npy",
     "target_motion_path": "data/retarget_npy",
     "source_tpose": "data/tpose/cmu_fbx_tpose.npy",
     "target_tpose": "data/tpose/hit_tpose.npy",

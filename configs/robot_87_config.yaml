@@ -1,6 +1,7 @@
 USD_PATH:
 #  "HIT_force/elec_robot_forxml_color.usd"
   "robot_simplify/robot_simplify.usd"
+#  "robot_simplify/robot_simplify_colored.usd"
 
 ROBOT_POS:
   [0., 0., 0.95]

@@ -2,7 +2,7 @@ from utils.motion_lib import MotionLib
 from pprint import pprint
 
 if __name__ == '__main__':
-    motion_file = "data/retarget_npy/02_01.npy"
+    motion_file = "data/retarget_npy/07_03.npy"
     # dof_body_ids = [1, 2, 3,  # Hip, Knee, Ankle
     #                       4, 5, 6,
     #                       7,  # Torso
@@ -29,7 +29,7 @@ if __name__ == '__main__':
                                  device="cpu")
     root_pos, root_rot, dof_pos, root_vel, root_ang_vel, dof_vel, key_pos \
         = motion_lib.get_motion_state([0], 1000)
-    motion_lib.serialize_motion("output.npy")
+    motion_lib.serialize_motion("07_03.npy")
     # print(root_pos, root_rot, dof_pos, root_vel, root_ang_vel, dof_vel, key_pos)
 
     pass

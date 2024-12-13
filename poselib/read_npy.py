@@ -7,7 +7,8 @@ if __name__ == "__main__":
     # motion = SkeletonMotion.from_file(npy_path)
 
     npy_path = "output.npy"
-    motion = np.load(npy_path, allow_pickle=True)
+    # motion = np.load(npy_path, allow_pickle=True)
+    motion = SkeletonMotion.from_file(npy_path)
     print(motion.skeleton_tree.node_names)
     temp0 = motion.global_rotation.numpy()[0,:,:]
     temp1 = motion.global_translation.numpy()[0,:,:]

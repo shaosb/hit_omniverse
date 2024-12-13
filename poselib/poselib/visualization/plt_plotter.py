@@ -239,9 +239,9 @@ class Matplotlib3DPlotter(BasePlotter):
         self._fig = plt.figure()
         # self._ax = p3.Axes3D(self._fig)
         self._ax = self._fig.add_subplot(111, projection="3d")
-        self._ax.set_xlabel('X')
-        self._ax.set_ylabel('Y')
-        self._ax.set_zlabel('Z')
+        # self._ax.set_xlabel('X')
+        # self._ax.set_ylabel('Y')
+        # self._ax.set_zlabel('Z')
 
         self._artist_cache = {}
 

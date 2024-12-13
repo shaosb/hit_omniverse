@@ -15,7 +15,7 @@ class DatasetCommandCfg(CommandTermCfg):
 	"""Configuration for the dataset command generator."""
 	class_type: type = DatasetCommand
 
-	dataset_file = "30-run_HIT.hit"
+	dataset_file = "30-walk_HIT.hit"
 	command_name: list = ["dof_pos", "robot_world_xyz", "robot_world_rpy"]
 	command_dimension: int = [22, 3, 3]
 
@@ -113,7 +113,8 @@ class ImitationCommandCfg(CommandTermCfg):
 	"""Configuration for the dataset command generator."""
 	class_type: type = DatasetCommand
 
-	dataset_file = "motion_retarget\\02_04.npy"
+	dataset_file = "motion_retarget\\02_01.npy"
+	dataset_file = "motion_retarget\\02_01.npy"
 	command_name: list = ['pelvis', 'r_hip_roll', 'r_hip_yaw',
 					   'r_upper_leg', 'r_lower_leg', 'r_ankle',
 					   'r_foot', 'l_hip_roll', 'l_hip_yaw',
@@ -123,8 +124,9 @@ class ImitationCommandCfg(CommandTermCfg):
 					   'right_arm_link4', 'left_arm_link1', 'left_arm_link2', 'left_arm_link3',
 					   'left_arm_link4']
 	command_dimension: int = [7] * len(command_name)
-	# command_name: list = ["time", "dof_pos", "dof_vel"]
-	# command_dimension: int = [1, 22, 22]
+	# dataset_file = "motion_retarget\\07_03.npy"
+	# command_name: list = ["dof_pos", "dof_vel"]
+	# command_dimension: int = [22, 22]
 
 	resampling_time_range: tuple[float, float] = (0.0, 0.001)
 

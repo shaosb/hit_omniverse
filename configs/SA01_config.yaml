@@ -1,0 +1,132 @@
+USD_PATH:
+  "zq_humanoid/zq_sa01.usd"
+
+ROBOT_POS:
+  [0., 0., 0.94]
+#  [0., 0., 5]
+
+ROBOT_ROT:
+  [1, 0., 0., 0.]
+
+VELOCITY:
+  [1, 0, 0, 0, 0, 0]
+
+FIXED_BASE:
+  False
+#  True
+
+DISABLE_GRAVITY:
+  False
+
+END_EFFECTOR_NAME:
+  left_foot: "leg_l6_link"
+  right_foot: "leg_r6_link"
+
+BASE_LINK_NAME:
+  "base_link"
+
+SIM:
+  num_envs: 1
+  env_spacing: 1
+  device: "cuda:0"
+
+INIT_JOINT_POS:
+  #--------------zq_sa01.usd---------------------
+#    leg_l1_joint: 0.0
+#    leg_l2_joint: 0.0
+#    leg_l3_joint: -0.06
+#    leg_l4_joint: 0.12
+#    leg_l5_joint: -0.06
+#    leg_l6_joint: 0.0
+#    leg_r1_joint: 0.0
+#    leg_r2_joint: 0.0
+#    leg_r3_joint: -0.06
+#    leg_r4_joint: 0.12
+#    leg_r5_joint: -0.06
+#    leg_r6_joint: 0.0
+    leg_l1_joint: 0.0
+    leg_l2_joint: 0.0
+    leg_l3_joint: 0
+    leg_l4_joint: 0
+    leg_l5_joint: 0
+    leg_l6_joint: 0.0
+    leg_r1_joint: 0.0
+    leg_r2_joint: 0.0
+    leg_r3_joint: 0
+    leg_r4_joint: 0
+    leg_r5_joint: 0
+    leg_r6_joint: 0
+
+DOF_ASSET:
+   leg_l1_joint:
+     effort_limit: 300.0
+     velocity_limit: 100.0
+     stiffness: 150.0
+     damping: 5.0
+   leg_l2_joint:
+     effort_limit: 300.0
+     velocity_limit: 100.0
+     stiffness: 150.0
+     damping: 5.0
+   leg_l3_joint:
+     effort_limit: 300.0
+     velocity_limit: 100.0
+     stiffness: 70
+     damping: 7
+   leg_l4_joint:
+     effort_limit: 300
+     velocity_limit: 100
+     stiffness: 70
+     damping: 7
+   leg_l5_joint:
+     effort_limit: 300
+     velocity_limit: 200
+     stiffness: 20.0
+     damping: 2
+   leg_l6_joint:
+     effort_limit: 300
+     velocity_limit: 200
+     stiffness: 20.0
+     damping: 2
+   leg_r1_joint:
+     effort_limit: 300
+     velocity_limit: 100
+     stiffness: 150.0
+     damping: 5.0
+   leg_r2_joint:
+     effort_limit: 300
+     velocity_limit: 100
+     stiffness: 150.0
+     damping: 5.0
+   leg_r3_joint:
+     effort_limit: 300
+     velocity_limit: 100
+     stiffness: 70.0
+     damping: 7.0
+   leg_r4_joint:
+     effort_limit: 300
+     velocity_limit: 100
+     stiffness: 70.0
+     damping: 7.0
+   leg_r5_joint:
+     effort_limit: 300
+     velocity_limit: 200
+     stiffness: 20.0
+     damping: 2
+   leg_r6_joint:
+     effort_limit: 300
+     velocity_limit: 200
+     stiffness: 20.0
+     damping: 2
+
+terrain:
+  static_friction: 0.6
+  dynamic_friction: 0.6
+  restitution: 0.
+
+normalization:
+  obs_scales:
+    dof_pos: 1
+    dof_vel: 1
+    quat: 1
+    ang_vel: 1

@@ -165,6 +165,7 @@ def read_npy(file_path):
 	from poselib.skeleton.skeleton3d import SkeletonMotion
 
 	motion = SkeletonMotion.from_file(file_path)
+	# motion = np.load(file_path, allow_pickle=True)
 	node_names = motion.skeleton_tree.node_names
 
 	length = len(motion.global_transformation.numpy()[:, 0, :])
@@ -173,8 +174,8 @@ def read_npy(file_path):
 	data = {name: motion.global_transformation.numpy()[:, i, :] for i, name in enumerate(node_names)}
 	time = [i for i in range(length)]
 	data.update({"time": time})
-	# data.update({"dof_pos": data["dof_pos"]})
-	# data.update({"dof_vel": data["dof_vel"]})
+	# data.update({"dof_pos": motion.dof_pos})
+	# data.update({"dof_vel": motion.dof_vels})
 
 	return data
 

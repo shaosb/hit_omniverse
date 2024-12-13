@@ -5,6 +5,6 @@
 /hit_omniverse.egg-info
 /.idea
 /test
-/test
 *.pt
 *.MP4
+/test/

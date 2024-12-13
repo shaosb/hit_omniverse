@@ -6,11 +6,13 @@ parser = argparse.ArgumentParser(description="HIT humanoid robot exhibit in isaa
 parser.add_argument("--num_envs", type=int, default=10, help="Number of robot to spawn")
 parser.add_argument("--env_spacing", type=int, default=2.5, help="Spacing between different envs")
 parser.add_argument("--device", type=str, default="cuda:0", help="Device for running")
-parser.add_argument("--task_name", type=str, default="HIT-Humanoid-Imitate-v0", help="Name of the task")
-parser.add_argument("--experiment_name", type=str, default="HIT-Humanoid-Imitate-v0", help="Experiment name")
-parser.add_argument("--seed", type=int, default=None, help="Seed used for the environment")
-parser.add_argument("--log_path", type=str, default="2024-12-12_09-43-49\\model_2000.pt", help="Model to be import")
-parser.add_argument("--config_file", type=str, default="robot_87_config.yaml", help="Robot config file to be import")
+parser.add_argument("--task_name", type=str, default="SA01-Humanoid-Imitate-v0", help="Name of the task")
+parser.add_argument("--experiment_name", type=str, default="SA01-Humanoid-Imitate-v0", help="Experiment name")
+parser.add_argument("--seed", type=int, default=3407, help="Seed used for the environment")
+parser.add_argument("--log_path", type=str, default="2024-12-13_10-58-27\\model_1550.pt", help="Model to be import")
+parser.add_argument("--config_file", type=str, default="SA01_config.yaml", help="Robot config file to be import")
+parser.add_argument("--output", default=False, action="store_true", help="Whether to output onnx policy")
+parser.add_argument("--output_dir", type=str, default=None, help="The output dirname of onnx policy")
 
 os.environ["CONFIG"] = parser.parse_args().config_file
 
@@ -19,14 +21,16 @@ from omni.isaac.lab.app import AppLauncher
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 
-args_cli.headless = False
+args_cli.headless = True
 
 app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
 
 from hit_omniverse.extension.hit_env_cfg import HITRLEnvCfg
+from hit_omniverse.extension.SA01_env_cfg import SA01RLEnvCfg
 from hit_omniverse.extension.hit_env_cfg_recover import HITRecoverRLEnvCfg
 from hit_omniverse import HIT_SIM_LOGS_DIR
+from hit_omniverse.utils.helper import export_onnx
 
 from omni.isaac.lab_tasks.utils.wrappers.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlVecEnvWrapper
 from omni.isaac.lab_tasks.utils.parse_cfg import load_cfg_from_registry
@@ -48,8 +52,9 @@ torch.backends.cudnn.benchmark = False
 torch.set_printoptions(precision=3, sci_mode=False)
 
 def main():
-	env_cfg = HITRLEnvCfg()
+	# env_cfg = HITRLEnvCfg()
 	# env_cfg = HITRecoverRLEnvCfg()
+	env_cfg = SA01RLEnvCfg()
 	env_cfg.scene.num_envs = args_cli.num_envs
 	env_cfg.scene.env_spacing = args_cli.env_spacing
 	env_cfg.sim.device = args_cli.device
@@ -68,14 +73,18 @@ def main():
 	runner.load(policy_path)
 	policy = runner.get_inference_policy(device=agent_cfg.device)
 
-	obs, _ = env.get_observations()
+	obs, extras = env.get_observations()
+	if args_cli.output:
+		export_onnx(policy_path, obs.shape[1], runner.alg.actor_critic, args_cli.output_dir)
+
 	asset = env.unwrapped.scene["robot"]
 	while simulation_app.is_running():
 		with torch.inference_mode():
 			# actions = mdp.generated_commands(env.unwrapped, "dataset")["dof_pos"] * 2
 			# print(actions)
 			actions = policy(obs)
-			# print(obs)s
+			# actions = torch.zeros([1,12])
+			# print(obs)
 			obs, rewards, dones, infos = env.step(actions)
 			# print(actions[:,14:16],actions[:,18:20])
 			# print(mdp.generated_commands(env.unwrapped, "dataset")["dof_pos"])

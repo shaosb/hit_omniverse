@@ -9,11 +9,12 @@ import omni.isaac.lab.envs.mdp as mdp
 from omni.isaac.lab.assets import Articulation
 from omni.isaac.lab.managers import ManagerTermBase, RewardTermCfg, SceneEntityCfg
 import omni.isaac.lab.utils.math as math_utils
+from omni.isaac.lab.sensors import ContactSensor
 
 from hit_omniverse.utils.helper import setup_config
 
 config = setup_config(os.environ.get("CONFIG"))
-training_config = setup_config(os.environ.get("TRAINING_CONFIG"))["runner"]
+# training_config = setup_config(os.environ.get("TRAINING_CONFIG"))["runner"]
 
 def constant_commands(env: ManagerBasedRLEnv) -> torch.Tensor:
     # v_x, v_y, ang_x
@@ -250,6 +251,7 @@ def joint_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = Scene
     target = torch.tensor([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]], device=env.device).repeat(env.num_envs, 1)
     return torch.exp(-torch.sum(torch.abs(joint_pos - target), dim=1))
 
+
 def joint_upper_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     """
     This is computed as a sum of the absolute value of the difference between the joint position and the reference motion.
@@ -258,9 +260,11 @@ def joint_upper_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg =
     asset: Articulation = env.scene[asset_cfg.name]
 
     upper_body = [2, 5, 8, 9, 12, 13, 16, 17, 20, 21]
-    joint_pos = math_utils.wrap_to_pi(asset.data.joint_pos)[:, upper_body]
+    joint_pos = asset.data.joint_pos[:, upper_body]
     target = mdp.generated_commands(env, "dataset")["dof_pos"][:, upper_body]
-    return torch.exp(-torch.sum(torch.abs(joint_pos - target), dim=1))
+    # return torch.sum(torch.abs(joint_pos - target), dim=1)
+    return -5 * torch.mean(torch.abs(joint_pos - target), dim=1)
+
 
 def joint_lower_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     """
@@ -270,9 +274,11 @@ def joint_lower_pos_distance(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg =
     asset: Articulation = env.scene[asset_cfg.name]
 
     lower_body = [0, 1, 3, 4, 6, 7, 10, 11, 14, 15, 18, 19]
-    joint_pos = math_utils.wrap_to_pi(asset.data.joint_pos)[:, lower_body]
+    joint_pos = asset.data.joint_pos[:, lower_body]
     target = mdp.generated_commands(env, "dataset")["dof_pos"][:, lower_body]
-    return torch.exp(-torch.sum(torch.abs(joint_pos - target), dim=1))
+    # return torch.sum(torch.abs(joint_pos - target), dim=1)
+    return -5 * torch.mean(torch.abs(joint_pos - target), dim=1)
+
 
 def target_xy_velocities(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     asset: Articulation = env.scene[asset_cfg.name]
