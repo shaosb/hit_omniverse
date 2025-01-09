@@ -65,8 +65,8 @@ def main():
 	log_dir = os.path.join(HIT_SIM_LOGS_DIR, "rsl_rl", args_cli.experiment_name, datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
 
 	env = gym.make(args_cli.task_name, cfg=env_cfg)
-	env = RslRlVecEnvWrapper(env)
-	# env = HistoryEnv(env, agent_cfg.to_dict())
+	# env = RslRlVecEnvWrapper(env)
+	env = HistoryEnv(env, agent_cfg.to_dict())
 	# env = TransformerEnv(env, agent_cfg.to_dict())
 
 	runner = OnPolicyRunner(env, agent_cfg.to_dict(), log_dir=log_dir, device=agent_cfg.device)

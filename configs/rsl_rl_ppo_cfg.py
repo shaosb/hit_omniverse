@@ -25,14 +25,14 @@ class HumanoidPPORunnerCfg(RslRlOnPolicyRunnerCfg):
     save_interval = 50
     experiment_name = "humanoid"
     empirical_normalization = False
-    obs_context_len = 1
-    privileged_context_len = 1
+    obs_context_len = 15
+    privileged_context_len = 3
     policy = RslRlPpoActorCriticCfg(
         init_noise_std=1.0,
-        # actor_hidden_dims=[400, 200, 100],
-        # critic_hidden_dims=[400, 200, 100],
-        actor_hidden_dims=[512, 256, 128],
-        critic_hidden_dims=[512, 256, 128],
+        # actor_hidden_dims=[512, 256, 128],
+        # critic_hidden_dims=[512, 256, 128],
+        actor_hidden_dims=[512, 256, 256, 128],
+        critic_hidden_dims=[512, 256, 256, 128],
         activation="elu",
     )
 

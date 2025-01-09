@@ -1,5 +1,4 @@
-from distutils.core import setup
-from setuptools import find_packages
+from setuptools import setup, find_packages
 
 setup(
     name='hit_omniverse',
@@ -8,10 +7,4 @@ setup(
     author_email='shaosb97@gmail.com',
     license='MIT',
     packages=find_packages(),
-    install_requires=[
-        # "pyyaml",
-        # "torch",
-        # "gymnasium",
-        # "numpy",
-    ],
 )

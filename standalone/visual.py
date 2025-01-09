@@ -18,7 +18,7 @@ parser.add_argument("--policy", type=str, default=None, help="Policy file to be 
 parser.add_argument("--task_name", type=str, default="SA01-Humanoid-Imitate-v0", help="Name of the task")
 parser.add_argument("--experiment_name", type=str, default="SA01-Humanoid-Imitate-v0", help="Experiment name")
 parser.add_argument("--seed", type=int, default=None, help="Seed used for the environment")
-parser.add_argument("--log_path", type=str, default="2024-12-12_17-46-02\\model_550.pt", help="Model to be import")
+parser.add_argument("--log_path", type=str, default="2025-01-08_18-50-51\\model_48750.pt", help="Model to be import")
 # parser.add_argument("--log_path", type=str, default="foward\\model_29000.pt", help="Model to be import")
 parser.add_argument("--config_file", type=str, default="SA01_config.yaml", help="Robot config file to be import")
 

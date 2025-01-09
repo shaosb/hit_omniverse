@@ -1,27 +1,29 @@
 <ObservationManager> contains 2 groups.
 +---------------------------------------------------------+
-| Active Observation Terms in Group: 'policy' (shape: (29,)) |
+| Active Observation Terms in Group: 'policy' (shape: (43,)) |
 +-----------+---------------------------------+-----------+
 |   Index   | Name                            |   Shape   |
 +-----------+---------------------------------+-----------+
 |     0     | velocity_commands               |    (3,)   |
 |     1     | joint_pos                       |   (12,)   |
 |     2     | joint_vel                       |   (12,)   |
-|     3     | base_yaw_roll                   |    (2,)   |
+|     3     | actions                         |   (12,)   |
+|     4     | quat                            |    (4,)   |
 +-----------+---------------------------------+-----------+
 +---------------------------------------------------------+
-| Active Observation Terms in Group: 'critic' (shape: (50,)) |
+| Active Observation Terms in Group: 'critic' (shape: (54,)) |
 +-----------+---------------------------------+-----------+
 |   Index   | Name                            |   Shape   |
 +-----------+---------------------------------+-----------+
 |     0     | velocity_commands               |    (3,)   |
 |     1     | joint_pos                       |   (12,)   |
 |     2     | joint_vel                       |   (12,)   |
-|     3     | base_yaw_roll                   |    (2,)   |
-|     4     | actions                         |   (12,)   |
+|     3     | actions                         |   (12,)   |
+|     4     | quat                            |    (4,)   |
 |     5     | base_ang_vel                    |    (3,)   |
 |     6     | base_lin_vel                    |    (3,)   |
-|     7     | projected_gravity               |    (3,)   |
+|     7     | base_yaw_roll                   |    (2,)   |
+|     8     | projected_gravity               |    (3,)   |
 +-----------+---------------------------------+-----------+
 
 <ActionManager> contains 1 active terms.
@@ -33,21 +35,16 @@
 |   0   | joint_position |        12 |
 +-------+----------------+-----------+
 
-<RewardManager> contains 8 active terms.
-+-----------------------------------------+
-|           Active Reward Terms           |
-+-------+----------------------+----------+
-| Index | Name                 |   Weight |
-+-------+----------------------+----------+
-|   0   | track_lin_vel_xy_exp |       10 |
-|   1   | track_ang_vel_z_exp  |      0.5 |
-|   2   | ang_vel_xy_l2        |    -0.05 |
-|   3   | dof_torques_l2       |   -1e-05 |
-|   4   | dof_acc_l2           | -2.5e-07 |
-|   5   | action_rate_l2       |    -0.01 |
-|   6   | feet_air_time        |        5 |
-|   7   | undesired_contacts   |     -1.0 |
-+-------+----------------------+----------+
+<RewardManager> contains 3 active terms.
++---------------------------------------+
+|          Active Reward Terms          |
++-------+----------------------+--------+
+| Index | Name                 | Weight |
++-------+----------------------+--------+
+|   0   | track_lin_vel_xy_exp |     10 |
+|   1   | track_ang_vel_z_exp  |    0.5 |
+|   2   | undesired_contacts   |   -1.0 |
++-------+----------------------+--------+
 
 <CommandManager> contains 1 active terms.
 +------------------------------------------------+
@@ -73,14 +70,13 @@
 |   Index   | Name                 |
 +-----------+----------------------+
 |     0     | reset_scene          |
-|     1     | reset_base           |
 +-----------+----------------------+
 +----------------------------------------------+
 |    Active Event Terms in Mode: 'interval'    |
 +-------+------------+-------------------------+
 | Index | Name       | Interval time range (s) |
 +-------+------------+-------------------------+
-|   0   | push_robot |       (5.0, 10.0)       |
+|   0   | push_robot |       (10.0, 15.0)      |
 +-------+------------+-------------------------+
 
 <TerminationManager> contains 2 active terms.
@@ -103,5 +99,5 @@
 |   1   | base_contact |  False   |
 +-------+--------------+----------+
 
-obs_context_len:1
-privileged_context_len:1
+obs_context_len:15
+privileged_context_len:3

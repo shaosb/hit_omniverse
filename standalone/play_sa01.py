@@ -3,13 +3,13 @@ from hit_omniverse.utils.helper import setup_config
 import os
 
 parser = argparse.ArgumentParser(description="HIT humanoid robot exhibit in isaac sim")
-parser.add_argument("--num_envs", type=int, default=10, help="Number of robot to spawn")
+parser.add_argument("--num_envs", type=int, default=5, help="Number of robot to spawn")
 parser.add_argument("--env_spacing", type=int, default=2.5, help="Spacing between different envs")
 parser.add_argument("--device", type=str, default="cuda:0", help="Device for running")
 parser.add_argument("--task_name", type=str, default="SA01-Humanoid-Imitate-v0", help="Name of the task")
 parser.add_argument("--experiment_name", type=str, default="SA01-Humanoid-Imitate-v0", help="Experiment name")
 parser.add_argument("--seed", type=int, default=3407, help="Seed used for the environment")
-parser.add_argument("--log_path", type=str, default="2024-12-13_10-58-27\\model_1550.pt", help="Model to be import")
+parser.add_argument("--log_path", type=str, default="2025-01-08_18-50-51\\model_48750.pt", help="Model to be import")
 parser.add_argument("--config_file", type=str, default="SA01_config.yaml", help="Robot config file to be import")
 parser.add_argument("--output", default=False, action="store_true", help="Whether to output onnx policy")
 parser.add_argument("--output_dir", type=str, default=None, help="The output dirname of onnx policy")
@@ -21,7 +21,7 @@ from omni.isaac.lab.app import AppLauncher
 AppLauncher.add_app_launcher_args(parser)
 args_cli = parser.parse_args()
 
-args_cli.headless = True
+args_cli.headless = False
 
 app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
@@ -62,8 +62,8 @@ def main():
 	policy_path = os.path.join(HIT_SIM_LOGS_DIR, "rsl_rl", args_cli.experiment_name, args_cli.log_path)
 
 	env = gym.make(args_cli.task_name, cfg=env_cfg)
-	env = RslRlVecEnvWrapper(env)
-	# env = HistoryEnv(env, agent_cfg.to_dict())
+	# env = RslRlVecEnvWrapper(env)
+	env = HistoryEnv(env, agent_cfg.to_dict())
 	# env = TransformerEnv(env, agent_cfg.to_dict())
 
 	# env.seed(args_cli.seed)

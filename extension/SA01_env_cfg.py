@@ -41,34 +41,36 @@ class HITSceneCfg(InteractiveSceneCfg):
     """
 
     # ground plane
-    terrain = TerrainImporterCfg(
-        prim_path="/World/defaultGroundPlane",
-        terrain_type="plane",
-        collision_group=-1,
-        physics_material=sim_utils.RigidBodyMaterialCfg(static_friction=config["terrain"]["static_friction"],
-                                                        dynamic_friction=config["terrain"]["dynamic_friction"],
-                                                        restitution=config["terrain"]["restitution"]),
-        debug_vis=False,
-    )
     # terrain = TerrainImporterCfg(
     #     prim_path="/World/defaultGroundPlane",
-    #     terrain_type="generator",
-    #     # terrain_generator=ROUGH_TERRAINS_CFG,
-    #     terrain_generator=rough.ROUGH_TERRAINS_CFG,
-    #     max_init_terrain_level=5,
+    #     terrain_type="plane",
     #     collision_group=-1,
-    #     physics_material=sim_utils.RigidBodyMaterialCfg(
-    #         friction_combine_mode="multiply",
-    #         restitution_combine_mode="multiply",
-    #         static_friction=1.0,
-    #         dynamic_friction=1.0,
-    #     ),
-    #     visual_material=sim_utils.MdlFileCfg(
-    #         mdl_path="{NVIDIA_NUCLEUS_DIR}/Materials/Base/Architecture/Shingles_01.mdl",
-    #         project_uvw=True,
-    #     ),
+    #     physics_material=sim_utils.RigidBodyMaterialCfg(static_friction=config["terrain"]["static_friction"],
+    #                                                     dynamic_friction=config["terrain"]["dynamic_friction"],
+    #                                                     restitution=config["terrain"]["restitution"]),
     #     debug_vis=False,
     # )
+
+    # uneven terrain
+    terrain = TerrainImporterCfg(
+        prim_path="/World/defaultGroundPlane",
+        terrain_type="generator",
+        # terrain_generator=ROUGH_TERRAINS_CFG,
+        terrain_generator=rough.ROUGH_TERRAINS_CFG,
+        max_init_terrain_level=5,
+        collision_group=-1,
+        physics_material=sim_utils.RigidBodyMaterialCfg(
+            friction_combine_mode="multiply",
+            restitution_combine_mode="multiply",
+            static_friction=1.0,
+            dynamic_friction=1.0,
+        ),
+        visual_material=sim_utils.MdlFileCfg(
+            mdl_path="{NVIDIA_NUCLEUS_DIR}/Materials/Base/Architecture/Shingles_01.mdl",
+            project_uvw=True,
+        ),
+        debug_vis=False,
+    )
 
     # # lights
     dome_light = AssetBaseCfg(
@@ -120,8 +122,8 @@ class ObservationsCfg:
         velocity_commands = ObsTerm(func=mdp.generated_commands, params={"command_name": "base_velocity"})
         joint_pos = ObsTerm(func=mdp.joint_pos_rel, noise=Unoise(n_min=-0.01, n_max=0.01))
         joint_vel = ObsTerm(func=mdp.joint_vel_rel, noise=Unoise(n_min=-1.5, n_max=1.5))
-        # actions = ObsTerm(func=mdp.last_action)
-        base_yaw_roll = ObsTerm(func=mdp.base_yaw_roll)
+        actions = ObsTerm(func=mdp.last_action)
+        quat = ObsTerm(func=mdp.root_quat_w)
 
         def __post_init__(self):
             self.enable_corruption = True
@@ -135,7 +137,7 @@ class ObservationsCfg:
             func=mdp.projected_gravity,
             noise=Unoise(n_min=-0.05, n_max=0.05),
         )
-        actions = ObsTerm(func=mdp.last_action)
+        base_yaw_roll = ObsTerm(func=mdp.base_yaw_roll)
         # right_contact = ObsTerm(func=mdp.get_contact_sensor_data, params= {"bodies": config["END_EFFECTOR_NAME"]["left_foot"]})
         # left_contact = ObsTerm(func=mdp.get_contact_sensor_data, params={"bodies": config["END_EFFECTOR_NAME"]["right_foot"]})
         # contact_mask = ObsTerm(func=mdp.get_gait_phase)
@@ -178,31 +180,30 @@ class EventCfg:
         mode="reset",
     )
 
-    reset_base = EventTerm(
-        func=mdp.reset_root_state_uniform,
-        mode="reset",
-        params={
-            "pose_range": {"x": (-0.5, 0.5), "y": (-0.5, 0.5), "yaw": (-3.14, 3.14)},
-            "velocity_range": {
-                "x": (-0.5, 0.5),
-                "y": (-0.5, 0.5),
-                "z": (-0.5, 0.5),
-                "roll": (-0.5, 0.5),
-                "pitch": (-0.5, 0.5),
-                "yaw": (-0.5, 0.5),
-            },
-        },
-    )
-
-    # push_robot = EventTerm(
-    #     func=mdp.push_by_setting_velocity,
-    #     mode="interval",
-    #     # interval_range_s=(10.0, 15.0),
-    #     interval_range_s=(5.0, 10.0),
-    #     params={"velocity_range": {"x": (-0.5, 0.5), "y": (-0.5, 0.5)}},
+    # reset_base = EventTerm(
+    #     func=mdp.reset_root_state_uniform,
+    #     mode="reset",
+    #     params={
+    #         "pose_range": {"x": (-0.5, 0.5), "y": (-0.5, 0.5), "yaw": (-3.14, 3.14)},
+    #         "velocity_range": {
+    #             "x": (-0.5, 0.5),
+    #             "y": (-0.5, 0.5),
+    #             "z": (-0.5, 0.5),
+    #             "roll": (-0.5, 0.5),
+    #             "pitch": (-0.5, 0.5),
+    #             "yaw": (-0.5, 0.5),
+    #         },
+    #     },
     # )
 
-    #
+    push_robot = EventTerm(
+        func=mdp.push_by_setting_velocity,
+        mode="interval",
+        interval_range_s=(10.0, 15.0),
+        params={"velocity_range": {"x": (-0.5, 0.5), "y": (-0.5, 0.5)}},
+    )
+
+
     # reset_robot_position = EventTerm(
     #     func=mdp.reset_robot_position,
     #     mode="reset",
@@ -231,20 +232,20 @@ class RewardsCfg:
     # track_upper_pos = RewTerm(func=mdp.joint_upper_pos_distance, weight=0.5)
     # -- penalties
     # lin_vel_z_l2 = RewTerm(func=mdp.lin_vel_z_l2, weight=-2.0)
-    ang_vel_xy_l2 = RewTerm(func=mdp.ang_vel_xy_l2, weight=-0.05)
-    dof_torques_l2 = RewTerm(func=mdp.joint_torques_l2, weight=-1.0e-5)
-    dof_acc_l2 = RewTerm(func=mdp.joint_acc_l2, weight=-2.5e-7)
-    action_rate_l2 = RewTerm(func=mdp.action_rate_l2, weight=-0.01)
-    feet_air_time = RewTerm(
-        func=mdp.feet_air_time,
-        # weight=0.125,
-        weight=3,
-        params={
-            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["leg_r6_link", "leg_l6_link"]),
-            "command_name": "base_velocity",
-            "threshold": 0.5,
-        },
-    )
+    # ang_vel_xy_l2 = RewTerm(func=mdp.ang_vel_xy_l2, weight=-0.05)
+    # dof_torques_l2 = RewTerm(func=mdp.joint_torques_l2, weight=-1.0e-5)
+    # dof_acc_l2 = RewTerm(func=mdp.joint_acc_l2, weight=-2.5e-7)
+    # action_rate_l2 = RewTerm(func=mdp.action_rate_l2, weight=-0.01)
+    # feet_air_time = RewTerm(
+    #     func=mdp.feet_air_time,
+    #     # weight=0.125,
+    #     weight=1.25,
+    #     params={
+    #         "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["leg_r6_link", "leg_l6_link"]),
+    #         "command_name": "base_velocity",
+    #         "threshold": 0.5,
+    #     },
+    # )
     undesired_contacts = RewTerm(
         func=mdp.undesired_contacts,
         weight=-1.0,
@@ -287,6 +288,18 @@ class CommandsCfg:
     #     ),
     # )
     # # 11-26_19-11-42
+    # base_velocity = mdp.UniformVelocityCommandCfg(
+    #     asset_name="robot",
+    #     resampling_time_range=(10.0, 10.0),
+    #     rel_standing_envs=0.02,
+    #     rel_heading_envs=1.0,
+    #     heading_command=False,
+    #     heading_control_stiffness=0.5,
+    #     debug_vis=True,
+    #     ranges=mdp.UniformVelocityCommandCfg.Ranges(
+    #         lin_vel_x=(0.6, 1.0), lin_vel_y=(0, 0), ang_vel_z=(0, 0)
+    #     ),
+    # )
     base_velocity = mdp.UniformVelocityCommandCfg(
         asset_name="robot",
         resampling_time_range=(10.0, 10.0),
@@ -296,9 +309,22 @@ class CommandsCfg:
         heading_control_stiffness=0.5,
         debug_vis=True,
         ranges=mdp.UniformVelocityCommandCfg.Ranges(
-            lin_vel_x=(0.6, 1.0), lin_vel_y=(0, 0), ang_vel_z=(0, 0)
+            lin_vel_x=(0.3, 0.7), lin_vel_y=(0, 0), ang_vel_z=(0, 0)
         ),
     )
+    # real_observation_mutli_target
+    # base_velocity = mdp.UniformVelocityCommandCfg(
+    #     asset_name="robot",
+    #     resampling_time_range=(10.0, 10.0),
+    #     rel_standing_envs=0.02,
+    #     rel_heading_envs=1.0,
+    #     heading_command=True,
+    #     heading_control_stiffness=0.5,
+    #     debug_vis=True,
+    #     ranges=mdp.UniformVelocityCommandCfg.Ranges(
+    #         lin_vel_x=(0.6, 1.0), lin_vel_y=(-0.2, 0.2), ang_vel_z=(-0.2, 0.2), heading=(-math.pi, math.pi)
+    #     ),
+    # )
     pass
 
 
@@ -315,9 +341,10 @@ class SA01RLEnvCfg(ManagerBasedRLEnvCfg):
     rewards: RewardsCfg = RewardsCfg()
     terminations: TerminationsCfg = TerminationsCfg()
     commands: CommandsCfg = CommandsCfg()
-    # curriculum: CurriculumCfg = CurriculumCfg()
+    curriculum: CurriculumCfg = CurriculumCfg()
 
-    episode_length_s = 20
+    # episode_length_s = 20
+    episode_length_s = 200
 
     def __post_init__(self):
         self.decimation = 4

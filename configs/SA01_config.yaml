@@ -2,7 +2,8 @@ USD_PATH:
   "zq_humanoid/zq_sa01.usd"
 
 ROBOT_POS:
-  [0., 0., 0.94]
+  [0., 0., 0.95]
+#  [0., 0., 1]
 #  [0., 0., 5]
 
 ROBOT_ROT:
@@ -32,30 +33,30 @@ SIM:
 
 INIT_JOINT_POS:
   #--------------zq_sa01.usd---------------------
-#    leg_l1_joint: 0.0
-#    leg_l2_joint: 0.0
-#    leg_l3_joint: -0.06
-#    leg_l4_joint: 0.12
-#    leg_l5_joint: -0.06
-#    leg_l6_joint: 0.0
-#    leg_r1_joint: 0.0
-#    leg_r2_joint: 0.0
-#    leg_r3_joint: -0.06
-#    leg_r4_joint: 0.12
-#    leg_r5_joint: -0.06
-#    leg_r6_joint: 0.0
     leg_l1_joint: 0.0
     leg_l2_joint: 0.0
-    leg_l3_joint: 0
-    leg_l4_joint: 0
-    leg_l5_joint: 0
+    leg_l3_joint: -0.06
+    leg_l4_joint: 0.12
+    leg_l5_joint: -0.06
     leg_l6_joint: 0.0
     leg_r1_joint: 0.0
     leg_r2_joint: 0.0
-    leg_r3_joint: 0
-    leg_r4_joint: 0
-    leg_r5_joint: 0
-    leg_r6_joint: 0
+    leg_r3_joint: -0.06
+    leg_r4_joint: 0.12
+    leg_r5_joint: -0.06
+    leg_r6_joint: 0.0
+#    leg_l1_joint: 0.0
+#    leg_l2_joint: 0.0
+#    leg_l3_joint: 0
+#    leg_l4_joint: 0
+#    leg_l5_joint: 0
+#    leg_l6_joint: 0.0
+#    leg_r1_joint: 0.0
+#    leg_r2_joint: 0.0
+#    leg_r3_joint: 0
+#    leg_r4_joint: 0
+#    leg_r5_joint: 0
+#    leg_r6_joint: 0
 
 DOF_ASSET:
    leg_l1_joint:
