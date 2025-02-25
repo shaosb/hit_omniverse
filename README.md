@@ -1,10 +1,16 @@
-# HIT_omniverse
+<h1 align="center">HumanDIL: Decouped Imitation for Whole-body <br> Humanoid Natural Locomotion</h1>
 
-A simulation environment for HIT_HU robot based on ISAAC LAB.
+# Abstract
+Humanoid robot control based on imitation learning has become a research hotspot for enhancing complex terrain locomotion capabilities due to its effectiveness in transferring human motion dexterity and adaptability. We proposes a novel imitation learning-based control framework called Human Decoupled Imitation Learning (HumanDIL). In it, a motion primitive reconstruction-based action redirection mechanism that extracts human "key skill set" and establishes a bipedal motion feature space, significantly improving data utilization and cross-terrain generalization in imitation learning. Then, a hierarchical control architecture where the lower body employs contact-aware end-to-end imitation learning for terrain-adaptive gait generation, while the upper body progressively enhances disturbance robustness through curriculum learning-guided impedance control. This framework strengthens posture coordination under dynamic disturbances through progressive complex terrain training. We evaluate HumanDIL on the HIT-Hu humanoid robot, validating its generalization capabilities and imitation performance across multiple tasks.
 
-Including a dynamic random simulation environment generator implemented in ISAAC SIM, a motion controller based on imitation learning, and adequate external sensing interfaces for future development.
+# Overview
+![Demo][gif/walk.gif]
+![Demo][gif/run.gif]
+![Demo][gif/jump.gif]
+![Demo][gif/wave.gif]
+![Demo][gif/pick.gif]
 
-## Getting Start
+# Getting Start
 
 Download Isaac Sim from the [website](https://developer.nvidia.com/isaac/sim) with vision >= 4.0.0, then follow the installation instructions.
 
@@ -16,17 +22,5 @@ Once Isaac Lab is installed, install the external dependencies for this repo:
 Install HIT_omniverse with pip by running:
 `pip install -e .`
 
-## Formation
-> hit_omniverse
->> algo  
->> configs   // configs for robots and simulation environments
->> extension   // class of environment and robots
->>> mdp   // reward, observation, command function and dataset setting
->> dataset   // dataset
->> standalone   // script files
->> utils   // helper function
-
-## Data Preparation
-
-## License
+# License
 This project is licensed under the MIT License. Note that the repository relies on third-party code, which is subject to their respective licenses.
