@@ -28,7 +28,7 @@ Humanoid robot control based on imitation learning has become a research hotspot
 <center> Run </center>
 
 <p align="center">
-    <img src="gif/Jump.gif"">
+    <img src="gif/jump.gif"">
 </p>
 <center> Jump forward </center>
 
