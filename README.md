@@ -16,11 +16,11 @@ HumanDIL consists of two parts: 1) a motion retargeting algorithm to generate mo
 # Overview
 
 <div style="display: flex; justify-content: center; align-items: center;">
-  <div style="text-align: center; margin: 10px;">
+  <div style="text-align: center;">
     <img src="gif/wave.gif" width="45%"><br>
     <p>Wave</p>
   </div>
-  <div style="text-align: center; margin: 10px;">
+  <div style="text-align: center;">
     <img src="gif/pick.gif" width="45%"><br>
     <p>Pick</p>
   </div>
