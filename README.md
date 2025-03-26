@@ -14,11 +14,11 @@ HumanDIL consists of two parts: 1) a motion retargeting algorithm to generate mo
 
 <p align="center">
   <figure style="display: inline-block; text-align: center; margin: 10px;">
-    <img src="gif/retarget.png" width="45%">
+    <img src="gif/retarget.png" width="80%">
     <figcaption>MU MoCap Motion Retargeted to HIT-Hu Robot.</figcaption>
   </figure>
   <figure style="display: inline-block; text-align: center; margin: 10px;">
-    <img src="gif/transformer.png" width="100%">
+    <img src="gif/transformer.png" width="80%">
     <figcaption>Humanoid imitation policy network.</figcaption>
   </figure>
 </p>
