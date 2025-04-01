@@ -8,7 +8,9 @@ Humanoid robot control based on imitation learning has become a research hotspot
 <p align="center">
     <img src="gif/overview.png"">
 </p>
-<center> Overview </center>
+<p align="center">
+  <b>Overview</b>
+</p>
 
 HumanDIL consists of two parts: 1) a motion retargeting algorithm to generate motion references, and 2) an imitation learning process that utilizes the retargeted motion data along with a decoupled reward function. HumanDIL combines end-to-end IL with curriculum learning in an upper-lower body decoupled control framework. Reward functions guide the upper and lower body separately, while curriculum learning progressively structures training from simple to complex tasks for coordinated whole-body motion.
 
@@ -42,22 +44,30 @@ HumanDIL consists of two parts: 1) a motion retargeting algorithm to generate mo
 <p align="center">
     <img src="gif/walk.gif"">
 </p>
-<center> Walk </center>
+<p align="center">
+  <b>Walk</b>
+</p>
 
 <p align="center">
     <img src="gif/run.gif"">
 </p>
-<center> Run </center>
+<p align="center">
+  <b>Run</b>
+</p>
 
 <p align="center">
     <img src="gif/Traversing slope.gif"">
 </p>
-<center> Traversing slope </center>
+<p align="center">
+  <b>Traversing slope</b>
+</p>
 
 <p align="center">
     <img src="gif/Climbing.gif"">
 </p>
-<center> Climbing stairs </center>
+<p align="center">
+  <b>Climbing stairs</b>
+</p>
 
 
 
